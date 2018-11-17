@@ -1,0 +1,15 @@
+[credential]
+  helper = osxkeychain
+[user]
+  name = bokwoon
+  email = bokwoon.c@gmail.com
+[core]
+  pager = less
+  excludesfile = ~/.gitignore
+[alias]
+  d = difftool
+[diff]
+  tool = vimdiff
+[difftool]
+  prompt = true
+  ;set to true if you want to be prompted everytime you open another diff

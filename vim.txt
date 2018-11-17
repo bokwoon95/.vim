@@ -1,0 +1,171 @@
+https://andre.arko.net/2013/09/11/vim-is-the-worst-editor/
+https://medium.com/in-the-weeds/my-2-5-year-journey-with-vim-and-why-i-switched-back-to-sublime-text-4afcc303741e
+
+vim's graphical aspects are weak
+    - hacks required to get simple indentlines (which should be handled natively by the GUI)
+    - relative numbers are awesome, but slow down on large files due to the redraw. Same with cursorline, it wouldn't be a problem if the GUI was handling those
+    - cursor can't linger offscreen (not multithreaded)
+    - can't do non-contiguous visual selections because it was never built with that in mind (unlike kakoune)
+    - code collapse (hackable through text manipulation, much faster if handled nativey by GUI)
+
+its propensity to outsource non-text editing features to external tools (plugins) have led it to lag behind other mainstream text editors in the following aspects:
+    - Context-aware autocomplete (better handled natively)(existing plugins might already be able to do this)
+    - Context-aware jump-to-definition (ctags are a basic tool)
+    - Cross-file search/replace (using grep or whatever while other editors have a straightforward interface: just search, and replace)
+    - There's a general sentiment that no matter how much tinkering you do to get such IDE-lite features into vim, it's still weaker than other editors (atom, vscode) that have it inbuilt
+
+It's also being held back by many terminal limitations such as not recognizing C-0 to C-9 or C-;. C-i is also internally synonymous to Tab, making it impossible to bind them separately. Ctrl is sometimes the only modifier available (outside of the fact that C-0 to C-9 don't work) while Meta & Super are second class citizens (at least Neovim has improved Meta).This makes custom mappings a bit of a pain, but at least it's still way better in terms of custom mapping customizability compared to other popular editors.
+
+There is no denying that some actions are better off with a mouse, for example jumping to an arbitrary point on the screen. Easymotion/Sneak exists for that reason, but there's a cognitive overhead everytime you invoke easymotion/sneak and much practice CAN get it faster than using a mouse but then you've just invested so much effort into doing something only slightly better than a method that people don't need to train for at all.
+    A mouse is also superior when it comes to scrolling code, sorry. With mice you can scroll faster or slower at the speed of thought while keyboard-based scrolling only scrolls in discrete jumps. You only wanted to read a few lines further but C-d took you half a whole page down, forcing you to reorient and scroll up some to compensate for the huge downwards jump. Now imagine that happening constantly everytime you scroll, it's jarring as hell.
+    Reading code only with PgUp or PgDown requires you to change the way you read. There's a reason why PgUp/PgDown are NOT popular for web browsing.
+
+=====================================================================
+Why Should I Switch To Sublime Text If I'm Already Familiar With Vim?
+=====================================================================
+Vim is not an archaic text editor, it is good enough to compete as one of the best text editors. The benefits I get are a keyboard-oriented text editor. Plus, I like Vim for its aesthetics. You can mod it to look like text editing at its purest form -- a plain slate with text in it. No side bars, menu bars, bottom bars, fuck you bars that you cannot remove. But it doesn't skimp out on functionality because of that, it is every bit as featureful as Sublime Text and sometimes even quite IDE-like, but it hides all that power under the hood.
+
+I like it because it's Notepad with its minimalist looks belying the power it hides.
+
+==========================================
+Why Switch To Vim If You Use Sublime Text?
+==========================================
+NERDTree
+    The NERDTree window is a (searchable) buffer where all vim motions apply
+    Change CWD easily with cd, or switch to CWD with CD
+    custom NERDTree functions with .vim/nerdtree_plugin
+
+Vim Undotree
+    Non-destructive undo-redo, history is never overwritten
+        Access EVERY action you have done in the past
+
+Vimdiff
+    Amazingly intuitive & visual way to view diffs
+
+Multi-windowing is a first class citizen
+    Other editors live in a 'one sidebar plus one pane for code' paradigm.
+    If you want multiwindows to be a thing, remove the god damn frills attached to each window! They take up way too much space with multiple windows open.
+
+Composability (people say this is a killer feature but IMO you can do fine with alternative editing styles, just look at emacs users)
+    In normal mode, all your alphabet keys take on new actions tailored specifically to editing text
+    After learning vim there is no need to learn any other IDE's shortcuts for text editing because they will only implement a subset of vim's text editing features.
+
+Macros (both key mappings and register based macros)
+    Every action is basically a alphabet or keyboard symbol, making it very easy to codify nearly everything you do into a register for macro repeating.
+
+g; & autocmd BufReadPost * call setpos(".", getpos("'\""))
+    g; jumps to last edit made in the file
+    the autocmd restores cursor position in the file before it was closed the last time
+
+Honestly a fair portion of my vimrc consists of things that other editors already handle by default.
+    • set hidden
+    • set autoindent
+    • set number
+    • set list listchars=tab:\|\ ,trail:·
+    • buffer switching
+    • etc ...
+But the rest of the things involve concepts that don't even exist in other editors, to achieve things that they can only dream of
+    • registers
+    • vim surround
+    • almost every custom macro mapping in my vimrc
+    • set breakindent
+    • etc ...
+
+Terminal Compatability
+    Vim lives in the terminal. Anywhere you can find a terminal, you can find Vim! Amazingly versatile, you can even ssh into remote boxes and have access to your full blown, kitted out editor. GUI editor users can only cry.
+    This is also a limitation since Vim's featureset will forever be restricted to what a Terminal can do to achieve terminal compatability.
+
+===========================
+Why Switch to Sublime Text?
+===========================
+
+Sublime text actually has superior keybinding potential
+    Every combination of Control, Alt, Shift, Command/Windows modifier works with any key
+        As a result it has many more possible custom mappings that can be used by plugins
+    For Vim, many creative mixes of Control, Shift or Meta (Alt) usually don't work. Because terminal lul.
+
+If you're productive in Sublime Text, good for you. You speak the editing language that most people do, which makes your pair programming capability go way up. If you're hooked on the Vim drug good luck going without Vim when you have to pair program with someone who doesn't Vim.
+
+Graphics
+    Vim renders text. Sublime renders graphics, including text. This makes sublime (or any GUI based editor) the only option if you want to display something other than text (like a widget or whatever).
+
+
+======================
+Vim tips from my vimrc
+======================
+set matchpairs+=<:>
+% can now jump between < & >
+
+Automatically sync any file changes made externally
+set autoread
+autocmd! FocusGained,BufEnter * checktime
+Anytime you switch to vim, it will automatically update current file to the latest copy stored on disk. Eliminates the need for swap files as a file synchronizer tool (by permitting only one open instance). However does not replace swap file's function as a crash backup tool.
+
+map M %
+noremap H ^
+noremap L $
+The location of $, % & ^ are just plain unergonomic considering how often they're used. Note that 4, 5 & 6 (which $, % & ^ are situated) are the furthest keys from either <Shift>s!
+H, M & L are usually not used (unless you do, to which good luck finding other keys to remap :<) and so make good candidates to bind these to.
+% uses `map` instead of `noremap` because if you're using a plugin that extends %'s functionality to other patterns like the excellent vim-matchup, you'll need `map` to ensure that the behaviour gets carried over to your custom mapping as well.
+
+noremap <M-d> "_d| "Black_hole delete without saving to register
+noremap <M-y> "+y| "Copy to system clipboard in normal/visual mode
+nnoremap <M-p> "+p| "Paste from system clipboard
+How I handle `d`, `y` & `p` being an absolute PITA to use the system/blackhole register on.
+
+xnoremap <silent> * :<C-U>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy/<C-R><C-R>=substitute(
+      \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gV:call setreg('"', old_reg, old_regtype)<CR>
+Forward search visual selection literally (ignore regex)
+
+"tip from https://www.reddit.com/r/vim/comments/7yn0xa/editing_macros_easily_in_vim/
+fun! ChangeReg() abort
+  let x = nr2char(getchar())
+  call feedkeys("q:ilet @" . x . " = \<c-r>\<c-r>=string(@" . x . ")\<cr>\<esc>0f'", 'n')
+endfun
+nnoremap cr :call ChangeReg()<CR>| "cr<register alphabet> to edit the register
+life-changing way to inspect and edit your registers
+
+nnoremap gh `[v`]
+Select last pasted/changed text. Unlike gv, which select last selected text.
+
+g;
+jump to last change
+autocmd BufReadPost * call setpos(".", getpos("'\""))
+open a buffer at where you last left it
+
+v/foo/e will jump the visual selection to the next instance of foo, n/N to repeat (without incsearch)
+v/foo if you have incsearch. You can <C-g> & <C-t> to jump to the next/previous instance of foo
+
+<C-w><C-x> swaps the position of the current and alternate window
+
+<C-o>[number]i[character] will insert [character] [number] amount of times in the same line while in insert mode. Skip <C-o> if you start in normal mode
+
+using an empty pattern with :s e.g. :s//<whatever>/g will use the last search result with / as your pattern instead
+
+<C-d> in commandline mode to reveal all available options (like with wildmenu)
+
+RSs,HML,Z<as prefix>,Q,U,+-_,<Space><BS><CR> are all (uncommonly) used keys (or keys with commonly used equivalents) safe for rebinding
+
+==========================
+Putting Vim in Perspective
+==========================
+I had been thinking about whether the high learning curve of vim is much ado about nothing. Why memorize so many commands just to edit text? Are vim fanboys just imposing a high overhead on themselves by learning at least 6 different ways to enter insert mode?
+
+Then in the shower I realized: vim's editing commands are a LANGUAGE. Vimmers use it LIKE an language, they don't think about which command to enter insert mode you don't think about which tense to use for words. Using it enough makes it natural, like speaking a language. Why learn so many commands? Why learn a language? 
+(Plus language can be pretty inconsistent at times (see english pronunciation), but what is important is that everyone agrees on how to speak it.)
+
+(counter: what differentiates between a language and an extensive set of commands that communicates intent? vim could just be an extensive set of commands to memorise)
+
+(vim's modality arises from trying to use the same keyboard for both typing and using the editing language. As it turns out, it's a pretty good way of handling things since you you edit text, rather than insert text, for a respectable percentage of the time as well. There are other ways of executing editor commands without modality, such as emacs's keychording)
+
+By learning the vim language you gain much more expressiveness in how you edit text. Mouse and click editors become akin to using grunts and pointing to communicate intent while vim transcends that by using words and language to do the same. If you wish to STOP grunting and pointing, start using words instead! This is why vimmers feel mentally crippled when they're forced to use GUI editors. It's like losing your language and having to resort to pointing.
+
+It's funny because creating a language for editing was not what vim was originally created for. It was so you could be productive over a slow, 300 baud rate connection by minimising screen refresh. But it turns out the best way to circumvent this is by creating an editing language, so this is how it all worked out.
+
+Note that this analogy can only go so far. For one mouse and click editors aren't really like using basic sign language, it's more like they hide everything behind buttons & nested menus that you access by using the omnipotent mouse. While vim codifies everything into its vocabulary system so rather than using only one input, the mouse, you use the entire
+
+This is also only talking about vim's editing commands in normal mode specifically, not how it handles anything else (buffers, windows, quickfix). Those are separate things from the editing language but very often these overlap because the editing language has to interact with these items. I envision its is possible to create a separate editor with the same spirit of having editing language but handles other things differently. Like kakoune?
+Everyone says all Vim emulation is not great because ultimately "it's not vim". It's not that it's not vim, it's that everything else outside of the vim emulation does not follow vim's editing language philosophy. Imagine if everything an IDE could do was accessible by normal mode/commandline mode commands (a.k.a. you never have to touch a mouse). It's something that doesn't exist because vim doesn't have IDE features, and IDEs don't have vim's design. But imagine if every IDE feature in an IDE was accessible with the same editing language philosophy, I think a lot of fanboys will jump ship.

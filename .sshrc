@@ -1,0 +1,23 @@
+alias ..="cd .. && pwd && ls"
+alias ...="cd ../.. && pwd && ls"
+alias ....="cd ../../.. && pwd && ls"
+alias ls="ls -F "
+alias lsa="ls -aF"
+alias lsl="ls -alF"
+alias cp="cp -v"
+alias mv="mv -v"
+cdd () {
+  cd "$1" && pwd && ls;
+}
+mkcd () {
+  mkdir -p -- "$1" &&
+    cd -P -- "$1"
+}
+testt () {
+  result=$(test "$@"; echo $?)
+  if [ $result == 0 ]; then
+    echo True
+  else
+    echo False
+  fi
+}
