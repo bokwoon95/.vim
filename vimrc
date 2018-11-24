@@ -1,12 +1,21 @@
-"{{{ Vim-Plug check
-if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-elseif !has('nvim') && empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+"{{{ Plugin Manager Initialization
+set encoding=utf-8
+scriptencoding utf-8
+set fileencoding=utf-8
+if !empty(glob('~/*vim*/autoload/pathogen.vim'))
+  silent! execute pathogen#infect()
+  syntax on
+  filetype plugin indent on
+else
+  if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  elseif !has('nvim') && empty(glob('~/.vim/autoload/plug.vim'))
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
 endif
 "}}}
 
@@ -82,7 +91,7 @@ endif
 if has('macunix')
   set shell=/bin/zsh
 elseif has('unix')
-  set shell=/usr/bin/zsh
+  set shell=/bin/bash
 endif
 "}}}
 "{{{ Vim-Plug
@@ -470,7 +479,7 @@ nnoremap <Leader>ss :%s//g<Left><Left>
 xnoremap <Leader>ss :s//g<Left><Left>
 xnoremap <Leader>tbts :s/	/    /g<Left><Left>| "convert tab to 4 spaces for visual selection
 nnoremap <Leader>tbts :%s/	/    /g<Left><Left>| "convert tab to 4 spaces in normal mode
-nnoremap <Leader>ri gg=G``:echo 'File reindented'<CR>| "reindent file without losing cursor position
+nnoremap <Leader>rr gg=G``:echo 'File reindented'<CR>| "reindent file without losing cursor position
 nnoremap <M-v> ^vg_| "V but w/o newline char
 nnoremap yd ^yg_"_dd| "dd but w/o newline char
 noremap <M-d> "_d| "Black_hole delete without saving to register
@@ -823,18 +832,21 @@ augroup END
 "}}}
 "{{{ GUI Vim Settings
 if has('gui_running')
-  " set nonumber
-  set laststatus=1
   colorscheme morning
+  set laststatus=1
+  set guioptions=
+  set belloff=all
+  set linespace=2
   if has('macunix')
     set guifont=Source\ Code\ Pro:h12
   elseif has('unix')
     set guifont=DejaVu\ Sans\ Mono\ Book
     set lines=40 columns=150
+  elseif has('win32')
+    set guifont=Consolas:h10
+    set linespace=0
+    set lines=45 columns=160
   endif
-  set guioptions=
-  set linespace=2
-  set belloff=all
 endif
 "}}}
 "{{{ Terminal Vim Settings
@@ -850,7 +862,7 @@ if !has("gui_running")
     set fileencoding=utf-8
     if has('macunix')
       colorscheme zellner
-    elseif has('unix')
+    else
       colorscheme default
     endif
     "instantly exit visual mode with <esc>
@@ -875,29 +887,23 @@ endif
 "}}}
 "{{{ Statusline Settings statsett
 set statusline=
-if has('nvim')
-  set statusline+=[%{strlen(&ft)?&ft:'none'},  " file
-  set statusline+=%{strlen(&fenc)?&fenc:&enc}, " encoding
-  set statusline+=%{&fileformat}]              " file format
-else
-  set statusline+=(%{strlen(&ft)?&ft:'none'},  " file
-  set statusline+=%{strlen(&fenc)?&fenc:&enc}, " encoding
-  set statusline+=%{&fileformat})              " file format
-endif
-set statusline+=\ %f                         " t filename, f relative filepath, F absolute filepath
-set statusline+=%{&modified?'\ +':''}        " show '+' when file has been modified
-set statusline+=%{&readonly?'\ [RO]':''}        " show 'RO' when file is in readonly
-set statusline+=%{!&modifiable?'\ [noma]':''} " show 'noma' when file is nonmodifiable
-set statusline+=%=                           " right align
-set statusline+=\ %{exists('g:loaded_obsession')?ObsessionStatus():''} "Obsession status
-set statusline+=\ %{exists('g:loaded_fugitive')?fugitive#head():''} "show git branch
-set statusline+=\ %(%l,%c%V%)                " show line, column, virtual column (denoted with a '-' in front)
-set statusline+=\ %3p%%\                       " percentage of file shown
-if has('nvim')
-  set statusline+=[%(%{'help'!=&filetype?bufnr('%'):''}%)] " buffer number
-else
-  set statusline+=(%(%{'help'!=&filetype?bufnr('%'):''})%) " buffer number
-endif
+set statusline+=%{has('nvim')?'[':'('}                 " [(
+set statusline+=%{strlen(&ft)?&ft:'none'},             " Filetype
+set statusline+=%{strlen(&fenc)?&fenc:&enc},           " Encoding
+set statusline+=%{&fileformat}                         " File format (dos, unix)
+set statusline+=%{has('nvim')?']':')'}                 " ])
+set statusline+=\ %f                                   " t filename, f relative filepath, F absolute filepath
+set statusline+=%{&modified?'\ +':''}                  " Show '+' when file has been modified
+set statusline+=%{&readonly?'\ [RO]':''}               " Show 'RO' when file is in readonly
+set statusline+=%{!&modifiable?'\ [noma]':''}          " Show 'noma' when file is nonmodifiable
+set statusline+=%=                                     " Right align
+set statusline+=\ %{exists('g:loaded_obsession')?ObsessionStatus():''} " Obsession status
+set statusline+=\ %{exists('g:loaded_fugitive')?fugitive#head():''}    " Git branch
+set statusline+=\ %(%l,%c%V%)                          " Show line, column, virtual column (denoted with a '-' in front)
+set statusline+=\ %3p%%\                               " Percentage of file shown
+set statusline+=%{has('nvim')?'[':'('}                 " [(
+set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}%) " Buffer number
+set statusline+=%{has('nvim')?']':')'}                 " ])
 "}}}
 
 "{{{ Vim Functions

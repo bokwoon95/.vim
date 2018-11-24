@@ -150,6 +150,7 @@ path-prepend() {
 }
 path-prepend ~/.config/composer/vendor/bin
 path-prepend ~/.local/bin
+path-prepend /usr/local/opt/mysql@5.7/bin
 path-prepend /usr/local/mysql/bin
 path-prepend ~/pear/bin
 path-prepend ~/.roswell/bin
@@ -172,7 +173,7 @@ if [[ $(uname) = 'Linux' ]]; then
 elif [[ $(uname) = 'Darwin' ]]; then
   # alias sx="sudo service"
   alias sxa="sudo apachectl"
-  alias sxm="sudo /usr/local/mysql/support-files/mysql.server"
+  alias sxm="sudo /usr/local/**/support-files/mysql.server"
 fi
 
 # Emacs better gui
