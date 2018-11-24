@@ -748,14 +748,19 @@ set viewoptions=folds "let vop save only folds, and nothing else
 fun! Makeview(...) abort
   let force_makeview = a:0 >= 1 ? a:1 : 0
   let viewfile = expand('%:p:h') . "/v__" . expand('%:t:r') . expand('%:e')
+  let viewfolder = expand('%:p:h') . "/.v__views"
+  let viewfile = viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
   if filereadable(viewfile) || force_makeview==1
+    execute "execute mkdir('" . viewfolder . "', 'p')"
     execute "mkview! ".viewfile
-    execute "split ".viewfile."| 3d| w| bd"
+    execute "keepalt split ".viewfile."| 3d| w| bd"
     echo "saved view in ".viewfile
   endif
 endfun
 fun! Loadview() abort
   let viewfile = expand('%:p:h') . "/v__" . expand('%:t:r') . expand('%:e')
+  let viewfolder = expand('%:p:h') . "/.v__views"
+  let viewfile = viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
   if filereadable(viewfile)
     execute "silent! source ".viewfile
     echo "loaded view from ".viewfile
@@ -769,8 +774,8 @@ command! MKV call Makeview(1)
 command! LDV call Loadview()
 augroup AutosaveView
   autocmd!
-  au BufWrite,VimLeave *.py,*.go call Makeview()
-  au BufRead *.py,*.go silent! call Loadview()
+  au BufWrite,VimLeave *.py,*.go,*.php call Makeview()
+  au BufRead *.py,*.go,*.php silent! call Loadview()
 augroup END
 "}}}
 
