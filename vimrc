@@ -460,7 +460,6 @@ inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <expr> <C-j> pumvisible() ? "\<C-y>" : ""
 "}}}
 "{{{ hjkl & movement
-nnoremap <C-a> <C-u>
 nnoremap <silent> h <BS>
 nnoremap <silent> l <Space>
 xnoremap <silent> h <BS>
@@ -485,8 +484,7 @@ nnoremap yd ^yg_"_dd| "dd but w/o newline char
 noremap <M-d> "_d| "Black_hole delete without saving to register
 noremap Y "+y| "Copy to system clipboard in normal/visual mode
 nnoremap YY "+yy| "Copy to system clipboard in normal/visual mode
-nnoremap yal m`^yg_``| "yank current line (without newline)
-nnoremap Yal m`^"+yg$``| "Copy current line (without newline) to system clipboard
+nnoremap y7 m`^yg_``| "yank current line (without newline)
 nnoremap Y& m`^"+yg$``| "Copy current line (without newline) to system clipboard
 nnoremap <M-p> "+p| "Paste from system clipboard
 nnoremap <Leader>pc :let<Space>@+=expand('%:p:h')<CR>| "copy file's directory path to clipboard
@@ -494,7 +492,6 @@ nnoremap <Leader>fc :let<Space>@+=expand('%:p')<CR>| "copy file's full path+file
 cnoremap <C-k> <C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>| "kill from current position to EOL
 cnoremap <C-y> <C-r>+
 cnoremap <M-y> <C-r>"
-nnoremap <Leader>kw m`:%s/\s\+$//e<CR>``:echo '@@@ Trailing whitespaces purged @@@'<CR>| "Kill all orphan whitespaces
 nnoremap <Leader>ww m`:%s/\s\+$//e<CR>``:echo '+++ Trailing whitespaces purged +++'<CR>| "Kill all orphan whitespaces
 xnoremap <silent> * :<C-u>
       \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
