@@ -774,8 +774,8 @@ command! MKV call Makeview(1)
 command! LDV call Loadview()
 augroup AutosaveView
   autocmd!
-  au BufWrite,VimLeave *.py,*.go,*.php call Makeview()
-  au BufRead *.py,*.go,*.php silent! call Loadview()
+  au BufWrite,VimLeave * call Makeview()
+  au BufRead * silent! call Loadview()
 augroup END
 "}}}
 
@@ -818,10 +818,16 @@ function! MyHighlights() abort
   hi SpellCap ctermbg=234 ctermfg=14 cterm=underline
   hi SignColumn ctermbg=none
 endfunction
+fun! RestoreCursorPosition() abort
+  if &ft =~ 'gitcommit\|gitcommit'
+    return
+  endif
+  call setpos(".", getpos("'\""))
+endfun
 augroup Autocommands
   autocmd!
   autocmd ColorScheme * call MyHighlights()
-  autocmd BufReadPost * call setpos(".", getpos("'\""))
+  autocmd BufReadPost * call RestoreCursorPosition()
   " autocmd CmdlineEnter * setlocal cursorline
   " autocmd CmdlineLeave * setlocal nocursorline
   " autocmd CmdlineLeave * if bufname("") =~ "NERD_tree_\\d" | setlocal cursorline | endif
