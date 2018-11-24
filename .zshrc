@@ -428,8 +428,20 @@ alias  gko-kommit-amend-and-push-force="git commit --amend --no-edit && git push
 alias gx="git status"
 alias gxx="git status -s"
 alias ga="git add"
-alias gco="git commit -m"
-alias gca="git commit -am"
+gco () {
+if [[ "$#" -eq 0 ]]; then
+  git commit
+else
+  git commit -m "$@"
+fi
+}
+gca () {
+if [[ "$#" -eq 0 ]]; then
+  git add .; git commit -a
+else
+  git add .; git commit -am "$@"
+fi
+}
 alias gka="git add . && git commit --amend --no-edit"
 alias gps="git push"
 alias gc="git checkout"
