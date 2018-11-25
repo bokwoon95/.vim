@@ -751,10 +751,14 @@ fun! Makeview(...) abort
   let viewfolder = expand('%:p:h') . "/.v__views"
   let viewfile = viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
   if filereadable(viewfile) || force_makeview==1
-    execute "execute mkdir('" . viewfolder . "', 'p')"
+    if force_makeview==1 "I suspect this is a bug
+      execute "execute mkdir('" . viewfolder . "', 'p')"
+    endif
     execute "mkview! ".viewfile
     execute "keepalt split ".viewfile."| 3d| w| bd"
-    echo "saved view in ".viewfile
+    if force_makeview==1
+      echo "saved view in ".viewfile
+    endif
   endif
 endfun
 fun! Loadview() abort
