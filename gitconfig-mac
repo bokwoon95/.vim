@@ -8,6 +8,8 @@
   excludesfile = ~/.gitignore
 [alias]
   d = difftool
+  dc = difftool --cached
+  diffc = diff --cached
   pr = pull --rebase
 [diff]
   tool = vimdiff
