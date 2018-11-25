@@ -428,6 +428,7 @@ alias  gko-kommit-amend-and-push-force="git commit --amend --no-edit && git push
 alias gx="git status"
 alias gxx="git status -s"
 alias ga="git add"
+alias gap="git add -p"
 gco () {
 if [[ "$#" -eq 0 ]]; then
   git commit
@@ -453,6 +454,7 @@ alias gsp="git stash pop"
 alias gsp-slave-pull="git fetch --all && git reset --hard origin/master"
 alias gsl="git stash list | vim - +'set nonu' +'set ls=1'"
 alias grs="git reset --soft HEAD~1" #soft git commit rollback
+alias gr.="git reset ."
 alias gdif="git diff | vim -M - +'set nonu' +'set ls=1' +'nnoremap q :qa!<CR>' +'echo(\"[PRESS q TO QUIT]\")'"
 gdi () {
   if [[ "$#" -eq 0 ]]; then
