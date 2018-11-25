@@ -906,7 +906,7 @@ set statusline+=%{&readonly?'\ [RO]':''}               " Show 'RO' when file is 
 set statusline+=%{!&modifiable?'\ [noma]':''}          " Show 'noma' when file is nonmodifiable
 set statusline+=%=                                     " Right align
 set statusline+=\ %{exists('g:loaded_obsession')?ObsessionStatus():''} " Obsession status
-set statusline+=\ %{exists('g:loaded_fugitive')?fugitive#head():''}    " Git branch
+set statusline+=\ %{exists('g:loaded_fugitive')?fugitive#head(7):''}    " Git branch
 set statusline+=\ %(%l,%c%V%)                          " Show line, column, virtual column (denoted with a '-' in front)
 set statusline+=\ %3p%%\                               " Percentage of file shown
 set statusline+=%{has('nvim')?'[':'('}                 " [(

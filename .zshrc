@@ -446,8 +446,8 @@ alias gka="git add . && git commit --amend --no-edit"
 alias gps="git push"
 alias gc="git checkout"
 alias gb="git branch"
-alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias glv="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit | vim - +'set nonu' +'set ls=0' +'nnoremap q :qa!<CR>' +'echo(\"[PRESS q TO QUIT]\")'"
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
+alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gsv="git stash save"
 alias gsp="git stash pop"
 alias gsp-slave-pull="git fetch --all && git reset --hard origin/master"
@@ -471,7 +471,15 @@ ghclone () {
 ghclone-bw () {
   git clone https://github.com/bokwoon95/$1 $2
 }
-#git add --patch <filename> to stage hunks
+alias gcheckdangling="git fsck --unreachable --no-reflogs"
+gprunedangling () {
+  git reflog expire --expire-unreachable=now --all
+  git gc --prune=now
+}
+#git add --p(atch) <filename> to stage hunks
+
+# tig
+alias tig="tig --all"
 
 #abduco aliases
 alias abd="abduco"

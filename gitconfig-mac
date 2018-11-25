@@ -8,8 +8,12 @@
   excludesfile = ~/.gitignore
 [alias]
   d = difftool
+  pr = pull --rebase
 [diff]
   tool = vimdiff
+[pager]
+  show = diff-highlight | less
+  diff = diff-highlight | less
 [difftool]
   prompt = true
   ;set to true if you want to be prompted everytime you open another diff
