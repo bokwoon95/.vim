@@ -751,11 +751,13 @@ fun! Makeview(...) abort
   let viewfolder = expand('%:p:h') . "/.v__views"
   let viewfile = viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
   if filereadable(viewfile) || force_makeview==1
-    if force_makeview==1 "I suspect this is a bug
+    if force_makeview==1 "I suspect this is a bug that the cursor keeps gg-ing
       execute "execute mkdir('" . viewfolder . "', 'p')"
     endif
     execute "mkview! ".viewfile
-    execute "keepalt split ".viewfile."| 3d| w| bd"
+    execute "keepalt split ".viewfile
+    execute 'norm! 3G"_dd'
+    execute "w| bd"
     if force_makeview==1
       echo "saved view in ".viewfile
     endif
