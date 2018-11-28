@@ -1,5 +1,6 @@
+setlocal list
 setlocal ts=4 sw=4 sts=4
-setlocal nolist
+" setlocal nolist
 " setlocal foldmethod=syntax
 setlocal completeopt-=preview
 

@@ -426,7 +426,6 @@ alias  gac-Add-commit-and-push="git add . && git commit && git push origin maste
 alias  gak-Add-kommit-amend-and-push-force="git add . && git commit --amend --no-edit && git push -f origin master" #stage & commit everything into previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
 alias  gko-kommit-amend-and-push-force="git commit --amend --no-edit && git push -f origin master" #commit whatever's been staged into the previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
 alias gx="git status"
-alias gxx="git status -s"
 alias ga="git add"
 alias gap="git add -p"
 gco () {
@@ -444,13 +443,12 @@ else
 fi
 }
 alias gka="git add . && git commit --amend --no-edit"
+alias gko="git commit --amend --no-edit"
 alias gps="git push"
 alias gc="git checkout"
 alias gb="git branch"
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
 alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias gsv="git stash save"
-alias gsp="git stash pop"
 alias gsp-slave-pull="git fetch --all && git reset --hard origin/master"
 alias gsl="git stash list | vim - +'set nonu' +'set ls=1'"
 alias grs="git reset --soft HEAD~1" #soft git commit rollback

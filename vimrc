@@ -317,8 +317,10 @@ let g:ale_linters = {
   \ 'python': ['flake8'],
   \ 'sh': ['shellcheck'],
   \ 'go': ['gofmt','goimports'],
+  \ 'javascript': ['eslint','prettier'],
   \}
 let g:ale_set_signs = 0
+" let g:ale_sign_column_always = 1
 
 Plug 'tpope/vim-obsession'
 
@@ -842,6 +844,7 @@ augroup Autocommands
   " autocmd BufLeave NERD_tree_* setlocal nocursorline
   autocmd BufNewFile,BufRead *.fish setlocal filetype=fish
   autocmd BufEnter,BufLeave * if &buftype ==# 'terminal' | let g:t_bufnum = expand('<abuf>') | endif
+  autocmd CompleteDone * pclose
 augroup END
 "}}}
 "{{{ GUI Vim Settings
