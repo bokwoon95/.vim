@@ -1,8 +1,8 @@
 "{{{ Plugin Manager Initialization
-set encoding=utf-8
-scriptencoding utf-8
-set fileencoding=utf-8
-if !empty(glob('~/*vim*/autoload/pathogen.vim'))
+silent! set encoding=utf-8
+silent! scriptencoding utf-8
+silent! set fileencoding=utf-8
+if !empty(glob('~/vimfiles/autoload/pathogen.vim')) || !empty(glob('~/.vim/autoload/pathogen.vim'))
   silent! execute pathogen#infect()
   syntax on
   filetype plugin indent on

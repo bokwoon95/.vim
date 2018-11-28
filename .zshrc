@@ -205,6 +205,10 @@ alias ..="cd .. && pwd && ls"
 alias ...="cd ../.. && pwd && ls"
 alias ....="cd ../../.. && pwd && ls"
 alias ls="ls -F "
+alias lsa="ls -a -F"
+alias lsl="ls -alF"
+alias cp="cp -v"
+alias mv="mv -v"
 cdd () {
   if [[ "$#" -eq 0 ]]; then
     cd && pwd && ls
@@ -218,8 +222,7 @@ mkcd () {
 }
 alias checksize="du -h -d 1 | sort -n" #display file sizes
 mann () {
-  if [ -z "$1" ]
-  then
+  if [[ "$#" -eq 0 ]]; then
     echo "What manual page do you want?"
   else
     man $1 |
@@ -228,16 +231,6 @@ mann () {
       vim -M - +'set nonu' +'set ls=1' +'nnoremap q :qa!<CR>'
   fi
 }
-alias lsa="ls -a -F"
-alias lsl="ls -alF"
-findvid () {
-  find . -iname "*.mp4" -o -iname "*.mov" -o -iname "*.flv" -o -iname "*.mkv" -o -iname "*.TS"
-}
-findpic () {
-  find . -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.gif"
-}
-alias cp="cp -v"
-alias mv="mv -v"
 unspace () {
   for f in "$@"; do
     mv "$f" "${f// /_}"
@@ -255,10 +248,10 @@ testt () {
   else
     echo False
   fi
+  return $result
 }
 
 # misc
-alias updf="~/.vim/update.file.sh" #update dotfiles in .vim repo
 alias py="python3"
 alias pip="pip3"
 krename () {
@@ -453,7 +446,7 @@ alias gsp-slave-pull="git fetch --all && git reset --hard origin/master"
 alias gsl="git stash list | vim - +'set nonu' +'set ls=1'"
 alias grs="git reset --soft HEAD~1" #soft git commit rollback
 alias gr.="git reset ."
-alias gdif="git diff | vim -M - +'set nonu' +'set ls=1' +'nnoremap q :qa!<CR>' +'echo(\"[PRESS q TO QUIT]\")'"
+alias gdiv="git diff | vim -M - +'set nonu' +'set ls=1' +'nnoremap q :qa!<CR>' +'echo(\"[PRESS q TO QUIT]\")'"
 gdi () {
   if [[ "$#" -eq 0 ]]; then
     echo "please input a git file to diff"
@@ -475,6 +468,20 @@ alias gcheckdangling="git fsck --unreachable --no-reflogs"
 gprunedangling () {
   git reflog expire --expire-unreachable=now --all
   git gc --prune=now
+}
+gdif () {
+  if [[ -f ~/.vim/**/diff-highlight ]];then
+    git diff --color "$@" | ~/.vim/**/diff-highlight | less
+  else
+    git diff --color "$@" | diff-highlight | less
+  fi
+}
+gsho () {
+  if [[ -f ~/.vim/**/diff-highlight ]];then
+    git show --color "$@" | ~/.vim/**/diff-highlight | less
+  else
+    git show --color "$@" | diff-highlight | less
+  fi
 }
 #git add --p(atch) <filename> to stage hunks
 
