@@ -1,6 +1,9 @@
 setlocal ts=2 sw=2 sts=2 et
 setlocal formatoptions-=cro
 setlocal commentstring=#\ %s
+if !has("gui_running")
+  setlocal colorcolumn=120
+endif
 
 command! PHPlint !php -l %
 

@@ -293,6 +293,9 @@ let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
 Plug 'honza/vim-snippets'
 
 Plug 'chrisbra/Colorizer'
+let g:colorizer_auto_filetype='css,html'
+let g:colorizer_syntax = 1
+nmap <Leader>cc <Plug>Colorizer
 
 Plug 'JuliaEditorSupport/julia-vim', {'for': 'julia'}
 
@@ -317,7 +320,9 @@ let g:ale_linters = {
   \ 'python': ['flake8'],
   \ 'sh': ['shellcheck'],
   \ 'go': ['gofmt','goimports'],
-  \ 'javascript': ['eslint','prettier'],
+  \ 'javascript': ['eslint'],
+  \ 'html': ['htmlhint'],
+  \ 'css': ['csslint'],
   \}
 let g:ale_set_signs = 0
 " let g:ale_sign_column_always = 1
@@ -336,6 +341,9 @@ augroup VdebugAutocommands
   autocmd!
   autocmd ColorScheme * call VdebugHighlights()
 augroup END
+
+Plug 'captbaritone/better-indent-support-for-php-with-html', {'for': 'php'}
+let php_htmlInStrings = 1
 
 " Merlin
 if !has('gui_running')
@@ -381,31 +389,33 @@ silent! call plug#end()
 "}}}
 
 syntax enable
-set hidden                          " Hide Buffers, not Kill
-set autoindent                      " Autoindentation
-set wildmenu                        " Show completion options in vim command line
-set wildmode=list:longest,full      " Bash-style completion menu
-set wildignorecase                  " ignore case in wildmenu
-set number                          " Show line numbers
-set ruler                           " Show cursor position
-set laststatus=2                    " Always show statusbar
-set backspace=2                     " Enable backspace capability
-set incsearch hlsearch              " Realtime searching, and persistently highlight
-set wrap linebreak                  " Soft-wrap long lines without breaking words into 2
-set display+=lastline               " display partial lines that have been wrapped
-set showcmd                         " Show commands in minibuffer
-set ignorecase smartcase            " Ignore case when searching, unless capitals are used
-set ts=4 sw=4 sts=4 et              " Use soft tabs
-set mouse=a                         " Enable mouse in terminal
-set list                            " Show hidden characters
-set listchars=tab:\|\ ,trail:·      " ,eol:¬
-set foldopen-=block                 " Prevent { & } from opening folds
-set breakindent                     " wrapped lines keep same level of indent visually
-silent! set inccommand=nosplit      " Realtime feedback for Ex Commands (NEOVIM ONLY)
-set fillchars+=vert:│               " Vertical bar separator
-set matchpairs+=<:>                 " % can jump between <,> pairs
-set whichwrap+=[,],<,>              " <Left> & <Right> keys will wrap to prev/next line
-set autoread                        " Reload files if they have been changed externally
+set hidden                     " Hide Buffers, not Kill
+set autoindent                 " Autoindentation
+set wildmenu                   " Show completion options in vim command line
+set wildmode=list:longest,full " Bash-style completion menu
+set wildignorecase             " ignore case in wildmenu
+set number                     " Show line numbers
+set ruler                      " Show cursor position
+set laststatus=2               " Always show statusbar
+set backspace=2                " Enable backspace capability
+set incsearch hlsearch         " Realtime searching, and persistently highlight
+set wrap linebreak             " Soft-wrap long lines without breaking words into 2
+set display+=lastline          " display partial lines that have been wrapped
+set showcmd                    " Show commands in minibuffer
+set ignorecase smartcase       " Ignore case when searching, unless capitals are used
+set ts=4 sw=4 sts=4 et         " Use soft tabs
+set mouse=a                    " Enable mouse in terminal
+set list                       " Show hidden characters
+set listchars=tab:\|\ ,trail:· " ,eol:¬
+set foldopen-=block            " Prevent { & } from opening folds
+set breakindent                " wrapped lines keep same level of indent visually
+silent! set inccommand=nosplit " Realtime feedback for Ex Commands (NEOVIM ONLY)
+set fillchars+=vert:│          " Vertical bar separator
+set matchpairs+=<:>            " % can jump between <,> pairs
+set whichwrap+=[,],<,>         " <Left> & <Right> keys will wrap to prev/next line
+syntax sync minlines=256       " start highlighting from 256 lines backwards
+set synmaxcol=300              " do not highlight very long lines
+set autoread                   " Reload files if they have been changed externally
 augroup Checkt
   autocmd!
   autocmd FocusGained,BufEnter * checktime " To trigger vim's autoread on focus gained or buffer enter
@@ -422,7 +432,7 @@ noremap <C-l> 4<C-e>
 nnoremap <C-x>b :ls<CR>:b<Space>
 cnoremap <silent> <expr> <CR> getcmdline() == "b " ? "\<C-c>:b#\<CR>" : "\<CR>"
 nnoremap <C-x><C-h> :setlocal hlsearch!<bar>set hlsearch?<CR>
-inoremap <expr> <C-y> !pumvisible() ? "\<C-o>:set paste\<CR>\<C-r>+\<C-o>:set nopaste\<CR>" : "\<C-y>"
+inoremap <expr> <C-y> !pumvisible() ? "\<C-o>:set paste\<CR>\<C-r>+\<C-o>:set nopaste\<CR>\<Esc>'[=']i" : "\<C-y>"
 command! TT verbose setlocal ts? sts? sw? et?
 command! T2 setlocal ts=2 sts=2 sw=2 et | echo "indentation set to 2 spaces"
 command! T4 setlocal ts=4 sts=4 sw=4 et | echo "indentation set to 4 spaces"
@@ -825,6 +835,7 @@ function! MyHighlights() abort
   hi SpellBad ctermbg=234 ctermfg=15 cterm=bold,underline
   hi SpellCap ctermbg=234 ctermfg=14 cterm=underline
   hi SignColumn ctermbg=none
+  hi ColorColumn ctermbg=234 guibg=grey85
 endfunction
 fun! RestoreCursorPosition() abort
   if &ft =~ 'gitcommit\|gitcommit'

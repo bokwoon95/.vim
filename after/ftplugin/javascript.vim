@@ -1,5 +1,8 @@
 setlocal ts=2 sw=2 sts=2 et
 setlocal formatoptions-=cro
+if !has("gui_running")
+  setlocal colorcolumn=120
+endif
 
 inoremap <buffer> <C-q><C-q> console.log();<Left><Left>
 
