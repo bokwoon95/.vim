@@ -423,7 +423,6 @@ augroup Checkt
   autocmd!
   autocmd FocusGained,BufEnter * checktime " To trigger vim's autoread on focus gained or buffer enter
 augroup END
-command! EE e!
 autocmd! Filetype vim setlocal foldmethod=marker ts=2 sts=2 sw=2 et
 set foldtext=repeat('\ ',indent(v:foldstart)).foldtext()
 
@@ -545,6 +544,19 @@ endfun
 inoremap <C-t> <Esc>`^:call DuplicateLineSavePosition()<CR>a<C-g>u
 command! Gitmergesearch let @/="^<<<<<<< HEAD$\\|^>>>>>>> [a-z0-9]\\{40}$\\|^=======$"
 command! GMS /^<<<<<<< HEAD$\|^>>>>>>> [a-z0-9]\{40}$\|^=======$
+fun! Checkt(...) abort
+  let checkt_all = a:0 >= 1 ? a:1 : 0
+  if checkt_all==1
+    let currbufnr = bufnr("%")
+    silent! bufdo checktime
+    execute "buffer" . currbufnr
+  else
+    silent! checktime
+  endif
+  echo "+++ Buffer Refreshed +++"
+endfun
+command! EE call Checkt()
+command! EA call Checkt(1)
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-d>
