@@ -100,7 +100,7 @@ if has('nvim')
 else
   silent! call plug#begin('~/.vim/plugged')
 endif
-Plug 'tpope/vim-commentary'|             " Comment Toggling
+Plug 'tomtom/tcomment_vim'|              " Comment Toggling
 Plug 'tpope/vim-eunuch'|                 " File Rename/Delete/Move
 Plug 'xtal8/traces.vim'                  " Neovim's inccommand
 Plug 'wellle/targets.vim'|               " Extended text editing objects
