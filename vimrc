@@ -109,11 +109,14 @@ Plug 'tpope/vim-repeat'|                 " repeat vim-surround
 Plug 'drzel/vim-in-proportion'|          " Preserve split proportions when resizing vim
 Plug 'junegunn/vim-peekaboo'             " Peek into register contents easily
 Plug 'romainl/vim-qlist'|                " Reminder to check out how to use the quickfix list
-Plug 'andymass/vim-matchup'|             " % on steroids
 Plug 'godlygeek/tabular'|                " Table creation
 if !has('nvim')
   Plug 'jszakmeister/vim-togglecursor'
 endif
+
+Plug 'andymass/vim-matchup'|             " % on steroids
+let g:matchup_matchparen_status_offscreen = 0
+" let g:matchup_matchparen_deferred = 1
 
 Plug 'pacha/vem-tabline'
 " if has('gui_running')
