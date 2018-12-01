@@ -822,6 +822,7 @@ function! MyHighlights() abort
   hi TabLineFill cterm=bold ctermbg=none gui=none guibg=bg
   hi TabLineSel cterm=bold,underline ctermbg=16 ctermfg=7 guibg=bg guifg=black gui=bold,underline
   hi TabLine cterm=none ctermbg=none ctermfg=246 guibg=bg guifg=#8787af gui=none
+  hi VemTablineShown cterm=none ctermbg=16 ctermfg=7 guibg=bg guifg=black
   hi Folded cterm=none ctermbg=none gui=none guibg=bg
   hi Search ctermfg=232 ctermbg=10 guifg=black guibg=Cyan1
   hi IncSearch cterm=none ctermfg=232 ctermbg=9
@@ -836,6 +837,7 @@ function! MyHighlights() abort
   hi SpellCap ctermbg=234 ctermfg=14 cterm=underline
   hi SignColumn ctermbg=none
   hi ColorColumn ctermbg=234 guibg=grey85
+  hi SpecialKey term=bold ctermfg=237 guifg=Grey70
 endfunction
 fun! RestoreCursorPosition() abort
   if &ft =~ 'gitcommit\|gitcommit'
