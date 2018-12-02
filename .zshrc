@@ -123,7 +123,6 @@ if [[ $(uname) = 'Darwin' ]]; then
   alias vim="nvim"
 fi
 if [[ $(uname) = 'Linux' ]]; then
-  alias nvim="~/.local/bin/nvim"
   alias xo="xdg-open"
 fi
 
@@ -178,14 +177,21 @@ fi
 
 # Emacs better gui
 if [[ $(uname) = 'Linux' ]]; then
-  emacss() {
-    emacs $@ &>/dev/null &
+  emags() {
+    # opens a gui emacs and hands terminal session back to user
+    command emacs "$@" &>/dev/null &
   }
-  alias emx="emacss"
-  alias emax="emacss"
+  emacs() {
+    (emacsclient -nw -ca "" "$@") ||
+      (emacs --daemon; emacsclient -nw -ca "" "$@")
+  }
 fi
 if [[ $(uname) = 'Darwin' ]]; then
-  alias emacs="/usr/local/Cellar/emacs/*/bin/emacs"
+  emacs() {
+    (/usr/local/Cellar/emacs/*/bin/emacsclient -ca "" "$@") ||
+      (/usr/local/Cellar/emacs/*/bin/emacs --daemon;
+          /usr/local/Cellar/emacs/*/bin/emacsclient -ca "" "$@")
+  }
 fi
 
 ##############
@@ -470,15 +476,22 @@ gprunedangling () {
   git gc --prune=now
 }
 gdif () {
-  if [[ -f ~/.vim/**/diff-highlight ]];then
-    git diff --color "$@" | ~/.vim/**/diff-highlight | less
+  if [[ -f ~/.vim/diff-highlight ]];then
+    git diff --color "$@" | ~/.vim/diff-highlight | less
   else
     git diff --color "$@" | diff-highlight | less
   fi
 }
+gdifc () {
+  if [[ -f ~/.vim/diff-highlight ]];then
+    git diff --cached --color "$@" | ~/.vim/diff-highlight | less
+  else
+    git diff --cached --color "$@" | diff-highlight | less
+  fi
+}
 gsho () {
-  if [[ -f ~/.vim/**/diff-highlight ]];then
-    git show --color "$@" | ~/.vim/**/diff-highlight | less
+  if [[ -f ~/.vim/diff-highlight ]];then
+    git show --color "$@" | ~/.vim/diff-highlight | less
   else
     git show --color "$@" | diff-highlight | less
   fi
