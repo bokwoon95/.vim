@@ -896,27 +896,12 @@ endif
 "}}}
 "{{{ Terminal Vim Settings
 if !has("gui_running")
+  colorscheme default
+  set background=light
   if has('nvim')
-    colorscheme default
     set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
           \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
           \,sm:block-blinkwait175-blinkoff150-blinkon175
-  else
-    set encoding=utf-8
-    scriptencoding utf-8
-    set fileencoding=utf-8
-    if has('macunix')
-      colorscheme zellner
-    else
-      colorscheme default
-    endif
-    "instantly exit visual mode with <esc>
-    set ttimeoutlen=10
-    " augroup fastescape
-    "   autocmd!
-    "   au insertenter * set timeoutlen=0
-    "   au insertleave * set timeoutlen=1000
-    " augroup end
   endif
 endif
 "}}}
