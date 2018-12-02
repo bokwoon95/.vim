@@ -91,7 +91,11 @@ endif
 if has('macunix')
   set shell=/bin/zsh
 elseif has('unix')
-  set shell=/bin/bash
+  if executable('zsh')
+    set shell=/usr/bin/zsh
+  else
+    set shell=/bin/bash
+  endif
 endif
 "}}}
 "{{{ Vim-Plug
