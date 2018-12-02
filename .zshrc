@@ -119,13 +119,6 @@ Check() {
   fi
 }
 
-if [[ $(uname) = 'Darwin' ]]; then
-  alias vim="nvim"
-fi
-if [[ $(uname) = 'Linux' ]]; then
-  alias xo="xdg-open"
-fi
-
 alias etop="hdiutil unmount /Volumes/TOP\ CAKES/"
 alias eall="osascript -e 'tell application \"Finder\" to eject (every disk whose ejectable is true)'"
 
@@ -154,6 +147,15 @@ path-prepend /usr/local/mysql/bin
 path-prepend ~/pear/bin
 path-prepend ~/.roswell/bin
 path-append ~/go/bin
+
+# If nvim exists, symlink vim to nvim
+# This must happen after ~/.local/bin is added to $PATH
+if command -v nvim >/dev/null 2>&1; then
+  alias vim="nvim"
+fi
+if [[ $(uname) = 'Linux' ]]; then
+  alias xo="xdg-open"
+fi
 
 # PostgreS
 alias pg-erp-adms="pgcli postgres://admaterials:1qaz2wsx3edc@192.168.1.253:5433/adms -p 5436"
