@@ -853,6 +853,7 @@ function! MyHighlights() abort
   hi SignColumn ctermbg=none
   hi ColorColumn ctermbg=234 guibg=grey85
   hi SpecialKey term=bold ctermfg=237 guifg=Grey70
+  hi Whitespace term=bold ctermfg=237 guifg=Grey70
 endfunction
 fun! RestoreCursorPosition() abort
   if &ft =~ 'gitcommit\|gitcommit'
