@@ -7,14 +7,14 @@ if !empty(glob('~/vimfiles/autoload/pathogen.vim')) || !empty(glob('~/.vim/autol
   syntax on
   filetype plugin indent on
 else
-  if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-  elseif !has('nvim') && empty(glob('~/.vim/autoload/plug.vim'))
+  if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
       \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+  endif
+  if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   endif
 endif
 "}}}
@@ -99,11 +99,7 @@ elseif has('unix')
 endif
 "}}}
 "{{{ Vim-Plug
-if has('nvim')
-  silent! call plug#begin('~/.config/nvim/plugged')
-else
-  silent! call plug#begin('~/.vim/plugged')
-endif
+silent! call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'|              " Comment Toggling
 Plug 'tpope/vim-eunuch'|                 " File Rename/Delete/Move
 Plug 'xtal8/traces.vim'                  " Neovim's inccommand
@@ -114,9 +110,7 @@ Plug 'drzel/vim-in-proportion'|          " Preserve split proportions when resiz
 Plug 'junegunn/vim-peekaboo'             " Peek into register contents easily
 Plug 'romainl/vim-qlist'|                " Reminder to check out how to use the quickfix list
 Plug 'godlygeek/tabular'|                " Table creation
-if !has('nvim')
-  Plug 'jszakmeister/vim-togglecursor'
-endif
+Plug 'jszakmeister/vim-togglecursor'
 
 Plug 'andymass/vim-matchup'|             " % on steroids
 let g:matchup_matchparen_status_offscreen = 0
