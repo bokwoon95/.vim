@@ -995,7 +995,7 @@ if has('nvim')
     autocmd TermOpen * setlocal nonumber norelativenumber
   augroup END
   "{{{Escaping, Renaming & Opening Terminal Buffers
-  tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-\><C-\> <C-\><C-n>
   tnoremap <A-t><A-e> <C-\><C-n>:terminal<CR>
   nnoremap <A-t><A-e> :terminal<CR>
   tnoremap <A-t><A-s> <C-\><C-n>:sp +te<CR>
