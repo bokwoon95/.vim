@@ -762,6 +762,7 @@ nnoremap ]q :cnext<CR>
 " :%s/^/\=printf('%03d', line('.')) create a padded column of incrementing numbers
 " You can pipe the regex matches from :global into :substitute!
 " vim --startuptime vim.log to profile your vim startup
+" \_. is the turbo version of . which matches newline characters, allowing for regex matching over multiple lines
 "}}}
 "{{{ iabbreviations nonrecursive
 "The double backslash is needed so vim doesn't complain
