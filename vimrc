@@ -541,8 +541,8 @@ fun! DuplicateLineSavePosition() abort
     execute "normal! yyp".colnum."|"
 endfun
 inoremap <C-t> <Esc>`^:call DuplicateLineSavePosition()<CR>a<C-g>u
-command! Gitmergesearch let @/="^<<<<<<< HEAD$\\|^>>>>>>> [a-z0-9]\\{40}$\\|^=======$"
-command! GMS /^<<<<<<< HEAD$\|^>>>>>>> [a-z0-9]\{40}$\|^=======$
+command! Gitmergesearch let @/="^<<<<<<< .*$\\|^>>>>>>> .*$\\|^=======$"
+command! GMS /^<<<<<<< .*$\|^>>>>>>> .*$\|^=======$
 fun! Checkt(...) abort
   let checkt_all = a:0 >= 1 ? a:1 : 0
   if checkt_all==1
