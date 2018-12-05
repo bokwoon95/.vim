@@ -763,6 +763,7 @@ nnoremap ]q :cnext<CR>
 " You can pipe the regex matches from :global into :substitute!
 " vim --startuptime vim.log to profile your vim startup
 " \_. is the turbo version of . which matches newline characters, allowing for regex matching over multiple lines
+" :redir @<register> to start recording Ex command outputs to <register>, :redir END to stop
 "}}}
 "{{{ iabbreviations nonrecursive
 "The double backslash is needed so vim doesn't complain
