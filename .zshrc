@@ -201,6 +201,9 @@ fi
 ##############
 
 export EDITOR='vim'
+if [[ -d ~/minvim/ && -f ~/minvim/min.vim ]]; then
+  alias minvim="vim -u ~/minvim/min.vim"
+fi
 alias bx="brew upgrade && brew cleanup"
 
 # Must-have shortcuts
@@ -423,28 +426,29 @@ fi
 alias sv="source venv/bin/activate"
 
 # Git aliases
-alias  gac-Add-commit-and-push="git add . && git commit && git push origin master" #stage everything, create new commit and push in one step
-alias  gak-Add-kommit-amend-and-push-force="git add . && git commit --amend --no-edit && git push -f origin master" #stage & commit everything into previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
-alias  gko-kommit-amend-and-push-force="git commit --amend --no-edit && git push -f origin master" #commit whatever's been staged into the previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
+alias  gac-Add-commit-and-push="git add . && git commit -v && git push origin master" #stage everything, create new commit and push in one step
+alias  gak-Add-kommit-amend-and-push-force="git add . && git commit -v --amend --no-edit && git push -f origin master" #stage & commit everything into previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
+alias  gko-kommit-amend-and-push-force="git commit -v --amend --no-edit && git push -f origin master" #commit whatever's been staged into the previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
 alias gx="git status"
 alias ga="git add"
+alias ga.="git add ."
 alias gap="git add -p"
 gco () {
 if [[ "$#" -eq 0 ]]; then
-  git commit
+  git commit -v
 else
-  git commit -m "$@"
+  git commit -vm "$@"
 fi
 }
 gca () {
 if [[ "$#" -eq 0 ]]; then
-  git add .; git commit -a
+  git add .; git commit -va
 else
-  git add .; git commit -am "$@"
+  git add .; git commit -vam "$@"
 fi
 }
-alias gka="git add . && git commit --amend --no-edit"
-alias gko="git commit --amend --no-edit"
+alias gka="git add . && git commit -v --amend --no-edit"
+alias gko="git commit -v --amend --no-edit"
 alias gps="git push"
 alias gc="git checkout"
 alias gb="git branch"
