@@ -556,6 +556,7 @@ fun! Checkt(...) abort
 endfun
 command! EE call Checkt()
 command! EA call Checkt(1)
+xmap <S-Tab> %
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-d>
