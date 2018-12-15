@@ -21,7 +21,7 @@ setopt extended_glob # treat #, ~, and ^ as part of patterns for filename genera
 # setopt hist_reduce_blanks # Remove extra blanks from each command line being added to history
 # setopt hist_verify # don't execute, just expand history
 # setopt share_history # imports new commands and appends typed commands to history
-# ZSH History 
+# ZSH History
 alias history='fc -fl 1'
 HISTFILE=~/.zsh_history
 SAVEHIST=10000                              # Big history
@@ -29,7 +29,7 @@ HISTSIZE=10000                              # Big history
 setopt EXTENDED_HISTORY                     # Include more information about when the command was executed, etc
 setopt APPEND_HISTORY                       # Allow multiple terminal sessions to all append to one zsh command history
 setopt HIST_FIND_NO_DUPS                    # When searching history don't display results already cycled through twice
-setopt HIST_EXPIRE_DUPS_FIRST               # When duplicates are entered, get rid of the duplicates first when we hit $HISTSIZE 
+setopt HIST_EXPIRE_DUPS_FIRST               # When duplicates are entered, get rid of the duplicates first when we hit $HISTSIZE
 setopt HIST_IGNORE_SPACE                    # Don't enter commands into history if they start with a space
 setopt HIST_VERIFY                          # makes history substitution commands a bit nicer. I don't fully understand
 setopt SHARE_HISTORY                        # Shares history across multiple zsh sessions, in real time
@@ -99,14 +99,19 @@ zstyle ':completion:*' menu select
 setopt MENU_COMPLETE
 
 # Prompt
-export PS1="%B%~%b"
+if [[ $(uname) = 'Darwin' ]]; then
+  export MYIP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
+else
+  export MYIP=$(ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | tail -1 | cut -d: -f2 | awk '{ print $1}')
+fi
+export PS1=$MYIP" %M %B%~%b"
 # vcs
 autoload -Uz vcs_info
 precmd () { vcs_info }
 setopt prompt_subst
 PS1="$PS1\$vcs_info_msg_0_"
 # prompt-end
-PS1="$PS1"$'\n'"%B$%b "
+PS1="$PS1"$'\n'"%n%B$%b "
 
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
