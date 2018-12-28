@@ -104,7 +104,11 @@ if [[ $(uname) = 'Darwin' ]]; then
 else
   export MYIP=$(ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | tail -1 | cut -d: -f2 | awk '{ print $1}')
 fi
-export PS1=$MYIP" %M %B%~%b"
+if [[ "$MYIP" == "" ]]; then
+  export PS1="%M %B%~%b"
+else
+  export PS1=$MYIP" %M %B%~%b"
+fi
 # vcs
 autoload -Uz vcs_info
 precmd () { vcs_info }
