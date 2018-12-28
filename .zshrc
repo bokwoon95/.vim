@@ -134,7 +134,7 @@ alias eall="osascript -e 'tell application \"Finder\" to eject (every disk whose
 # Sudo shit
 # Defaults !tty_tickets
 # Defaults timestamp_timeout=30
-alias sunlock="sudo chmod -R 777 ."
+alias gunlock="sudo chmod -R a+rw .git/*"
 
 # PATH setting
 # path+=("~/.config/composer/vendor/bin")
