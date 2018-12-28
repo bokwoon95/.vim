@@ -270,6 +270,8 @@ testt () {
   fi
   return $result
 }
+alias sudo='sudo '
+sudoe () { sudo bash -c "$(declare -f $1); $@" }
 
 # misc
 alias py="python3"
