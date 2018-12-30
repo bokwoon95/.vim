@@ -99,15 +99,41 @@ zstyle ':completion:*' menu select
 setopt MENU_COMPLETE
 
 # Prompt
+# macOS: https://apple.stackexchange.com/a/147777
+dumpIpForInterface() {
+  IT=$(ifconfig "$1") 
+  if [[ "$IT" != *"status: active"* ]]; then
+    return
+  fi
+  if [[ "$IT" != *" broadcast "* ]]; then
+    return
+  fi
+  echo "$IT" | grep "inet " | grep -v 127.0.0.1 | awk '{print $2}'
+}
+ipmain() {
+  # snagged from here: https://superuser.com/a/627581/38941
+  DEFAULT_ROUTE=$(route -n get 0.0.0.0 2>/dev/null | awk '/interface: / {print $2}')
+  if [ -n "$DEFAULT_ROUTE" ]; then
+    dumpIpForInterface "$DEFAULT_ROUTE"
+  else
+    for i in $(ifconfig -s | awk '{print $1}' | awk '{if(NR>1)print}')
+    do 
+      if [[ $i != *"vboxnet"* ]]; then
+        dumpIpForInterface "$i"
+      fi
+    done
+  fi
+}
 if [[ $(uname) = 'Darwin' ]]; then
-  export MYIP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
+  # export MYIP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
+  export MYIP=$(ipmain)
 else
   export MYIP=$(ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | tail -1 | cut -d: -f2 | awk '{ print $1}')
 fi
 if [[ "$MYIP" == "" ]]; then
   export PS1="%M %B%~%b"
 else
-  export PS1=$MYIP" %M %B%~%b"
+  export PS1="%B"$MYIP"%b %M %B%~%b"
 fi
 # vcs
 autoload -Uz vcs_info
