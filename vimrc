@@ -424,7 +424,12 @@ augroup Checkt
 augroup END
 autocmd! Filetype vim setlocal foldmethod=marker ts=2 sts=2 sw=2 et
 set foldtext=repeat('\ ',indent(v:foldstart)).foldtext()
-set infercase dictionary+=~/.vim/words
+set infercase
+if !empty(glob('~/.vim/words'))
+  set dictionary+=~/.vim/words
+elseif !empty(glob('~/vimfiles/words'))
+  set dictionary+=~/vimfiles/words
+endif
 
 " Survival Pack
 noremap <C-j> 5gj
