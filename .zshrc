@@ -36,6 +36,7 @@ setopt SHARE_HISTORY                        # Shares history across multiple zsh
 setopt HIST_IGNORE_DUPS                     # Do not write events to history that are duplicates of the immediately previous event
 setopt INC_APPEND_HISTORY                   # Add commands to history as they are typed, don't wait until shell exit
 setopt HIST_REDUCE_BLANKS                   # Remove extra blanks from each command line being added to history
+setopt histignorespace
 
 # ===== Completion
 # setopt always_to_end # When completing from the middle of a word, move the cursor to the end of the word

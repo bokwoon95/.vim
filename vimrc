@@ -541,7 +541,7 @@ fun! DuplicateLineSavePosition() abort
     let colnum = col('.')
     execute "normal! yyp".colnum."|"
 endfun
-inoremap <C-t> <Esc>`^:call DuplicateLineSavePosition()<CR>a<C-g>u
+inoremap <C-l> <Esc>`^:call DuplicateLineSavePosition()<CR>a<C-g>u
 command! Gitmergesearch let @/="^<<<<<<< .*$\\|^>>>>>>> .*$\\|^=======$"
 command! GMS /^<<<<<<< .*$\|^>>>>>>> .*$\|^=======$
 fun! Checkt(...) abort
@@ -558,6 +558,7 @@ endfun
 command! EE call Checkt()
 command! EA call Checkt(1)
 xmap <S-Tab> %
+inoremap <C-g><C-d> <C-d>| "C-t indents, C-g C-d de-indents in insert mode
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-d>
