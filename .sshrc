@@ -7,7 +7,11 @@ alias lsl="ls -alF"
 alias cp="cp -v"
 alias mv="mv -v"
 cdd () {
-  cd "$1" && pwd && ls;
+  if [[ "$#" -eq 0 ]]; then
+    cd && pwd && ls
+  else
+    cd "$1" && pwd && ls;
+  fi
 }
 mkcd () {
   mkdir -p -- "$1" &&
@@ -20,4 +24,45 @@ testt () {
   else
     echo False
   fi
+}
+alias sudo='sudo '
+sudoe () { 
+  sudo bash -c "$(declare -f $1); $@"
+}
+alias  gac-Add-commit-and-push="git add . && git commit -v && git push origin master"
+alias  gak-Add-kommit-amend-and-push-force="git add . && git commit -v --amend --no-edit && git push -f origin master"
+alias  gko-kommit-amend-and-push-force="git commit -v --amend --no-edit && git push -f origin master"
+alias gx="git status"
+alias ga="git add"
+alias ga.="git add ."
+alias gap="git add -p"
+gco () {
+if [[ "$#" -eq 0 ]]; then
+  git commit -v
+else
+  git commit -vm "$@"
+fi
+}
+gca () {
+if [[ "$#" -eq 0 ]]; then
+  git add .; git commit -va
+else
+  git add .; git commit -vam "$@"
+fi
+}
+alias gka="git add . && git commit -v --amend --no-edit"
+alias gko="git commit -v --amend --no-edit"
+alias gps="git push"
+alias gc="git checkout"
+alias gb="git branch"
+alias gcb="git checkout -b"
+alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
+alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gsp-slave-pull="git fetch --all && git reset --hard origin/master"
+alias grs="git reset --soft HEAD~1"
+alias gr.="git reset ."
+alias gcheckdangling="git fsck --unreachable --no-reflogs"
+gprunedangling () {
+  git reflog expire --expire-unreachable=now --all
+  git gc --prune=now
 }
