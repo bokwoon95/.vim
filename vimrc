@@ -497,7 +497,10 @@ nnoremap <Leader>ss :%s//g<Left><Left>
 xnoremap <Leader>ss :s//g<Left><Left>
 xnoremap <Leader>tbts :s/	/    /g<Left><Left>| "convert tab to 4 spaces for visual selection
 nnoremap <Leader>tbts :%s/	/    /g<Left><Left>| "convert tab to 4 spaces in normal mode
-nnoremap <Leader>rr gg=G``:echo 'File reindented'<CR>| "reindent file without losing cursor position
+nnoremap <Leader>rr :let b:wsv=winsaveview()<CR>
+            \gg=G
+            \:silent! call winrestview(b:wsv)<CR>
+            \:echo 'File reindented'<CR>| "reindent file without losing cursor position
 nnoremap <M-v> ^vg_| "V but w/o newline char
 nnoremap yd ^yg_"_dd| "dd but w/o newline char
 noremap <M-d> "_d| "Black_hole delete without saving to register
@@ -511,7 +514,12 @@ nnoremap <Leader>fc :let<Space>@+=expand('%:p')<CR>| "copy file's full path+file
 cnoremap <C-k> <C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>| "kill from current position to EOL
 cnoremap <C-y> <C-r>+
 cnoremap <M-y> <C-r>"
-nnoremap <Leader>ww m`:%s/\s\+$//e<CR>``:echo '+++ Trailing whitespaces purged +++'<CR>| "Kill all orphan whitespaces
+nnoremap <Leader>ww :let b:wsv=winsaveview()<CR>
+      \:let b:old_search=@/<CR>
+      \:%s/\s\+$//e<CR>
+      \:let @/=b:old_search<CR>
+      \:silent! call winrestview(b:wsv)<CR>
+      \:echo '+++ Trailing whitespaces purged +++'<CR>| "Kill all orphan whitespaces
 xnoremap <silent> * :<C-u>
       \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
       \gvy/<C-R><C-R>=substitute(
@@ -536,8 +544,24 @@ xnoremap <Leader>ttc gugv:s/\v^\a\|\:\s\a\|<%(in>\|the>\|at>\|with>\|a>\|and>\|f
   "^titlecase that excludes words in the list (also works on all types of caps by converting eveything to small caps first)
   ":s/\v^\a|\:\s\a|<%(in>|the>|at>|with>|a>|and>|for>|of>|on>|from>|by>)@!\a/\U&/g
   "^ the bar characters must be escaped ie '\|'
-nnoremap <expr> <C-x><C-r> &diff ? ":windo diffoff<CR>:windo diffthis<CR>" : ""
-nnoremap <expr> <C-x><C-d> &diff ? "dd<C-w><C-w>yy<C-w><C-p>Pj" : ""
+nnoremap <expr> <C-x><C-r> &diff ? "
+            \:let g:prevwin=win_getid()<CR>
+            \:let b:wsv=winsaveview()<CR>
+            \:windo diffoff<CR>:windo diffthis<CR>
+            \:silent! call win_gotoid(g:prevwin)<CR>
+            \:silent! call winrestview(b:wsv)<CR>
+            \": ""
+nnoremap <expr> <C-x><C-d> &diff ?
+            \"dd<C-w><C-w>yy<C-w><C-p>Pj"
+            \: ""
+nnoremap <expr> <C-x><C-x><C-d> &diff ? "
+            \:let g:prevwin=win_getid()<CR>
+            \:let b:wsv=winsaveview()<CR>
+            \dd<C-w><C-w>yy<C-w><C-p>Pj
+            \:windo diffoff<CR>:windo diffthis<CR>
+            \:silent! call win_gotoid(g:prevwin)<CR>
+            \:silent! call winrestview(b:wsv)<CR>
+            \": ""
 cnoremap <C-j> <Down>
 nnoremap gh `[v`]| "Select last pasted text
 nnoremap <expr> <C-c><C-c> bufname("") == "[Command Line]" ? ":close<CR>" : ""
@@ -730,8 +754,14 @@ nnoremap [os :setlocal spell<CR>
 nnoremap ]os :setlocal nospell<CR>
 nnoremap [od :diffthis<CR>
 nnoremap ]od :diffoff<CR>
-nnoremap [wd m`:windo diffthis<CR><C-w><C-p>``zz
-nnoremap ]wd m`:diffoff!<CR>``zz
+nnoremap [wd :let g:prevwin=win_getid()<CR>
+      \:let b:wsv=winsaveview()<CR>
+      \:windo diffthis<CR>
+      \:silent! call win_gotoid(g:prevwin)<CR>
+      \:silent! call winrestview(b:wsv)<CR>
+nnoremap ]wd :let b:wsv=winsaveview()<CR>
+      \:diffoff!<CR>
+      \:silent! call winrestview(b:wsv)<CR>
 nnoremap [on :setlocal number<CR>
 nnoremap ]on :setlocal nonumber<CR>
 nnoremap [b :bprev<CR>
@@ -1011,7 +1041,7 @@ function! Redir(cmd)
     execute a:cmd
     redir END
   endif
-  vnew
+  new
   let w:scratch = 1
   setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nonumber
   call setline(1, split(output, "\n"))
