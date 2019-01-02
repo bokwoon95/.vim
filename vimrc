@@ -590,6 +590,7 @@ nnoremap <Leader>iv :e<Space>~/.vim/vimrc<CR>
 "{{{ UTF8 Macros
 inoremap <M-q><M-a> <C-v>u25c6<Space>| "◆ Db
 inoremap <M-q><M-b> <C-v>u2022<Space>| "•
+  inoremap <M-q>b <C-v>u2022<Space>| "•
 inoremap <M-q><M-c> <C-v>u25e6<Space>| "◦
 inoremap <M-q><M-d> <C-v>u25c7<Space>| "◇ Dw
 inoremap <M-q><M-l> <C-v>u2502| "│ vv
@@ -772,6 +773,7 @@ nnoremap ]q :cnext<CR>
 " vim --startuptime vim.log to profile your vim startup
 " \_. is the turbo version of . which matches newline characters, allowing for regex matching over multiple lines
 " :redir @<register> to start recording Ex command outputs to <register>, :redir END to stop
+" To specify a case sensitive search pattern, append '\C'. (conversely, '\c' for a case insensitivite pattern)
 "}}}
 "{{{ iabbreviations nonrecursive
 "The double backslash is needed so vim doesn't complain
@@ -993,6 +995,31 @@ function! Eatchar(pat)
   let c = nr2char(getchar(0))
   return (c =~ a:pat) ? '' : c
 endfunction
+"}}}
+"{{{ Redir
+" https://gist.github.com/romainl/eae0a260ab9c135390c30cd370c20cd7
+function! Redir(cmd)
+  for win in range(1, winnr('$'))
+    if getwinvar(win, 'scratch')
+      execute win . 'windo close'
+    endif
+  endfor
+  if a:cmd =~ '^!'
+    let output = system(matchstr(a:cmd, '^!\zs.*'))
+  else
+    redir => output
+    execute a:cmd
+    redir END
+  endif
+  vnew
+  let w:scratch = 1
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nonumber
+  call setline(1, split(output, "\n"))
+endfunction
+command! -nargs=1 -complete=command Redir silent call Redir(<q-args>)
+" Usage:
+" 	:Redir hi ............. show the full output of command ':hi' in a scratch window
+" 	:Redir !ls -al ........ show the full output of command ':!ls -al' in a scratch window
 "}}}
 "}}}
 
