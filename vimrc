@@ -375,7 +375,7 @@ xmap <C-c><C-e> <Plug>SlimeRegionSend
 nmap <C-c><C-e> <Plug>SlimeParagraphSend
 nmap <C-c><C-s> <Plug>SlimeLineSend
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_info_mode = 'guru'
