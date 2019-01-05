@@ -815,7 +815,7 @@ inoreabbr \date\ <C-r>=strftime("%d-%b-%Y")<CR><C-r>=Eatchar('\m\s\<Bar>/')<CR>
 set viewoptions=folds "let vop save only folds, and nothing else
 fun! Makeview(...) abort
   let force_makeview = a:0 >= 1 ? a:1 : 0
-  let viewfile = expand('%:p:h') . "/v__" . expand('%:t:r') . expand('%:e')
+  " let viewfile = expand('%:p:h') . "/v__" . expand('%:t:r') . expand('%:e')
   let viewfolder = expand('%:p:h') . "/.v__views"
   let viewfile = viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
   if filereadable(viewfile) || force_makeview==1
@@ -823,16 +823,14 @@ fun! Makeview(...) abort
       execute "execute mkdir('" . viewfolder . "', 'p')"
     endif
     execute "mkview! ".viewfile
-    execute "keepalt split ".viewfile
-    execute 'norm! 3G"_dd'
-    execute "w| bd"
+    execute "keepalt vsplit ".viewfile."| 3d _| w| bd"
     if force_makeview==1
       echo "saved view in ".viewfile
     endif
   endif
 endfun
 fun! Loadview() abort
-  let viewfile = expand('%:p:h') . "/v__" . expand('%:t:r') . expand('%:e')
+  " let viewfile = expand('%:p:h') . "/v__" . expand('%:t:r') . expand('%:e')
   let viewfolder = expand('%:p:h') . "/.v__views"
   let viewfile = viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
   if filereadable(viewfile)
@@ -848,7 +846,9 @@ command! MKV call Makeview(1)
 command! LDV call Loadview()
 augroup AutosaveView
   autocmd!
-  au BufWrite,VimLeave * call Makeview()
+  au BufWrite,VimLeave * silent! call Makeview()
+  " au BufWinLeave,VimLeave * silent! call Makeview()
+  "    ^^^using bufwinleave triggers some buffer deleted unexpectedly by autocmd error
   au BufRead * silent! call Loadview()
 augroup END
 "}}}
@@ -1041,7 +1041,7 @@ function! Redir(cmd)
     execute a:cmd
     redir END
   endif
-  new
+  vnew
   let w:scratch = 1
   setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nonumber
   call setline(1, split(output, "\n"))
