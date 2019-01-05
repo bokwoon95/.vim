@@ -106,7 +106,7 @@ Plug 'xtal8/traces.vim'                  " Neovim's inccommand
 Plug 'wellle/targets.vim'|               " Extended text editing objects
 Plug 'tpope/vim-surround'|               " Effortlessly replace brackets, quotes and HTML tags
 Plug 'tpope/vim-repeat'|                 " repeat vim-surround
-Plug 'drzel/vim-in-proportion'|          " Preserve split proportions when resizing vim
+" Plug 'drzel/vim-in-proportion'|          " Preserve split proportions when resizing vim
 Plug 'junegunn/vim-peekaboo'             " Peek into register contents easily
 Plug 'romainl/vim-qlist'|                " Reminder to check out how to use the quickfix list
 Plug 'godlygeek/tabular'|                " Table creation
@@ -387,6 +387,9 @@ let g:go_highlight_function_calls = 1
 let g:go_highlight_types = 1
 let g:go_fmt_autosave = 0
 
+Plug 'inkarkat/vim-ingo-library'
+Plug 'inkarkat/vim-SpellCheck'
+
 silent! call plug#end()
 "}}}
 
@@ -423,6 +426,7 @@ augroup Checkt
   autocmd FocusGained,BufEnter * checktime " To trigger vim's autoread on focus gained or buffer enter
 augroup END
 autocmd! Filetype vim setlocal foldmethod=marker ts=2 sts=2 sw=2 et
+command! GMS /^<<<<<<< .*$\|^>>>>>>> .*$\|^=======$
 set foldtext=repeat('\ ',indent(v:foldstart)).foldtext()
 set infercase
 if !empty(glob('~/.vim/words'))
@@ -572,7 +576,6 @@ fun! DuplicateLineSavePosition() abort
 endfun
 inoremap <C-l> <Esc>`^:call DuplicateLineSavePosition()<CR>a<C-g>u
 command! Gitmergesearch let @/="^<<<<<<< .*$\\|^>>>>>>> .*$\\|^=======$"
-command! GMS /^<<<<<<< .*$\|^>>>>>>> .*$\|^=======$
 fun! Checkt(...) abort
   let checkt_all = a:0 >= 1 ? a:1 : 0
   if checkt_all==1
@@ -686,7 +689,9 @@ nnoremap <C-c> <NOP>| "Disable default C-c behavior to use it for custom mapping
 nnoremap <C-x> <NOP>| "Disable default C-x behavior to use it for custom mappings
 cnoremap <expr> <C-g> getcmdtype() == "/" \|\| getcmdtype() == "?" ? "<C-g>" : "<C-c><Esc>"
 nnoremap <expr> <C-g> bufname("") =~ "NERD_tree_\\d"  ? ":NERDTreeToggle<CR>" :
-                    \ bufname("") == "[Command Line]" ? ":close<CR>" : "<C-g>"
+                    \ bufname("") == "[Command Line]" ? ":close<CR>" :
+                    \ getwininfo(win_getid())[0]['quickfix'] ? ":cclose<CR>" :
+                    \ getwininfo(win_getid())[0]['loclist'] ? ":lclose<CR>" : "<C-g>"
                     " see :h expression-syntax for why =~ over ==
 "undo
 inoremap <C-_> <C-o>u<C-o>u
