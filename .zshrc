@@ -466,7 +466,8 @@ alias sv="source venv/bin/activate"
 # Git aliases
 alias  gac-Add-commit-and-push="git add . && git commit -v && git push origin master" #stage everything, create new commit and push in one step
 alias  gak-Add-kommit-amend-and-push-force="git add . && git commit -v --amend --no-edit && git push -f origin master" #stage & commit everything into previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
-alias  goc-kommit-amend-and-push-force="git commit -v --amend --no-edit && git push -f origin master" #commit whatever's been staged into the previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
+alias  goc-commit-amend-and-push="git commit -v && git push origin master" #commit whatever's been staged into the previous commit and push in one step (DO NOT USE FOR SHARED REPOSITORIES)
+alias  gok-kommit-amend-and-push-force="git commit -v --amend --no-edit && git push -f origin master" #commit whatever's been staged into the previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
 alias gx="git status"
 alias ga="git add"
 alias ga.="git add ."
@@ -518,7 +519,7 @@ ghclone-bw () {
 alias gcheckdangling="git fsck --unreachable --no-reflogs"
 gprunedangling () {
   git reflog expire --expire-unreachable=now --all
-  # git gc --prune=now
+  git gc --prune=now
 }
 gdif () {
   if [[ -f ~/.vim/diff-highlight ]];then
