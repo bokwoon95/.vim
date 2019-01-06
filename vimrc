@@ -819,36 +819,37 @@ inoreabbr \date\ <C-r>=strftime("%d-%b-%Y")<CR><C-r>=Eatchar('\m\s\<Bar>/')<CR>
 "{{{ Views
 set viewoptions=folds "let vop save only folds, and nothing else
 fun! Makeview(...) abort
-  let force_makeview = a:0 >= 1 ? a:1 : 0
-  " let viewfile = expand('%:p:h') . "/v__" . expand('%:t:r') . expand('%:e')
-  let viewfolder = expand('%:p:h') . "/.v__views"
-  let viewfile = viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
-  if filereadable(viewfile) || force_makeview==1
-    if force_makeview==1 "I suspect this is a bug that the cursor keeps gg-ing
-      execute "execute mkdir('" . viewfolder . "', 'p')"
+  let b:force_makeview = a:0 >= 1 ? a:1 : 0
+  let b:viewfolder = expand('%:p:h') . "/.v__views"
+  let b:viewfile = b:viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
+  if filereadable(b:viewfile) || b:force_makeview==1
+    if b:force_makeview==1 "I suspect this is a bug that the cursor keeps gg-ing
+      execute "execute mkdir('" . b:viewfolder . "', 'p')"
     endif
-    execute "mkview! ".viewfile
-    execute "keepalt vsplit ".viewfile."| 3d _| w| bd"
-    if force_makeview==1
-      echo "saved view in ".viewfile
+    execute "mkview! ".b:viewfile
+    execute "keepalt vsplit ".b:viewfile."| 3d _| w| bd"
+    if b:force_makeview==1
+      echo "saved view in ".b:viewfile
     endif
   endif
 endfun
-fun! Loadview() abort
-  " let viewfile = expand('%:p:h') . "/v__" . expand('%:t:r') . expand('%:e')
-  let viewfolder = expand('%:p:h') . "/.v__views"
-  let viewfile = viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
-  if filereadable(viewfile)
-    execute "silent! source ".viewfile
-    echo "loaded view from ".viewfile
+fun! Loadview(...) abort
+  let b:force_loadview = a:0 >= 1 ? a:1 : 0
+  let b:viewfolder = expand('%:p:h') . "/.v__views"
+  let b:viewfile = b:viewfolder . "/v__" . expand('%:t:r') . expand('%:e')
+  if filereadable(b:viewfile)
+    execute "silent! source ".b:viewfile
+    if b:force_loadview==1
+      echo "viewfile loaded from: ".b:viewfile
+    endif
   else
     " this else conditional is for debugging purposes
-    echo "viewfile not found in: ".viewfile
+    echo "viewfile not found in: ".b:viewfile
   endif
 endfun
 command! Mkview call Makeview(1)
 command! MKV call Makeview(1)
-command! LDV call Loadview()
+command! LDV call Loadview(1)
 augroup AutosaveView
   autocmd!
   au BufWrite,VimLeave * silent! call Makeview()
