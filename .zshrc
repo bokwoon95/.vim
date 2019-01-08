@@ -307,6 +307,19 @@ krename () {
   kitty @ set-tab-title "$1";
 }
 alias rmt="rmtrash"
+gck () {
+  if [[ "$#" -eq 0 ]]; then
+    if [ -z ${CLASTFILE+x} ]; then
+      echo "\$LASTCFILE not set, pleace run gck with a .c file first"
+    else
+      gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"
+      ./"$CLASTFILE"".out"
+    fi
+  else
+    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c:\1:")
+    ./"$CLASTFILE"".out"
+  fi
+}
 
 # youtube-dl aliases
 youtube-dl3 () {
