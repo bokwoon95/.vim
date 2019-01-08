@@ -319,8 +319,14 @@ gck () {
   else
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
     if [[ "$CLASTFILE" != "$1" ]]; then
-      if gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+      if gcc -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         ./"$CLASTFILE"".out"
+      elif gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        echo "warning present, continue? y/n (leave blank for \"y\")"
+        read CONTINUE
+        if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+          ./"$CLASTFILE"".out"
+        fi
       fi
     else
       CLASTFILE=""
