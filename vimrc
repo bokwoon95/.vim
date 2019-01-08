@@ -771,6 +771,8 @@ nnoremap [on :setlocal number<CR>
 nnoremap ]on :setlocal nonumber<CR>
 nnoremap [oc :setlocal cursorline<CR>
 nnoremap ]oc :setlocal nocursorline<CR>
+nnoremap [ov :setlocal virtualedit=all<CR>
+nnoremap ]ov :setlocal virtualedit=<CR>
 nnoremap [b :bprev<CR>
 nnoremap ]b :bnext<CR>
 nnoremap [l :lprevious<CR>

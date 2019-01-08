@@ -310,15 +310,17 @@ alias rmt="rmtrash"
 gck () {
   if [[ "$#" -eq 0 ]]; then
     if [ -z ${CLASTFILE+x} ]; then
-      echo "\$LASTCFILE not set, pleace run gck with a .c file first"
+      echo "\$CLASTFILE not set, pleace run gck with a .c file first"
     else
-      gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"
-      ./"$CLASTFILE"".out"
+      if gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        ./"$CLASTFILE"".out"
+      fi
     fi
   else
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c:\1:")
-    gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"
-    ./"$CLASTFILE"".out"
+    if gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+      ./"$CLASTFILE"".out"
+    fi
   fi
 }
 
