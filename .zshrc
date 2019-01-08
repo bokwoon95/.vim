@@ -309,7 +309,7 @@ krename () {
 alias rmt="rmtrash"
 gck () {
   if [[ "$#" -eq 0 ]]; then
-    if [ -z ${CLASTFILE+x} ]; then
+    if [[ "$CLASTFILE" == "" ]]; then
       echo "\$CLASTFILE not set, pleace run gck with a .c file first"
     else
       if gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
@@ -317,9 +317,13 @@ gck () {
       fi
     fi
   else
-    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c:\1:")
-    if gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-      ./"$CLASTFILE"".out"
+    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    if [[ "$CLASTFILE" != "$1" ]]; then
+      if gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        ./"$CLASTFILE"".out"
+      fi
+    else
+      CLASTFILE=""
     fi
   fi
 }
