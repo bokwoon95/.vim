@@ -317,6 +317,7 @@ gck () {
     fi
   else
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c:\1:")
+    gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"
     ./"$CLASTFILE"".out"
   fi
 }
