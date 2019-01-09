@@ -312,16 +312,16 @@ gck () {
     if [[ "$CLASTFILE" == "" ]]; then
       echo "\$CLASTFILE not set, pleace run gck with a .c file first"
     else
-      if gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+      if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         ./"$CLASTFILE"".out"
       fi
     fi
   else
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
     if [[ "$CLASTFILE" != "$1" ]]; then
-      if gcc -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+      if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         ./"$CLASTFILE"".out"
-      elif gcc -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+      elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         echo "warning present, continue? y/n (leave blank for \"y\")"
         read CONTINUE
         if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
@@ -333,6 +333,7 @@ gck () {
     fi
   fi
 }
+alias ldb="PATH=/usr/bin /usr/bin/lldb"
 
 # youtube-dl aliases
 youtube-dl3 () {
@@ -341,11 +342,6 @@ if [[ "$#" -eq 0 ]]; then
 else
   for filename in "$@"; do
     youtube-dl -x --audio-format mp3 "$filename"
-    # if [[ "${filename}" =~ .*www.youtube.com/watch?.* ]]; then
-    #   youtube-dl -x --audio-format mp3 "$filename"
-    # else
-    #   echo "$filename is not a youtube link"
-    # fi
   done
 fi
 }
@@ -355,13 +351,6 @@ if [[ "$#" -eq 0 ]]; then
 else
   for filename in "$@"; do
     youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "$filename"
-    # if [[ "${filename}" =~ .*www.youtube.com/watch?.* ]]; then
-    #   youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "$filename"
-    # else
-    #   echo "================================================================================"
-    #   echo "$filename is not a youtube link"
-    #   echo "================================================================================"
-    # fi
   done
 fi
 }
