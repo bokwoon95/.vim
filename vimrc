@@ -321,10 +321,12 @@ let g:ale_linters = {
   \ 'ocaml': ['merlin'],
   \ 'python': ['flake8'],
   \ 'sh': ['shellcheck'],
+  \ 'zsh': ['shellcheck'],
   \ 'go': ['gofmt','goimports'],
   \ 'javascript': ['eslint'],
   \ 'html': ['htmlhint'],
   \ 'css': ['csslint'],
+  \ 'c': ['clang'],
   \}
 let g:ale_set_signs = 0
 " let g:ale_sign_column_always = 1
@@ -371,6 +373,7 @@ elseif !has('nvim')
   let g:slime_target = "vimterminal"
 endif
 let g:slime_no_mappings=1
+cabbrev slimc let @s=split($TMUX, ",")[0] \| SlimeConfig
 xmap <C-c><C-e> <Plug>SlimeRegionSend
 nmap <C-c><C-e> <Plug>SlimeParagraphSend
 nmap <C-c><C-s> <Plug>SlimeLineSend
@@ -434,6 +437,8 @@ if !empty(glob('~/.vim/words'))
 elseif !empty(glob('~/vimfiles/words'))
   set dictionary+=~/vimfiles/words
 endif
+set spellfile=~/.vim/spell/en.utf-8.add
+set spellcapcheck=
 
 " Survival Pack
 noremap <C-j> 5gj
@@ -571,10 +576,10 @@ nnoremap gh `[v`]| "Select last pasted text
 nnoremap <expr> <C-c><C-c> bufname("") == "[Command Line]" ? ":close<CR>" : ""
 " cnoremap sudow w !sudo tee % >/dev/null
 fun! DuplicateLineSavePosition() abort
-    let colnum = col('.')
+    let colnum = virtcol('.')
     execute "normal! yyp".colnum."|"
 endfun
-inoremap <C-l> <Esc>`^:call DuplicateLineSavePosition()<CR>a<C-g>u
+inoremap <C-l> <Esc>:call DuplicateLineSavePosition()<CR>a<C-g>u
 command! Gitmergesearch let @/="^<<<<<<< .*$\\|^>>>>>>> .*$\\|^=======$"
 fun! Checkt(...) abort
   let checkt_all = a:0 >= 1 ? a:1 : 0
@@ -901,6 +906,7 @@ function! MyHighlights() abort
   hi StatusLineNC ctermfg=103 ctermbg=none cterm=none,underline guibg=bg gui=underline
   hi SpellBad ctermbg=234 ctermfg=15 cterm=bold,underline
   hi SpellCap ctermbg=234 ctermfg=14 cterm=underline
+  hi ALEErrorLine cterm=bold,underline
   hi SignColumn ctermbg=none
   hi ColorColumn ctermbg=234 guibg=grey85
   hi SpecialKey term=bold ctermfg=237 guifg=Grey70

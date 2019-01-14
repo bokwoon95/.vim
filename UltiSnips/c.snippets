@@ -10,3 +10,26 @@ int main(void) {
 	return 0;
 }
 endsnippet
+snippet fun
+${1:void} ${2:function_name}(${3}) {
+	${4}
+}
+endsnippet
+snippet for
+for (${1}; ${2}; ${3}) {
+	${4}
+}
+endsnippet
+snippet forr
+for (${1:i} = ${2:0}; ${3:$1 < 10}; $1${4:++}) {
+	${5}
+}
+endsnippet
+snippet incc
+#include "${1:`vim_snippets#Filename("$1.h")`}"
+endsnippet
+snippet while
+while (${1:/* condition */}) {
+	${0:${VISUAL}}
+}
+endsnippet

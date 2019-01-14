@@ -138,7 +138,9 @@ else
 fi
 # vcs
 autoload -Uz vcs_info
-precmd () { vcs_info }
+precmd () {
+  vcs_info
+}
 setopt prompt_subst
 PS1="$PS1\$vcs_info_msg_0_"
 # prompt-end
@@ -298,7 +300,9 @@ testt () {
   return $result
 }
 alias sudo='sudo '
-sudoe () { sudo bash -c "$(declare -f $1); $@" }
+sudoe () {
+  sudo bash -c "$(declare -f $1); $@"
+}
 
 # misc
 alias py="python3"
@@ -307,10 +311,44 @@ krename () {
   kitty @ set-tab-title "$1";
 }
 alias rmt="rmtrash"
-gck () {
+
+# C
+cck () {
   if [[ "$#" -eq 0 ]]; then
     if [[ "$CLASTFILE" == "" ]]; then
-      echo "\$CLASTFILE not set, pleace run gck with a .c file first"
+      echo "\$CLASTFILE not set, pleace run cck with a .c file first"
+    else
+      if command -v makeheaders >/dev/null 2>&1; then
+        makeheaders "$CLASTFILE"".c"
+      fi
+      if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        ./"$CLASTFILE"".out"
+      fi
+    fi
+  else
+    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    if [[ "$CLASTFILE" != "$1" ]]; then
+      if command -v makeheaders >/dev/null 2>&1; then
+        makeheaders "$CLASTFILE"".c"
+      fi
+      if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        ./"$CLASTFILE"".out"
+      elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        echo "warning present, continue? y/n (leave blank for \"y\")"
+        read CONTINUE
+        if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+          ./"$CLASTFILE"".out"
+        fi
+      fi
+    else
+      CLASTFILE=""
+    fi
+  fi
+}
+ccb () {
+  if [[ "$#" -eq 0 ]]; then
+    if [[ "$CLASTFILE" == "" ]]; then
+      echo "\$CLASTFILE not set, pleace run ccb with a .c file first"
     else
       if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         ./"$CLASTFILE"".out"
@@ -333,7 +371,59 @@ gck () {
     fi
   fi
 }
-alias ldb="PATH=/usr/bin /usr/bin/lldb"
+ldb () {
+  if [[ "$#" -eq 0 ]]; then
+    echo "PATH=/usr/bin /usr/bin/lldb"
+    if [[ "$CLASTFILE" == "" ]]; then
+      echo "\$CLASTFILE not set, pleace run ldb with an .out file first"
+    else
+      if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        PATH=/usr/bin /usr/bin/lldb "$CLASTFILE"".out"
+      fi
+    fi
+  else
+    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.out$:\1:")
+    if [[ "$CLASTFILE" != "$1" ]]; then
+      if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        PATH=/usr/bin /usr/bin/lldb "$CLASTFILE"".out"
+      elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        echo "warning present, continue? y/n (leave blank for \"y\")"
+        read CONTINUE
+        if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+          PATH=/usr/bin /usr/bin/lldb "$CLASTFILE"".out"
+        fi
+      fi
+    else
+      CLASTFILE=""
+    fi
+  fi
+}
+ccn () {
+  if [[ "$#" -eq 0 ]]; then
+    if [[ "$CLASTFILE" == "" ]]; then
+      echo "\$CLASTFILE not set, pleace run ccn with a .c file first"
+    else
+      if cc -lncurses -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        ./"$CLASTFILE"".out"
+      fi
+    fi
+  else
+    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    if [[ "$CLASTFILE" != "$1" ]]; then
+      if cc -lncurses -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        ./"$CLASTFILE"".out"
+      elif cc -lncurses -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        echo "warning present, continue? y/n (leave blank for \"y\")"
+        read CONTINUE
+        if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+          ./"$CLASTFILE"".out"
+        fi
+      fi
+    else
+      CLASTFILE=""
+    fi
+  fi
+}
 
 # youtube-dl aliases
 youtube-dl3 () {
