@@ -295,6 +295,18 @@ if [[ -L ~/.local/bin/sshrc ]]; then
 fi
 ln -s ~/.vim/sshrc ~/.local/bin/sshrc
 
+#~/.config/nvim/Ultisnips
+if [[ -f ~/.config/nvim/Ultisnips && ! -L ~/.config/nvim/Ultisnips ]]; then
+  echo "existing ~/.config/nvim/Ultisnips found, renaming it to ~/.config/nvim/Ultisnips.bak"
+  rm ~/.config/nvim/Ultisnips.bak
+  mv ~/.config/nvim/Ultisnips ~/.config/nvim/Ultisnips.bak
+fi
+echo "symlinking ~/.config/nvim/Ultisnips@"
+if [[ -L ~/.config/nvim/Ultisnips ]]; then
+  unlink ~/.config/nvim/Ultisnips
+fi
+ln -s ~/.vim/sshrc ~/.config/nvim/Ultisnips
+
 #=======================#
 # Download Applications #
 #=======================#

@@ -66,7 +66,7 @@ defaults write com.apple.dock mru-spaces -bool false
 
 # Increase key repeat rate
 defaults write -g InitialKeyRepeat -int 15 # normal minimum is 15 (225 ms)
-defaults write -g KeyRepeat -int 2 # normal minimum is 2 (30 ms)
+defaults write -g KeyRepeat -int 1 # normal minimum is 2 (30 ms)
 
 #Use list view in all Finder windows by default
 # Four-letter codes for the other view modes: icnv, clmv, Flwv"

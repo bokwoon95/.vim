@@ -373,14 +373,14 @@ ccb () {
 }
 ldb () {
   if [[ "$#" -eq 0 ]]; then
-    echo "PATH=/usr/bin /usr/bin/lldb"
-    if [[ "$CLASTFILE" == "" ]]; then
-      echo "\$CLASTFILE not set, pleace run ldb with an .out file first"
-    else
-      if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        PATH=/usr/bin /usr/bin/lldb "$CLASTFILE"".out"
-      fi
-    fi
+    PATH=/usr/bin /usr/bin/lldb
+    # if [[ "$CLASTFILE" == "" ]]; then
+    #   echo "\$CLASTFILE not set, pleace run ldb with an .out file first"
+    # else
+    #   if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+    #     PATH=/usr/bin /usr/bin/lldb "$CLASTFILE"".out"
+    #   fi
+    # fi
   else
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.out$:\1:")
     if [[ "$CLASTFILE" != "$1" ]]; then
