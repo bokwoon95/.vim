@@ -52,6 +52,7 @@ vlc
 vox
 dash
 keycastr
+android-file-transfer
 )
 CASKS_LEN=${#CASKS[@]}
 
