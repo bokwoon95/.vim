@@ -312,6 +312,9 @@ krename () {
 }
 alias rmt="rmtrash"
 
+# Ruby
+eval "$(rbenv init -)"
+
 # C
 cck () {
   if [[ "$#" -eq 0 ]]; then

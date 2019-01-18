@@ -34,9 +34,7 @@ PACKAGES_LEN=${#PACKAGES[@]}
 
 CASKS=(
 spectacle
-dropbox
 box-sync
-macvim
 the-unarchiver
 insomniax
 disk-inventory-x
@@ -47,14 +45,11 @@ evernote
 kitty
 skim
 emacs-mac
-iterm2
-karabiner-elements
 folx
 handbrake
 rcdefaultapp #change default app for everything
 vlc
 vox
-osxfuse
 dash
 keycastr
 )
@@ -106,20 +101,29 @@ echo "Updating Homebrew, prepare for some wait..."
 brew update
 brew upgrade
 
-echo "Installing cask apps..."
 brew tap railwaycat/emacsmacport
-for i in $(seq 1 $CASKS_LEN); do
-  brew cask install ${CASKS[$i]} &
-  # brew cask info ${CASKS[$i]} &
-done
-brew cask install --appdir=/Applications megasync &
-wait
+# Important packages I want to download ASAP
+brew cask install dropbox
+brew cask install osxfuse # required for brew package sshfs later
+brew cask install karabiner-elements
+brew cask install macvim
+brew cask install iterm2
 
 echo "Installing packages..."
 brew install ${PACKAGES[@]}
 # for i in $(seq 1 $PACKAGES_LEN); do
 #   brew install ${PACKAGES[$i]}
 # done
+
+echo "Installing cask apps..."
+## For some reason this asynchronous way of downloading often runs into problems. Changing to the synchronous way instead.
+# for i in $(seq 1 $CASKS_LEN); do
+#   brew cask install ${CASKS[$i]} &
+#   # brew cask info ${CASKS[$i]} &
+# done
+# brew cask install --appdir=/Applications megasync &
+# wait
+brew cask install ${CASKS[@]}
 
 echo "Installing fonts..."
 brew tap caskroom/fonts
