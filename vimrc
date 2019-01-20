@@ -695,6 +695,7 @@ nnoremap <C-x> <NOP>| "Disable default C-x behavior to use it for custom mapping
 cnoremap <expr> <C-g> getcmdtype() == "/" \|\| getcmdtype() == "?" ? "<C-g>" : "<C-c><Esc>"
 nnoremap <expr> <C-g> bufname("") =~ "NERD_tree_\\d"  ? ":NERDTreeToggle<CR>" :
                     \ bufname("") == "[Command Line]" ? ":close<CR>" :
+                    \ &filetype == "godoc" ? ":close<CR>" :
                     \ getwininfo(win_getid())[0]['quickfix'] ? ":cclose<CR>" :
                     \ getwininfo(win_getid())[0]['loclist'] ? ":lclose<CR>" : "<C-g>"
                     " see :h expression-syntax for why =~ over ==

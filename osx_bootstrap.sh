@@ -29,6 +29,7 @@ mit-scheme
 cmake
 sshfs
 unison
+cmus
 )
 PACKAGES_LEN=${#PACKAGES[@]}
 
@@ -103,6 +104,7 @@ brew update
 brew upgrade
 
 brew tap railwaycat/emacsmacport
+brew tap thefox/brewery #cmus-control
 # Important packages I want to download ASAP
 brew cask install dropbox
 brew cask install osxfuse # required for brew package sshfs later
@@ -125,6 +127,8 @@ echo "Installing cask apps..."
 # brew cask install --appdir=/Applications megasync &
 # wait
 brew cask install ${CASKS[@]}
+brew cask install cmus-control
+brew services start thefox/brewery/cmus-control
 
 echo "Installing fonts..."
 brew tap caskroom/fonts
@@ -310,7 +314,19 @@ echo "symlinking ~/.config/nvim/Ultisnips@"
 if [[ -L ~/.config/nvim/Ultisnips ]]; then
   unlink ~/.config/nvim/Ultisnips
 fi
-ln -s ~/.vim/sshrc ~/.config/nvim/Ultisnips
+ln -s ~/.vim/Ultisnips ~/.config/nvim/Ultisnips
+
+#~/.config/cmus/rc
+if [[ -f ~/.config/cmus/rc && ! -L ~/.config/cmus/rc ]]; then
+  echo "existing ~/.config/cmus/rc found, renaming it to ~/.config/cmus/rc.bak"
+  rm ~/.config/cmus/rc.bak
+  mv ~/.config/cmus/rc ~/.config/cmus/rc.bak
+fi
+echo "symlinking ~/.config/cmus/rc@"
+if [[ -L ~/.config/cmus/rc ]]; then
+  unlink ~/.config/cmus/rc
+fi
+ln -s ~/.vim/cmusrc ~/.config/cmus/rc
 
 #=======================#
 # Download Applications #

@@ -201,8 +201,14 @@ alias pgs-erp-adms="psql postgres://admaterials:1qaz2wsx3edc@192.168.1.253:5433/
 
 # Golang
 export GOPATH="$HOME/go"
-alias goc="cdd ~/go/src/github.com/bokwoon95/"
-alias gbin="cdd ~/go/bin/"
+alias goc="cdd $GOPATH/src/github.com/bokwoon95/"
+gbin () {
+  if [[ "$#" -eq 0 ]]; then
+    cd $GOPATH/bin/ && pwd && ls
+  else
+    $GOPATH/bin/$1
+  fi
+}
 
 # Service aliases
 if [[ $(uname) = 'Linux' ]]; then
@@ -805,7 +811,7 @@ stty -ixon
 # set completion-ignore-case on
 
 # OPAM configuration
-# . ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+. ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 path-prepend /Users/$USER/.opam/default/bin
 if [[ -d ~/.opam ]]; then
   eval `opam config env`
