@@ -142,6 +142,9 @@ fi
 if [[ -z $(find ~/Library/Fonts/SourceCodePro*) ]]; then
   open ~/.vim/fonts/Source\ Code\ Pro/*
 fi
+if [[ -z $(find ~/Library/Fonts/Go-Mono*) ]]; then
+  open ~/.vim/fonts/Go\ Font/*
+fi
 
 # Install Scientific Calculator for Dashboard
 if [[ $OPEN_NEW == "y" && -f ~/.vim/ecalc_calculator.zip ]]; then
