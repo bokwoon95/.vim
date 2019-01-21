@@ -338,3 +338,4 @@ mvprintw
 wprintw
 mvwprintw
 mv
+greek

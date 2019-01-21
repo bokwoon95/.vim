@@ -944,7 +944,8 @@ if has('gui_running')
   set belloff=all
   set linespace=1
   if has('macunix')
-    set guifont=Source\ Code\ Pro:h12
+    " set guifont=Source\ Code\ Pro:h12
+    set guifont=Go\ Mono:h12
   elseif has('unix')
     set guifont=DejaVu\ Sans\ Mono\ Book
     set lines=40 columns=150

@@ -9,3 +9,5 @@ nmap gd <Plug>(go-def)
 nmap gdd <Plug>(go-def)
 nmap gds <Plug>(go-def-split)
 nmap gdv <Plug>(go-def-vertical)
+
+inoremap <C-q><C-d> fmt.Printf("%#v\n",)<Left>
