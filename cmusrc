@@ -5,4 +5,5 @@ set lib_sort=filename
 set play_library=true
 set play_sorted=true
 set shuffle=true
+set softvol=true
 view 3
