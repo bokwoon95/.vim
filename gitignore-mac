@@ -27,3 +27,6 @@ Temporary Items
 
 # Virtual Environments
 venv
+
+node_modules
+vendor

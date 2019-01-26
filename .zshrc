@@ -102,7 +102,7 @@ setopt MENU_COMPLETE
 # Prompt
 # macOS: https://apple.stackexchange.com/a/147777
 dumpIpForInterface() {
-  IT=$(ifconfig "$1") 
+  IT=$(ifconfig "$1")
   if [[ "$IT" != *"status: active"* ]]; then
     return
   fi
@@ -116,9 +116,9 @@ ipmain() {
   DEFAULT_ROUTE=$(route -n get 0.0.0.0 2>/dev/null | awk '/interface: / {print $2}')
   if [ -n "$DEFAULT_ROUTE" ]; then
     dumpIpForInterface "$DEFAULT_ROUTE"
-  else
+  elif [[ $(uname) != 'Darwin' ]]; then # macOS ifconfig has no '-s' flag
     for i in $(ifconfig -s | awk '{print $1}' | awk '{if(NR>1)print}')
-    do 
+    do
       if [[ $i != *"vboxnet"* ]]; then
         dumpIpForInterface "$i"
       fi
@@ -166,8 +166,6 @@ alias eall="osascript -e 'tell application \"Finder\" to eject (every disk whose
 alias gunlock="sudo chmod -R a+rw .git/*"
 
 # PATH setting
-# path+=("~/.config/composer/vendor/bin")
-# path=("~/.config/composer/vendor/bin" $path)
 path-append() {
   if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
     PATH="${PATH:+"$PATH:"}$1"
@@ -179,6 +177,7 @@ path-prepend() {
   fi
 }
 path-prepend ~/.config/composer/vendor/bin
+path-prepend ~/.composer/vendor/bin
 path-prepend ~/.local/bin
 path-prepend /usr/local/opt/mysql@5.7/bin
 path-prepend /usr/local/mysql/bin
@@ -757,6 +756,7 @@ alias desk="cd ~/Desktop/ && pwd && ls"
 alias down="cd ~/Downloads/ && pwd && ls"
 alias vol="cd /Volumes/ && pwd && ls"
 alias trash="cd ~/.Trash/ && pwd && ls"
+alias sites="cd ~/Sites/ && pwd && ls"
 #windows specific
 alias whome="cd ~/whome/ && pwd && ls"
 alias wdoc="cd ~/wdoc/ && pwd && ls"

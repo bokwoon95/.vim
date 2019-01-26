@@ -393,6 +393,9 @@ let g:go_fmt_autosave = 0
 Plug 'inkarkat/vim-ingo-library'
 Plug 'inkarkat/vim-SpellCheck'
 
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
+let g:mkdp_auto_close = 0
+
 silent! call plug#end()
 "}}}
 
@@ -560,17 +563,7 @@ nnoremap <expr> <C-x><C-r> &diff ? "
             \:silent! call win_gotoid(g:prevwin)<CR>
             \:silent! call winrestview(b:wsv)<CR>
             \": ""
-nnoremap <expr> <C-x><C-d> &diff ?
-            \"dd<C-w><C-w>yy<C-w><C-p>Pj"
-            \: ""
-nnoremap <expr> <C-x><C-x><C-d> &diff ? "
-            \:let g:prevwin=win_getid()<CR>
-            \:let b:wsv=winsaveview()<CR>
-            \dd<C-w><C-w>yy<C-w><C-p>Pj
-            \:windo diffoff<CR>:windo diffthis<CR>
-            \:silent! call win_gotoid(g:prevwin)<CR>
-            \:silent! call winrestview(b:wsv)<CR>
-            \": ""
+nnoremap <expr> <C-x><C-d> &diff ? ":diffget<CR>" : ""
 cnoremap <C-j> <Down>
 nnoremap gh `[v`]| "Select last pasted text
 nnoremap <expr> <C-c><C-c> bufname("") == "[Command Line]" ? ":close<CR>" : ""
@@ -942,7 +935,7 @@ if has('gui_running')
   set laststatus=1
   set guioptions=
   set belloff=all
-  set linespace=1
+  set linespace=2
   if has('macunix')
     " set guifont=Source\ Code\ Pro:h12
     set guifont=Go\ Mono:h12

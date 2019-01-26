@@ -21,3 +21,5 @@
 [difftool]
   prompt = true
   ;set to true if you want to be prompted everytime you open another diff
+[commit]
+  verbose = true
