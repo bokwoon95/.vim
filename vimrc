@@ -129,13 +129,6 @@ Plug 'moll/vim-bbye'|                    " Sane buffer closing w/o closing windo
 nnoremap <Leader>bd :Bdelete<CR>
 
 Plug 'tpope/vim-fugitive'|               " Git wrapper
-nnoremap <Leader>gst :Gstatus<CR>
-nnoremap <Leader>gwr :Gwrite<CR>
-nnoremap <Leader>gco :Gcommit<Space>-m<Space>"
-nnoremap <Leader>gcy :Gcommit<Space>-m<Space>"yee"<CR><CR>
-nnoremap <Leader>gps :Gpush<CR>
-nnoremap <Leader>gpl :Gpull<CR>
-nnoremap <Leader>gdi :Gdiff<CR>
 
 Plug '907th/vim-auto-save'|              " Saveless vim
 nnoremap =oa :AutoSaveToggle<CR>
@@ -395,6 +388,10 @@ Plug 'inkarkat/vim-SpellCheck'
 
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }}
 let g:mkdp_auto_close = 0
+
+Plug 'editorconfig/editorconfig-vim'
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+let g:EditorConfig_disable_rules = ['trim_trailing_whitespace']
 
 silent! call plug#end()
 "}}}
