@@ -555,8 +555,16 @@ elif [[ ${1: -4} == ".wmv" ]]; then
       echo "----------------------------------------"
     fi
   done
+elif [[ ${1: -5} == ".webm" ]]; then
+  for filename in "$@"; do
+    if [[ ${filename: -5} == ".webm" ]]; then
+      echo "$filename"
+      ffmpeg -i "$filename" "${filename%.webm}.mp4"
+      echo "----------------------------------------"
+    fi
+  done
 else
-  echo "first file is neither a TS, flv or mov file"
+  echo "first file is neither a TS, flv, mov, avi or webm file"
 fi
 }
 ff-convert-to-mp3 () {
