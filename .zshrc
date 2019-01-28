@@ -184,6 +184,8 @@ path-prepend /usr/local/mysql/bin
 path-prepend ~/pear/bin
 path-prepend ~/.roswell/bin
 path-append ~/go/bin
+# Orbital
+path-prepend ~/Qt5.5.0/5.5/clang_64/bin
 
 # If nvim exists, symlink vim to nvim
 # This must happen after ~/.local/bin is added to $PATH
