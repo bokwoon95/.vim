@@ -46,7 +46,7 @@ evernote
 kitty
 skim
 emacs-mac
-folx
+#folx
 handbrake
 rcdefaultapp #change default app for everything
 vlc
@@ -98,6 +98,22 @@ if test ! $(which brew); then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
+if [[ ! -d /Applications/Contexts.app ]]; then
+  echo "Contexts: not installed"
+  echo "Installing Contexts..."
+  dl=$(
+  curl https://contexts.co |
+    sed -n 's|^.*<a class="button button--download" href="\(.*\)" id="button-download-top">Download Free Trial</a>.*$|\1|p'
+  )
+  curl -L "https://contexts.co$dl" -o ~/Downloads/contexts.dmg
+  hdiutil attach contexts.dmg
+  yes | cp -rf /Volumes/Contexts/Contexts.app /Applications
+  hdiutil detach "/Volumes/Contexts"
+  rm ~/Downloads/contexts.dmg
+else
+  echo "Contexts already installed"
+fi
+
 # Update homebrew recipes
 echo "Updating Homebrew, prepare for some wait..."
 brew update
@@ -107,16 +123,17 @@ brew tap railwaycat/emacsmacport
 brew tap thefox/brewery #cmus-control
 # Important packages I want to download ASAP
 brew cask install dropbox
-brew cask install osxfuse # required for brew package sshfs later
-brew cask install karabiner-elements
+#brew cask install karabiner-elements
 brew cask install macvim
 brew cask install iterm2
+brew cask install osxfuse # required for brew package sshfs later
 
 echo "Installing packages..."
 brew install ${PACKAGES[@]}
 # for i in $(seq 1 $PACKAGES_LEN); do
 #   brew install ${PACKAGES[$i]}
 # done
+pip3 install neovim
 
 echo "Installing cask apps..."
 ## For some reason this asynchronous way of downloading often runs into problems. Changing to the synchronous way instead.
@@ -127,7 +144,7 @@ echo "Installing cask apps..."
 # brew cask install --appdir=/Applications megasync &
 # wait
 brew cask install ${CASKS[@]}
-brew cask install cmus-control
+brew install cmus-control
 brew services start thefox/brewery/cmus-control
 
 echo "Installing fonts..."
@@ -337,22 +354,6 @@ ln -s ~/.vim/cmusrc ~/.config/cmus/rc
 echo ""
 echo "Installing Applications:"
 
-if [[ ! -d /Applications/Contexts.app ]]; then
-  echo "Contexts: not installed"
-  echo "Installing Contexts..."
-  dl=$(
-  curl https://contexts.co |
-    sed -n 's|^.*<a class="button button--download" href="\(.*\)" id="button-download-top">Download Free Trial</a>.*$|\1|p'
-  )
-  curl -L "https://contexts.co$dl" -o ~/Downloads/contexts.dmg
-  hdiutil attach contexts.dmg
-  yes | cp -rf /Volumes/Contexts/Contexts.app /Applications
-  hdiutil detach "/Volumes/Contexts"
-  rm ~/Downloads/contexts.dmg
-else
-  echo "Contexts already installed"
-fi
-
 if [[ ! -d /Applications/Hammerspoon.app ]]; then
   echo "Hammerspoon: not installed"
   echo "Installing Hammerspoon..."
@@ -422,7 +423,7 @@ if [[ "$OPEN_NEW" == "y" ]]; then
   open /Applications/iTunes.app
 fi
 
-rm -rf ~/Downloads/eCalc_Scientific.wdgt
+#rm -rf ~/Downloads/eCalc_Scientific.wdgt
 
 echo ""
 echo "Get from App Store:"
