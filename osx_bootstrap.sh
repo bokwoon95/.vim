@@ -122,11 +122,7 @@ brew upgrade
 brew tap railwaycat/emacsmacport
 brew tap thefox/brewery #cmus-control
 # Important packages I want to download ASAP
-brew cask install dropbox
-#brew cask install karabiner-elements
-brew cask install macvim
-brew cask install iterm2
-brew cask install osxfuse # required for brew package sshfs later
+brew cask install dropbox macvim iterm2 osxfuse
 
 echo "Installing packages..."
 brew install ${PACKAGES[@]}
