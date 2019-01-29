@@ -83,10 +83,10 @@ if [[ ! -d /Applications/Opera.app ]]; then
   #Download Opera from their shitty javascript site
   open https://www.opera.com/computer
 fi
-if [[ ! -d /Applications/Folx.app ]]; then
-  #Needed for Contexts licence file & Folx activation code
-  open https://www.google.com/gmail
-fi
+# if [[ ! -d /Applications/Folx.app ]]; then
+#   #Needed for Contexts licence file & Folx activation code
+#   open https://www.google.com/gmail
+# fi
 if [[ ! -d "/Applications/Microsoft Word.app" ]]; then
   #Download MS Office 2016
   open "https://www.office.com/?auth=2&home=1"
