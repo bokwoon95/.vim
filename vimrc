@@ -932,8 +932,8 @@ if has('gui_running')
   set laststatus=1
   set guioptions=
   set belloff=all
-  set linespace=2
   if has('macunix')
+    set linespace=1
     " set guifont=Source\ Code\ Pro:h12
     set guifont=Go\ Mono:h12
   elseif has('unix')
