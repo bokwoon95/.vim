@@ -333,6 +333,7 @@ fi
 ln -s ~/.vim/Ultisnips ~/.config/nvim/Ultisnips
 
 #~/.config/cmus/rc
+mkdir -p ~/.config/cmus/
 if [[ -f ~/.config/cmus/rc && ! -L ~/.config/cmus/rc ]]; then
   echo "existing ~/.config/cmus/rc found, renaming it to ~/.config/cmus/rc.bak"
   rm ~/.config/cmus/rc.bak
@@ -343,6 +344,24 @@ if [[ -L ~/.config/cmus/rc ]]; then
   unlink ~/.config/cmus/rc
 fi
 ln -s ~/.vim/cmusrc ~/.config/cmus/rc
+
+#~/.config/kitty/kitty.conf
+if [[ ! -f ~/.config/kitty/kitty.conf ]]; then
+  echo "copying ~/.vim/kitty.conf to ~/.config/kitty/kitty.conf"
+  cp ~/.vim/kitty.conf ~/.config/kitty/kitty.conf
+fi
+
+#~/vim
+if [[ ! -f ~/vim ]]; then
+  echo "symlinking ~/vim@"
+  ln -s ~/.vim ~/vim
+fi
+
+#~/emacs.d
+if [[ ! -f ~/emacs.d ]]; then
+  echo "symlinking ~/emacs.d@"
+  ln -s ~/.emacs.d ~/emacs.d
+fi
 
 #=======================#
 # Download Applications #
