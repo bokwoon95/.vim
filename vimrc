@@ -393,6 +393,8 @@ Plug 'editorconfig/editorconfig-vim'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:EditorConfig_disable_rules = ['trim_trailing_whitespace']
 
+Plug 'https://github.com/vim-scripts/Super-Shell-Indent'
+
 silent! call plug#end()
 "}}}
 
