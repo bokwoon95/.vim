@@ -830,11 +830,13 @@ fun! Makeview(...) abort
     if b:force_makeview==1 "I suspect this is a bug that the cursor keeps gg-ing
       execute "execute mkdir('" . b:viewfolder . "', 'p')"
     endif
+    let w:v = winsaveview()
     execute "mkview! ".b:viewfile
     execute "keepalt vsplit ".b:viewfile."| 3d _| w| bd"
     if b:force_makeview==1
       echo "saved view in ".b:viewfile
     endif
+    call winrestview(w:v)
   endif
 endfun
 fun! Loadview(...) abort

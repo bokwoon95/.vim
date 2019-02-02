@@ -363,6 +363,16 @@ if [[ ! -f ~/emacs.d ]]; then
   ln -s ~/.emacs.d ~/emacs.d
 fi
 
+#~/.config/flake8
+if [[ -f ~/.config/flake8 && ! -L ~/.config/flake8 ]]; then
+  echo "existing ~/.config/flake8 found, renaming it to ~/.config/flake8.bak"
+  rm ~/.config/flake8.bak
+  mv ~/.config/flake8 ~/.config/flake8.bak
+fi
+echo "symlinking ~/.config/flake8@"
+mkdir -p ~/.config
+ln -s ~/.vim/flake8 ~/.config/flake8
+
 #=======================#
 # Download Applications #
 #=======================#
