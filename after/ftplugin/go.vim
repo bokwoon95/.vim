@@ -12,6 +12,6 @@ nmap gdd <Plug>(go-def)
 nmap gds <Plug>(go-def-split)
 nmap gdv <Plug>(go-def-vertical)
 
-inoremap <C-q><C-q> fmt.Println("")<Left>
+inoremap <C-q><C-q> fmt.Println("")<Left><Left>
 inoremap <C-q><C-w> fmt.Println()<Left>
 inoremap <C-q><C-d> fmt.Printf("%#v\n",)<Left>
