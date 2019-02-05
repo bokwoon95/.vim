@@ -278,6 +278,7 @@ nmap # <Plug>(anzu-sharp-with-echo)
 nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
 
 Plug 'SirVer/ultisnips'
+let g:UltiSnipsNoPythonWarning=1
 let g:UltiSnipsExpandTrigger="<Tab>"
 let g:UltiSnipsJumpForwardTrigger="<C-M-f>"
 let g:UltiSnipsJumpBackwardTrigger="<C-M-b>"
