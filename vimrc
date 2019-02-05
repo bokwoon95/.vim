@@ -102,7 +102,7 @@ endif
 silent! call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'|              " Comment Toggling
 Plug 'tpope/vim-eunuch'|                 " File Rename/Delete/Move
-Plug 'xtal8/traces.vim'                  " Neovim's inccommand
+Plug 'markonm/traces.vim'                " Neovim's inccommand
 Plug 'wellle/targets.vim'|               " Extended text editing objects
 Plug 'tpope/vim-surround'|               " Effortlessly replace brackets, quotes and HTML tags
 Plug 'tpope/vim-repeat'|                 " repeat vim-surround
@@ -436,10 +436,11 @@ set foldtext=repeat('\ ',indent(v:foldstart)).foldtext()
 set infercase
 if !empty(glob('~/.vim/words'))
   set dictionary+=~/.vim/words
+  set spellfile=~/.vim/spell/en.utf-8.add
 elseif !empty(glob('~/vimfiles/words'))
   set dictionary+=~/vimfiles/words
+  set spellfile=~/vimfiles/spell/en.utf-8.add
 endif
-set spellfile=~/.vim/spell/en.utf-8.add
 set spellcapcheck=
 
 " Survival Pack
@@ -1139,12 +1140,12 @@ if !has('nvim')
     autocmd!
     autocmd BufWinEnter,BufEnter,WinEnter * if &buftype ==# "terminal" |startinsert| endif
   augroup END
-  tnoremap <c-w><c-[> <c-\><c-n>
-  nnoremap <expr> <c-w><c-i> &buftype ==# 'terminal' ? "i" : ""
-  nnoremap <expr> <c-w><c-a> &buftype ==# 'terminal' ? "a" : ""
-  tnoremap <c-x><c-b> <c-\><c-n>:ls<cr>:b<space>
-  tnoremap <c-q> <c-\><c-n>:bp<cr>
-  tnoremap <c-s> <c-\><c-n>:bn<cr>
-  cabbrev termm term ++curwin
+  silent! tnoremap <c-w><c-[> <c-\><c-n>
+  silent! nnoremap <expr> <c-w><c-i> &buftype ==# 'terminal' ? "i" : ""
+  silent! nnoremap <expr> <c-w><c-a> &buftype ==# 'terminal' ? "a" : ""
+  silent! tnoremap <c-x><c-b> <c-\><c-n>:ls<cr>:b<space>
+  silent! tnoremap <c-q> <c-\><c-n>:bp<cr>
+  silent! tnoremap <c-s> <c-\><c-n>:bn<cr>
+  silent! cabbrev termm term ++curwin
 endif
 "}}}
