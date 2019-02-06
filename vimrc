@@ -396,6 +396,9 @@ let g:EditorConfig_disable_rules = ['trim_trailing_whitespace']
 
 Plug 'https://github.com/vim-scripts/Super-Shell-Indent'
 
+Plug 'mhinz/vim-signify'
+let g:signify_vcs_list = ['git']
+
 silent! call plug#end()
 "}}}
 
@@ -905,11 +908,15 @@ function! MyHighlights() abort
   hi StatusLineNC ctermfg=103 ctermbg=none cterm=none,underline guibg=bg gui=underline
   hi SpellBad ctermbg=234 ctermfg=15 cterm=bold,underline
   hi SpellCap ctermbg=234 ctermfg=14 cterm=underline
-  hi ALEErrorLine cterm=bold,underline
   hi SignColumn ctermbg=none
   hi ColorColumn ctermbg=234 guibg=grey85
   hi SpecialKey term=bold ctermfg=237 guifg=Grey70
   hi Whitespace term=bold ctermfg=237 guifg=Grey70
+  " Plugins
+  hi ALEErrorLine cterm=bold,underline
+  highlight SignifySignAdd    cterm=bold ctermbg=none  ctermfg=green
+  highlight SignifySignDelete cterm=bold ctermbg=none  ctermfg=red
+  highlight SignifySignChange cterm=bold ctermbg=none  ctermfg=white
 endfunction
 fun! RestoreCursorPosition() abort
   if &ft =~ 'gitcommit\|gitcommit'
