@@ -916,7 +916,7 @@ function! MyHighlights() abort
   hi ALEErrorLine cterm=bold,underline
   highlight SignifySignAdd    cterm=bold ctermbg=none  ctermfg=green
   highlight SignifySignDelete cterm=bold ctermbg=none  ctermfg=red
-  highlight SignifySignChange cterm=bold ctermbg=none  ctermfg=white
+  highlight SignifySignChange cterm=bold ctermbg=none  ctermfg=blue
 endfunction
 fun! RestoreCursorPosition() abort
   if &ft =~ 'gitcommit\|gitcommit'
