@@ -398,10 +398,12 @@ Plug 'https://github.com/vim-scripts/Super-Shell-Indent'
 
 Plug 'mhinz/vim-signify'
 let g:signify_vcs_list = ['git']
-
-if has('nvim')
-  Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+if !has('nvim')
+  let g:signify_disable_by_default=1
 endif
+
+" requires yarn to be installed
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 silent! call plug#end()
 "}}}
@@ -912,7 +914,7 @@ function! MyHighlights() abort
   hi StatusLineNC ctermfg=103 ctermbg=none cterm=none,underline guibg=bg gui=underline
   hi SpellBad ctermbg=234 ctermfg=15 cterm=bold,underline
   hi SpellCap ctermbg=234 ctermfg=14 cterm=underline
-  hi SignColumn ctermbg=none
+  hi SignColumn ctermbg=none guibg=bg
   hi ColorColumn ctermbg=234 guibg=grey85
   hi SpecialKey term=bold ctermfg=237 guifg=Grey70
   hi Whitespace term=bold ctermfg=237 guifg=Grey70
