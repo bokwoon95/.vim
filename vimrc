@@ -398,7 +398,7 @@ Plug 'https://github.com/vim-scripts/Super-Shell-Indent'
 
 Plug 'mhinz/vim-signify'
 let g:signify_vcs_list = ['git']
-nnoremap <expr> <C-c><C-f> sy#repo#get_stats() != [-1,-1,-1] ?
+nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
             \!&diff ? "
             \:SignifyDiff<CR>
             \:let g:prevwin=win_getid()<CR>
@@ -410,7 +410,8 @@ nnoremap <expr> <C-c><C-f> sy#repo#get_stats() != [-1,-1,-1] ?
             \": ""
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim' ", {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'for': ['javascript']}
+", {'tag': '*', 'do': { -> coc#util#install()}}
 
 silent! call plug#end()
 "}}}
