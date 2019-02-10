@@ -399,6 +399,10 @@ Plug 'https://github.com/vim-scripts/Super-Shell-Indent'
 Plug 'mhinz/vim-signify'
 let g:signify_vcs_list = ['git']
 
+if has('nvim')
+  Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+endif
+
 silent! call plug#end()
 "}}}
 

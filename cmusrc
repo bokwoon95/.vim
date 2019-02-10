@@ -7,4 +7,4 @@ set play_sorted=true
 set shuffle=true
 set softvol=true
 set output_plugin=ao
-view 2
+set start_view=sorted
