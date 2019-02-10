@@ -398,12 +398,19 @@ Plug 'https://github.com/vim-scripts/Super-Shell-Indent'
 
 Plug 'mhinz/vim-signify'
 let g:signify_vcs_list = ['git']
-if !has('nvim')
-  let g:signify_disable_by_default=1
-endif
+nnoremap <expr> <C-c><C-d> sy#repo#get_stats() != [-1,-1,-1] ?
+            \!&diff ? "
+            \:SignifyDiff<CR>
+            \:let g:prevwin=win_getid()<CR>
+            \:let b:wsv=winsaveview()<CR>
+            \:windo diffoff<CR>:windo diffthis<CR>
+            \:silent! call win_gotoid(g:prevwin)<CR>
+            \:silent! call winrestview(b:wsv)<CR>zz
+            \": ":silent! diffoff! \| silent! tabclose<CR>
+            \": ""
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim' ", {'tag': '*', 'do': { -> coc#util#install()}}
 
 silent! call plug#end()
 "}}}
@@ -573,8 +580,9 @@ nnoremap <expr> <C-x><C-r> &diff ? "
             \:silent! call win_gotoid(g:prevwin)<CR>
             \:silent! call winrestview(b:wsv)<CR>
             \": ""
-nnoremap <expr> <C-x><C-d> &diff ? ":diffget<CR>" : ""
-cnoremap <C-j> <Down>
+nnoremap <expr> <C-x><C-d> &diff ? "V:diffget<CR>j" : ""
+xnoremap <expr> <C-x><C-d> &diff ? ":diffget<CR>" : ""
+cnoremap <C-j> <Down><BS>
 nnoremap gh `[v`]| "Select last pasted text
 nnoremap <expr> <C-c><C-c> bufname("") == "[Command Line]" ? ":close<CR>" : ""
 " cnoremap sudow w !sudo tee % >/dev/null
