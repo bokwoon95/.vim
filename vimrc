@@ -316,7 +316,7 @@ let g:ale_linters = {
   \ 'python': ['flake8'],
   \ 'sh': ['shellcheck'],
   \ 'zsh': ['shellcheck'],
-  \ 'go': ['gofmt','goimports'],
+  \ 'go': ['gofmt','goimports','golint','go vet'],
   \ 'javascript': ['eslint'],
   \ 'html': ['htmlhint'],
   \ 'css': ['csslint'],
@@ -410,7 +410,7 @@ nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
             \": ""
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'for': ['javascript']}
+Plug 'neoclide/coc.nvim', {'for': ['javascript','php']}
 ", {'tag': '*', 'do': { -> coc#util#install()}}
 
 silent! call plug#end()
