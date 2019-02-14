@@ -9,12 +9,12 @@ if !empty(glob('~/vimfiles/autoload/pathogen.vim')) || !empty(glob('~/.vim/autol
 else
   if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
   endif
   if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
     silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-      \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+          \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   endif
 endif
 "}}}
@@ -518,7 +518,7 @@ nnoremap <silent> <expr> j v:count == 0 ? "gj" : "j"
 onoremap <silent> <expr> k gk
 onoremap <silent> <expr> j gj
 noremap <expr> <CR> bufname("") == "[Command Line]" ? "<CR>"  :
-                  \ v:count == 0                    ? "<Tab>" : "Gzz"
+      \ v:count == 0 ? "<Tab>" : "Gzz"
 "}}}
 "{{{ Macros
 nnoremap <M-;> 5zh
@@ -528,9 +528,9 @@ xnoremap <Leader>ss :s//g<Left><Left>
 xnoremap <Leader>tbts :s/	/    /g<Left><Left>| "convert tab to 4 spaces for visual selection
 nnoremap <Leader>tbts :%s/	/    /g<Left><Left>| "convert tab to 4 spaces in normal mode
 nnoremap <Leader>rr :let b:wsv=winsaveview()<CR>
-            \gg=G
-            \:silent! call winrestview(b:wsv)<CR>
-            \:echo 'File reindented'<CR>| "reindent file without losing cursor position
+      \gg=G
+      \:silent! call winrestview(b:wsv)<CR>
+      \:echo 'File reindented'<CR>| "reindent file without losing cursor position
 nnoremap <M-v> ^vg_| "V but w/o newline char
 nnoremap yd ^yg_"_dd| "dd but w/o newline char
 noremap <M-d> "_d| "Black_hole delete without saving to register
@@ -568,28 +568,27 @@ nnoremap cr :call ChangeReg()<CR>| "cr<register alphabet> to edit the register
 nnoremap <expr> <BS> &diff && &readonly ? ":qa!<CR>" : "<C-^>"
 nnoremap <M-q> @q
 " xnoremap <Leader>ttt :s/\v<\a/\u&/g<CR>| " Fast and dirty titlecasing
-  "^basic titlecase (does not work on anything other than all small caps)
-  "https://taptoe.wordpress.com/2013/02/06/vim-capitalize-every-first-character-of-every-word-in-a-sentence/
-xnoremap <Leader>ttc gugv:s/\v^\a\|\:\s\a\|<%(in>\|the>\|at>\|with>\|a>\|and>\|for>\|of>\|on>\|from>\|by>)@!\a/\U&/g<CR>
-  "^titlecase that excludes words in the list (also works on all types of caps by converting eveything to small caps first)
-  ":s/\v^\a|\:\s\a|<%(in>|the>|at>|with>|a>|and>|for>|of>|on>|from>|by>)@!\a/\U&/g
-  "^ the bar characters must be escaped ie '\|'
+"^basic titlecase (does not work on anything other than all small caps)
+"https://taptoe.wordpress.com/2013/02/06/vim-capitalize-every-first-character-of-every-word-in-a-sentence/
+" xnoremap <Leader>ttc gugv:s/\v^\a\|\:\s\a\|<%(in>\|the>\|at>\|with>\|a>\|and>\|for>\|of>\|on>\|from>\|by>)@!\a/\U&/g<CR>
+"^titlecase that excludes words in the list (also works on all types of caps by converting eveything to small caps first)
+":s/\v^\a|\:\s\a|<%(in>|the>|at>|with>|a>|and>|for>|of>|on>|from>|by>)@!\a/\U&/g
+"^ the bar characters must be escaped ie '\|'
 nnoremap <expr> <C-x><C-r> &diff ? "
-            \:let g:prevwin=win_getid()<CR>
-            \:let b:wsv=winsaveview()<CR>
-            \:windo diffoff<CR>:windo diffthis<CR>
-            \:silent! call win_gotoid(g:prevwin)<CR>
-            \:silent! call winrestview(b:wsv)<CR>
-            \": ""
-nnoremap <expr> <C-x><C-d> &diff ? "V:diffget<CR>j" : ""
-xnoremap <expr> <C-x><C-d> &diff ? ":diffget<CR>" : ""
-cnoremap <C-j> <Down><BS>
+      \:let g:prevwin=win_getid()<CR>
+      \:let b:wsv=winsaveview()<CR>
+      \:windo diffoff<CR>:windo diffthis<CR>
+      \:silent! call win_gotoid(g:prevwin)<CR>
+      \:silent! call winrestview(b:wsv)<CR>
+      \": ""
+nnoremap <expr> <C-x><C-d> &diff ? ":diffget<CR>" : ""
+cnoremap <C-j> <Down>
 nnoremap gh `[v`]| "Select last pasted text
 nnoremap <expr> <C-c><C-c> bufname("") == "[Command Line]" ? ":close<CR>" : ""
 " cnoremap sudow w !sudo tee % >/dev/null
 fun! DuplicateLineSavePosition() abort
-    let colnum = virtcol('.')
-    execute "normal! yyp".colnum."|"
+  let colnum = virtcol('.')
+  execute "normal! yyp".colnum."|"
 endfun
 inoremap <C-l> <Esc>:call DuplicateLineSavePosition()<CR>a<C-g>u
 command! Gitmergesearch let @/="^<<<<<<< .*$\\|^>>>>>>> .*$\\|^=======$"
@@ -708,11 +707,11 @@ nnoremap <C-c> <NOP>| "Disable default C-c behavior to use it for custom mapping
 nnoremap <C-x> <NOP>| "Disable default C-x behavior to use it for custom mappings
 cnoremap <expr> <C-g> getcmdtype() == "/" \|\| getcmdtype() == "?" ? "<C-g>" : "<C-c><Esc>"
 nnoremap <expr> <C-g> bufname("") =~ "NERD_tree_\\d"  ? ":NERDTreeToggle<CR>" :
-                    \ bufname("") == "[Command Line]" ? ":close<CR>" :
-                    \ &filetype == "godoc" ? ":close<CR>" :
-                    \ getwininfo(win_getid())[0]['quickfix'] ? ":cclose<CR>" :
-                    \ getwininfo(win_getid())[0]['loclist'] ? ":lclose<CR>" : "<C-g>"
-                    " see :h expression-syntax for why =~ over ==
+      \ bufname("") == "[Command Line]" ? ":close<CR>" :
+      \ &filetype == "godoc" ? ":close<CR>" :
+      \ getwininfo(win_getid())[0]['quickfix'] ? ":cclose<CR>" :
+      \ getwininfo(win_getid())[0]['loclist'] ? ":lclose<CR>" : "<C-g>"
+" see :h expression-syntax for why =~ over ==
 "undo
 inoremap <C-_> <C-o>u<C-o>u
 inoremap <CR> <C-g>u<CR>
@@ -923,7 +922,8 @@ function! MyHighlights() abort
   hi StatusLineNC ctermfg=103 ctermbg=none cterm=none,underline guibg=bg gui=underline
   hi SpellBad ctermbg=234 ctermfg=15 cterm=bold,underline
   hi SpellCap ctermbg=234 ctermfg=14 cterm=underline
-  hi SignColumn ctermbg=none guibg=bg
+  hi ALEErrorLine cterm=bold,underline
+  hi SignColumn ctermbg=none
   hi ColorColumn ctermbg=234 guibg=grey85
   hi SpecialKey term=bold ctermfg=237 guifg=Grey70
   hi Whitespace term=bold ctermfg=237 guifg=Grey70
@@ -1052,9 +1052,9 @@ endfunc
 "}}}
 "{{{ TrimEndLines
 function! TrimEndLines()
-    let save_cursor = getpos(".")
-    :silent! %s#\($\n\s*\)\+\%$##
-    call setpos('.', save_cursor)
+  let save_cursor = getpos(".")
+  :silent! %s#\($\n\s*\)\+\%$##
+  call setpos('.', save_cursor)
 endfunction
 command! TrimEndLines call TrimEndLines()
 "}}}
