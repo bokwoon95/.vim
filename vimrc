@@ -293,7 +293,7 @@ let g:colorizer_auto_filetype='css,html'
 let g:colorizer_syntax = 1
 nmap <Leader>cc <Plug>Colorizer
 
-Plug 'JuliaEditorSupport/julia-vim', {'for': 'julia'}
+Plug 'JuliaEditorSupport/julia-vim'
 
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 let g:jedi#auto_vim_configuration = 0
