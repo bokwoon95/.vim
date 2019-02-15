@@ -201,6 +201,7 @@ alias pg-erp-adms="pgcli postgres://admaterials:1qaz2wsx3edc@192.168.1.253:5433/
 alias pgs-erp-adms="psql postgres://admaterials:1qaz2wsx3edc@192.168.1.253:5433/adms -p 5436"
 
 # Golang
+path-prepend /usr/local/go/bin
 export GOPATH="$HOME/go"
 alias goc="cdd $GOPATH/src/github.com/bokwoon95/"
 gbin () {
