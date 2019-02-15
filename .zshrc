@@ -192,7 +192,11 @@ path-prepend ~/Qt5.5.0/5.5/clang_64/bin
 if command -v nvim >/dev/null 2>&1; then
   alias vim="nvim"
 fi
-if [[ $(uname) = 'Linux' ]]; then
+if command -v clip.exe >/dev/null 2>&1; then
+  xo() {
+    cmd.exe /C start "$@"
+  }
+elif [[ $(uname) = 'Linux' ]]; then
   alias xo="xdg-open"
 fi
 
