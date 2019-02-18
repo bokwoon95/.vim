@@ -201,6 +201,7 @@ elif [[ $(uname) = 'Linux' ]]; then
 fi
 
 # PostgreS
+path-prepend /usr/lib/postgresql/*/bin/
 alias pg-erp-adms="pgcli postgres://admaterials:1qaz2wsx3edc@192.168.1.253:5433/adms -p 5436"
 alias pgs-erp-adms="psql postgres://admaterials:1qaz2wsx3edc@192.168.1.253:5433/adms -p 5436"
 
@@ -221,11 +222,18 @@ if [[ $(uname) = 'Linux' ]]; then
   alias sx="sudo service"
   alias sxa="sudo service apache2"
   alias sxm="sudo service mysql"
+  alias sxp="sudo service postgresql"
 elif [[ $(uname) = 'Darwin' ]]; then
   # alias sx="sudo service"
   alias sxa="sudo apachectl"
   alias sxm="sudo /usr/local/**/support-files/mysql.server"
 fi
+
+# Screen
+if [[ ! -d ~/.screen ]]; then
+  mkdir ~/.screen && chmod 700 ~/.screen
+fi
+export SCREENDIR=$HOME/.screen
 
 # Emacs better gui
 if [[ $(uname) = 'Linux' ]]; then
@@ -325,6 +333,7 @@ krename () {
 alias rmt="rmtrash"
 
 # Ruby
+path-prepend ~/.rbenv/bin
 if command -v rbenv >/dev/null 2>&1; then
   eval "$(rbenv init -)"
 fi
