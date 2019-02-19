@@ -788,6 +788,7 @@ alias whome="cd ~/whome/ && pwd && ls"
 alias wdoc="cd ~/wdoc/ && pwd && ls"
 alias wdesk="cd ~/wdesk/ && pwd && ls"
 alias wdown="cd ~/wdown/ && pwd && ls"
+alias udoc="cd ~/UDocuments/ && pwd && ls"
 
 # zsh-autosuggestions settings
 # add plugins=(zsh-autosuggestions) under plugins=(git) (L54)
