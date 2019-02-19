@@ -222,6 +222,10 @@ if [[ $(uname) = 'Linux' ]]; then
   alias sx="sudo service"
   alias sxa="sudo service apache2"
   alias sxm="sudo service mysql"
+  sxam () {
+    sudo service apache2 $1
+    sudo service mysql $1
+  }
   alias sxp="sudo service postgresql"
 elif [[ $(uname) = 'Darwin' ]]; then
   # alias sx="sudo service"
