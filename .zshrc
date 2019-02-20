@@ -166,6 +166,7 @@ alias eall="osascript -e 'tell application \"Finder\" to eject (every disk whose
 alias gunlock="sudo chmod -R a+rw .git/*"
 
 # PATH setting
+setopt nullglob
 path-append() {
   if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
     PATH="${PATH:+"$PATH:"}$1"
