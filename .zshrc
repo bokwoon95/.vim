@@ -848,6 +848,13 @@ if [[ -d ~/.opam ]]; then
   eval `opam config env`
 fi
 
+# ivledaemon
+if command -v ivledaemon >/dev/null 2>&1; then
+  if [[ ! $(ivledaemon | grep Detached) ]]; then
+    ivledaemon start
+  fi
+fi
+
 if [[ -z "$TMUX" && ! -n "${NVIM_LISTEN_ADDRESS+x}" ]]; then
   TERM=screen-256color-bce tmux -u new-session -A -s main
 fi
