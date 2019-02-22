@@ -30,3 +30,6 @@ venv
 
 node_modules
 vendor
+
+# NUS Skylab
+nusskylab-db/
