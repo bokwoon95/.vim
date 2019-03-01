@@ -370,6 +370,7 @@ elseif !has('nvim')
   let g:slime_target = "vimterminal"
 endif
 let g:slime_no_mappings=1
+let g:slime_python_ipython=1
 cabbrev slimc let @s=split($TMUX, ",")[0] \| SlimeConfig
 xmap <C-c><C-e> <Plug>SlimeRegionSend
 nmap <C-c><C-e> <Plug>SlimeParagraphSend
@@ -936,7 +937,7 @@ function! MyHighlights() abort
     hi SpellBad ctermbg=234 ctermfg=15 cterm=bold,underline
     hi SpellCap ctermbg=234 ctermfg=14 cterm=underline
     hi ALEErrorLine cterm=bold,underline
-    hi SignColumn ctermbg=none
+    hi SignColumn ctermbg=none guibg=bg
     hi ColorColumn ctermbg=234 guibg=grey85
     hi SpecialKey term=bold ctermfg=237 guifg=Grey70
     hi Whitespace term=bold ctermfg=237 guifg=Grey70
@@ -964,6 +965,7 @@ augroup Autocommands
   " autocmd BufEnter NERD_tree_* setlocal cursorline
   " autocmd BufLeave NERD_tree_* setlocal nocursorline
   autocmd BufNewFile,BufRead *.fish setlocal filetype=fish
+  autocmd BufNewFile,BufRead *.ejs setlocal filetype=html
   autocmd BufEnter,BufLeave * if &buftype ==# 'terminal' | let g:t_bufnum = expand('<abuf>') | endif
   autocmd CompleteDone * pclose
 augroup END
