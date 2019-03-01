@@ -370,7 +370,7 @@ elseif !has('nvim')
   let g:slime_target = "vimterminal"
 endif
 let g:slime_no_mappings=1
-let g:slime_python_ipython=1
+" let g:slime_python_ipython=1
 cabbrev slimc let @s=split($TMUX, ",")[0] \| SlimeConfig
 xmap <C-c><C-e> <Plug>SlimeRegionSend
 nmap <C-c><C-e> <Plug>SlimeParagraphSend
