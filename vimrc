@@ -323,6 +323,7 @@ let g:ale_linters = {
   \ 'c': ['clang'],
   \ 'ruby': ['rubocop'],
   \ 'eruby': ['erb'],
+  \ 'java': ['javac'],
   \}
 let g:ale_set_signs = 0
 " let g:ale_sign_column_always = 1
@@ -412,7 +413,7 @@ nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
             \": ""
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'for': ['javascript','php']}
+Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
 ", {'tag': '*', 'do': { -> coc#util#install()}}
 
 Plug 'tpope/vim-rails'
