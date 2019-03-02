@@ -150,3 +150,41 @@ alias tls="tmux ls"
 alias tks="tmux kill-session -t"
 alias tka="tmux kill-server"
 
+dumpIpForInterface() {
+  IT=$(ifconfig "$1")
+  if [[ "$IT" != *"status: active"* ]]; then
+    return
+  fi
+  if [[ "$IT" != *" broadcast "* ]]; then
+    return
+  fi
+  echo "$IT" | grep "inet " | grep -v 127.0.0.1 | awk '{print $2}'
+}
+ipmain() {
+  # snagged from here: https://superuser.com/a/627581/38941
+  DEFAULT_ROUTE=$(route -n get 0.0.0.0 2>/dev/null | awk '/interface: / {print $2}')
+  if [ -n "$DEFAULT_ROUTE" ]; then
+    dumpIpForInterface "$DEFAULT_ROUTE"
+  elif [[ $(uname) != 'Darwin' ]]; then # macOS ifconfig has no '-s' flag
+    for i in $(ifconfig -s | awk '{print $1}' | awk '{if(NR>1)print}')
+    do
+      if [[ $i != *"vboxnet"* ]]; then
+        dumpIpForInterface "$i"
+      fi
+    done
+  fi
+}
+if [[ $(uname) = 'Darwin' ]]; then
+  # export MYIP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
+  export MYIP=$(ipmain)
+else
+  # export MYIP=$(ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | tail -1 | cut -d: -f2 | awk '{ print $1}')
+  export MYIP=$(ifconfig | grep "inet 192.168" | tail -1 | sed -n "s|^\s*inet \(192.168[0-9\.]\+\).*|\1|p")
+fi
+if [[ "$MYIP" == "" ]]; then
+  export PS1="\H $PWD"
+else
+  export PS1="$MYIP \H $PWD"
+fi
+PS1="$PS1"'\n'"\u$ "
+# PS1="$PS1"$'\n'"\u$ "
