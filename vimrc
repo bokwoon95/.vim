@@ -1119,18 +1119,39 @@ if has('nvim')
     autocmd TermOpen,BufEnter,WinEnter,BufWinEnter * if &buftype == "terminal" |:startinsert| endif
     autocmd TermOpen * setlocal nonumber norelativenumber
   augroup END
+  fun! Term(name) abort
+    if a:name == ""
+      let name = "shell"
+    else
+      let name = a:name
+    endif
+    let bufferexists = bufexists(name)
+    let window = bufwinnr(name)
+    if !bufferexists
+      13split
+      terminal
+      execute "file " . name
+    elseif bufferexists && window > 0
+      execute window . "wincmd c"
+    elseif bufferexists && window <= 0
+      execute "13split || buffer " . name
+    endif
+  endfun
+  command! -nargs=? -complete=command Term silent call Term(<q-args>)
   "{{{Escaping, Renaming & Opening Terminal Buffers
   tnoremap <C-\><C-\> <C-\><C-n>
-  tnoremap <A-t><A-e> <C-\><C-n>:terminal<CR>
-  nnoremap <A-t><A-e> :terminal<CR>
-  tnoremap <A-t><A-s> <C-\><C-n>:sp +te<CR>
-  nnoremap <A-t><A-s> :sp +te<CR>
-  tnoremap <A-t><A-v> <C-\><C-n>:vs +te<CR>
-  nnoremap <A-t><A-v> :vs +te<CR>
-  nnoremap <A-t><A-t><A-v> :vs +te<CR><C-\><C-n>55<C-w><Bar>a
-  tnoremap <A-t><A-t><A-v> <C-\><C-n>55<C-w><Bar>a
-  nnoremap <A-t><A-t><A-s> :sp +te<CR><C-\><C-n>13<C-w>_a
-  tnoremap <A-t><A-t><A-s> <C-\><C-n>13<C-w>_a
+  nnoremap <A-t><A-s> :call Term("shell")<CR>
+  tnoremap <A-t><A-s> <C-\><C-n>:call Term("shell")<CR>
+  " tnoremap <A-t><A-e> <C-\><C-n>:terminal<CR>
+  " nnoremap <A-t><A-e> :terminal<CR>
+  " tnoremap <A-t><A-s> <C-\><C-n>:sp +te<CR>
+  " nnoremap <A-t><A-s> :sp +te<CR>
+  " tnoremap <A-t><A-v> <C-\><C-n>:vs +te<CR>
+  " nnoremap <A-t><A-v> :vs +te<CR>
+  " nnoremap <A-t><A-t><A-v> :vs +te<CR><C-\><C-n>55<C-w><Bar>a
+  " tnoremap <A-t><A-t><A-v> <C-\><C-n>55<C-w><Bar>a
+  " nnoremap <A-t><A-t><A-s> :sp +te<CR><C-\><C-n>13<C-w>_a
+  " tnoremap <A-t><A-t><A-s> <C-\><C-n>13<C-w>_a
   tnoremap <F2> <C-\><C-n>:NERDTreeToggle<CR>
   tnoremap <C-x><C-n> <C-\><C-n>:NERDTreeToggle<CR>
   "}}}
