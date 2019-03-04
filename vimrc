@@ -1150,9 +1150,20 @@ if has('nvim')
       let g:lasttermname = name
     endif
   endfun
-  command! -nargs=? -complete=buffer Term silent call Term(<q-args>)
-  nnoremap <A-t><A-s> :call Term()<CR>
-  tnoremap <A-t><A-s> <C-\><C-n>:call Term()<CR>
+  fun! s:termnames(...) abort
+    let g:termnames = []
+    for bn in range(1,bufnr('$'))
+      if bufname(bn) =~# "term:.*" && bufloaded(bn)
+        call add(g:termnames, bufname(bn)[5:-1])
+      endif
+    endfor
+    return g:termnames
+  endfun
+  command! -nargs=? -complete=customlist,s:termnames Term silent call Term(<f-args>)
+  nnoremap <A-t><A-e> :call Term()<CR>
+  tnoremap <A-t><A-e> <C-\><C-n>:call Term()<CR>
+  nnoremap <A-t><A-t> :call Term()<CR>
+  tnoremap <A-t><A-t> <C-\><C-n>:call Term()<CR>
   tnoremap <F2> <C-\><C-n>:NERDTreeToggle<CR>
   tnoremap <C-x><C-n> <C-\><C-n>:NERDTreeToggle<CR>
   "}}}
