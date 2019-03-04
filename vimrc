@@ -372,6 +372,9 @@ endif
 let g:slime_no_mappings=1
 " let g:slime_python_ipython=1
 cabbrev slimc let @s=split($TMUX, ",")[0] \| SlimeConfig
+command! Slimet let g:slime_target = "tmux" <bar> let g:slime_default_config = {"socket_name": split($TMUX, ",")[0], "target_pane": ":.1"}
+command! Slimen let g:slime_target = "neovim"
+command! Slimev let g:slime_target = "vimterminal"
 xmap <C-c><C-e> <Plug>SlimeRegionSend
 nmap <C-c><C-e> <Plug>SlimeParagraphSend
 nmap <C-c><C-s> <Plug>SlimeLineSend
@@ -1119,39 +1122,26 @@ if has('nvim')
     autocmd TermOpen,BufEnter,WinEnter,BufWinEnter * if &buftype == "terminal" |:startinsert| endif
     autocmd TermOpen * setlocal nonumber norelativenumber
   augroup END
-  fun! Term(name) abort
-    if a:name == ""
-      let name = "shell"
-    else
-      let name = a:name
-    endif
-    let bufferexists = bufexists(name)
-    let window = bufwinnr(name)
-    if !bufferexists
-      13split
-      terminal
-      execute "file " . name
-    elseif bufferexists && window > 0
-      execute window . "wincmd c"
-    elseif bufferexists && window <= 0
-      execute "13split || buffer " . name
-    endif
-  endfun
-  command! -nargs=? -complete=command Term silent call Term(<q-args>)
   "{{{Escaping, Renaming & Opening Terminal Buffers
   tnoremap <C-\><C-\> <C-\><C-n>
-  nnoremap <A-t><A-s> :call Term("shell")<CR>
-  tnoremap <A-t><A-s> <C-\><C-n>:call Term("shell")<CR>
-  " tnoremap <A-t><A-e> <C-\><C-n>:terminal<CR>
-  " nnoremap <A-t><A-e> :terminal<CR>
-  " tnoremap <A-t><A-s> <C-\><C-n>:sp +te<CR>
-  " nnoremap <A-t><A-s> :sp +te<CR>
-  " tnoremap <A-t><A-v> <C-\><C-n>:vs +te<CR>
-  " nnoremap <A-t><A-v> :vs +te<CR>
-  " nnoremap <A-t><A-t><A-v> :vs +te<CR><C-\><C-n>55<C-w><Bar>a
-  " tnoremap <A-t><A-t><A-v> <C-\><C-n>55<C-w><Bar>a
-  " nnoremap <A-t><A-t><A-s> :sp +te<CR><C-\><C-n>13<C-w>_a
-  " tnoremap <A-t><A-t><A-s> <C-\><C-n>13<C-w>_a
+  fun! Term(...) abort
+    let name = (a:0 > 0 && a:1 != "") ? a:1 : exists("g:lasttermname") ? g:lasttermname : "shell"
+    if bufwinnr(name) > 0
+      execute bufwinnr(name) . "wincmd c"
+    else
+      15split
+      if bufexists(name)
+        execute "buffer " . name
+      else
+        terminal
+        execute "file " . name
+      endif
+      let g:lasttermname = name
+    endif
+  endfun
+  command! -nargs=? -complete=buffer Term silent call Term(<q-args>)
+  nnoremap <A-t><A-s> :call Term()<CR>
+  tnoremap <A-t><A-s> <C-\><C-n>:call Term()<CR>
   tnoremap <F2> <C-\><C-n>:NERDTreeToggle<CR>
   tnoremap <C-x><C-n> <C-\><C-n>:NERDTreeToggle<CR>
   "}}}
