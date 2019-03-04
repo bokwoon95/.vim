@@ -24,7 +24,7 @@ silent! set macmeta
 
 "{{{ Meta for Terminal Vim
 if !has("gui_running") && !has('nvim')
-  "Bind selected meta for selected keys: dbfnp<BS> hjkl vecyq
+  "Bind selected meta for selected keys: dbfnp<BS> hjkl vecyq 7890 ;' s
   silent! exe "set <S-Left>=\<Esc>b"
   silent! exe "set <S-Right>=\<Esc>f"
   silent! exe "set <F31>=\<Esc>d"| "M-d
@@ -87,6 +87,9 @@ if !has("gui_running") && !has('nvim')
   silent! exe "set <F27>=\<Esc>'"| "M-'
   map! <F27> <M-'>
   map <F27> <M-'>
+  silent! exe "set <F28>=\<Esc>s"| "M-s
+  map! <F28> <M-s>
+  map <F28> <M-s>
 endif
 if has('macunix')
   set shell=/bin/zsh
@@ -371,10 +374,16 @@ elseif !has('nvim')
 endif
 let g:slime_no_mappings=1
 " let g:slime_python_ipython=1
-cabbrev slimc let @s=split($TMUX, ",")[0] \| SlimeConfig
-command! Slimet let g:slime_target = "tmux" <bar> let g:slime_default_config = {"socket_name": split($TMUX, ",")[0], "target_pane": ":.1"}
-command! Slimen let g:slime_target = "neovim"
-command! Slimev let g:slime_target = "vimterminal"
+nnoremap <M-s><M-c> :let g:slime_target = "tmux"<CR>
+      \:let b:slime_config = {"socket_name": split($TMUX, ",")[0], "target_pane": ":"}<CR>
+      \:SlimeConfig<CR>
+if has('nvim')
+  tnoremap <A-s><A-c> <C-\><C-n>
+        \:let g:slime_target = "neovim"<CR>
+        \:let g:temp = b:terminal_job_id<CR>
+        \<C-w>p
+        \:let b:slime_config = {"jobid":g:temp}<CR>
+endif
 xmap <C-c><C-e> <Plug>SlimeRegionSend
 nmap <C-c><C-e> <Plug>SlimeParagraphSend
 nmap <C-c><C-s> <Plug>SlimeLineSend
@@ -657,8 +666,6 @@ inoremap <M-q><M--> <C-v>u2717| "✗ XX
 ":h digraph-table for a list of utf8 digraphs you can insert in vim
 "}}}
 "{{{ Buffer Management
-nnoremap <M-s> :bn<CR>
-nnoremap <M-a> :bp<CR>
 nnoremap <C-s> :bn<CR>
 nnoremap <C-q> :bp<CR>
 nnoremap gb :buffers<CR>:buffer<Space>
@@ -1126,11 +1133,14 @@ if has('nvim')
   tnoremap <C-\><C-\> <C-\><C-n>
   nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
   fun! Term(...) abort
-    let name = (a:0 > 0 && a:1 != "") ? a:1 : exists("g:lasttermname") ? g:lasttermname : "shell"
+    let name =
+          \(a:0 > 0 && a:1 != "")   ? "term:" . a:1  :
+          \exists("g:lasttermname") ? g:lasttermname :
+          \"term:shell"
     if bufwinnr(name) > 0
       execute bufwinnr(name) . "wincmd c"
     else
-      15split
+      13split
       if bufexists(name)
         execute "buffer " . name
       else
@@ -1149,8 +1159,6 @@ if has('nvim')
   "{{{Buffer Management in Terminal Buffers
   tnoremap <C-s> <C-\><C-n>:bn<CR>
   tnoremap <C-q> <C-\><C-n>:bp<CR>
-  tnoremap <A-s> <C-\><C-n>:bn<CR>
-  tnoremap <A-a> <C-\><C-n>:bp<CR>
   tnoremap <C-x><C-b> <C-\><C-n>:Buffers<CR>
   tnoremap <C-x>b <C-\><C-n>:ls<CR>:b<Space><C-d>
   tnoremap <C-x><C-f> <C-\><C-n>:Files<CR>
