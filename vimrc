@@ -1124,6 +1124,7 @@ if has('nvim')
   augroup END
   "{{{Escaping, Renaming & Opening Terminal Buffers
   tnoremap <C-\><C-\> <C-\><C-n>
+  nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
   fun! Term(...) abort
     let name = (a:0 > 0 && a:1 != "") ? a:1 : exists("g:lasttermname") ? g:lasttermname : "shell"
     if bufwinnr(name) > 0
