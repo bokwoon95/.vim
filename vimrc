@@ -1127,9 +1127,11 @@ command! -nargs=1 -complete=command Redir silent call Redir(<q-args>)
 "{{{ :terminal settings
 augroup Terminal
   autocmd!
-  autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal i | endif
   if has('nvim')
-      autocmd TermOpen * setlocal nonumber norelativenumber
+    autocmd TermOpen * setlocal nonumber norelativenumber
+    autocmd TermOpen,BufWinEnter,WinEnter * if &buftype == 'terminal' |startinsert| endif
+  else
+    autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' |silent! normal i| endif
   endif
 augroup END
 nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
@@ -1219,10 +1221,6 @@ endif
 "}}}
 "{{{ Vim8 :terminal Settings
 if !has('nvim')
-  augroup Vim8Terminal
-    autocmd!
-    autocmd BufWinEnter,BufEnter,WinEnter * if &buftype ==# "terminal" |startinsert| endif
-  augroup END
   silent! tnoremap <c-w><c-[> <c-\><c-n>
   silent! nnoremap <expr> <c-w><c-i> &buftype ==# 'terminal' ? "i" : ""
   silent! nnoremap <expr> <c-w><c-a> &buftype ==# 'terminal' ? "a" : ""
@@ -1230,5 +1228,7 @@ if !has('nvim')
   silent! tnoremap <c-q> <c-\><c-n>:bp<cr>
   silent! tnoremap <c-s> <c-\><c-n>:bn<cr>
   silent! cabbrev termm term ++curwin
+  hi! link StatusLineTerm   StatusLine
+  hi! link StatusLineTermNC StatusLineNC
 endif
 "}}}
