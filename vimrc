@@ -24,7 +24,7 @@ silent! set macmeta
 
 "{{{ Meta for Terminal Vim
 if !has("gui_running") && !has('nvim')
-  "Bind selected meta for selected keys: dbfnp<BS> hjkl vecyq 7890 ;' s
+  "Bind selected meta for selected keys: dbfnp<BS> hjkl vecyq 7890 ;' st
   silent! exe "set <S-Left>=\<Esc>b"
   silent! exe "set <S-Right>=\<Esc>f"
   silent! exe "set <F31>=\<Esc>d"| "M-d
@@ -90,6 +90,9 @@ if !has("gui_running") && !has('nvim')
   silent! exe "set <F28>=\<Esc>s"| "M-s
   map! <F28> <M-s>
   map <F28> <M-s>
+  silent! exe "set <F29>=\<Esc>t"| "M-t
+  map! <F29> <M-t>
+  map <F29> <M-t>
 endif
 if has('macunix')
   set shell=/bin/zsh
@@ -1121,49 +1124,56 @@ command! -nargs=1 -complete=command Redir silent call Redir(<q-args>)
 "}}}
 "}}}
 
+"{{{ :terminal settings
+augroup Terminal
+  autocmd!
+  autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' | silent! normal i | endif
+  if has('nvim')
+      autocmd TermOpen * setlocal nonumber norelativenumber
+  endif
+augroup END
+nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
+fun! Term(...) abort
+  let name =
+        \(a:0 > 0 && a:1 != "")   ? "term:" . a:1  :
+        \exists("g:lasttermname") ? g:lasttermname :
+        \"term:shell"
+  if bufwinnr(name) > 0
+    execute bufwinnr(name) . "wincmd c"
+  else
+    13split
+    if bufexists(name)
+      execute "buffer " . name
+    else
+      if has('nvim')
+        terminal
+      else
+        terminal ++curwin
+      endif
+      execute "file " . name
+    endif
+    let g:lasttermname = name
+  endif
+endfun
+fun! s:termnames(...) abort
+  let g:termnames = []
+  for bn in range(1,bufnr('$'))
+    if bufname(bn) =~# "term:.*" && bufloaded(bn)
+      call add(g:termnames, bufname(bn)[5:-1])
+    endif
+  endfor
+  return g:termnames
+endfun
+command! -nargs=? -complete=customlist,s:termnames Term silent call Term(<f-args>)
+command! -nargs=? -complete=customlist,s:termnames T silent call Term(<f-args>)
+nnoremap <C-w><C-t> :call Term()<CR>
+tnoremap <C-w><C-t> <C-\><C-n>:call Term()<CR>
+"}}}
 "{{{ Neovim :terminal Settings
 if has('nvim')
   highlight TermCursor ctermfg=1 guifg=1
-  augroup NeovimTerminal
-    autocmd!
-    autocmd TermOpen,BufEnter,WinEnter,BufWinEnter * if &buftype == "terminal" |:startinsert| endif
-    autocmd TermOpen * setlocal nonumber norelativenumber
-  augroup END
   "{{{Escaping, Renaming & Opening Terminal Buffers
   tnoremap <C-\><C-\> <C-\><C-n>
-  nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
-  fun! Term(...) abort
-    let name =
-          \(a:0 > 0 && a:1 != "")   ? "term:" . a:1  :
-          \exists("g:lasttermname") ? g:lasttermname :
-          \"term:shell"
-    if bufwinnr(name) > 0
-      execute bufwinnr(name) . "wincmd c"
-    else
-      13split
-      if bufexists(name)
-        execute "buffer " . name
-      else
-        terminal
-        execute "file " . name
-      endif
-      let g:lasttermname = name
-    endif
-  endfun
-  fun! s:termnames(...) abort
-    let g:termnames = []
-    for bn in range(1,bufnr('$'))
-      if bufname(bn) =~# "term:.*" && bufloaded(bn)
-        call add(g:termnames, bufname(bn)[5:-1])
-      endif
-    endfor
-    return g:termnames
-  endfun
-  command! -nargs=? -complete=customlist,s:termnames Term silent call Term(<f-args>)
-  nnoremap <A-t><A-e> :call Term()<CR>
-  tnoremap <A-t><A-e> <C-\><C-n>:call Term()<CR>
-  nnoremap <A-t><A-t> :call Term()<CR>
-  tnoremap <A-t><A-t> <C-\><C-n>:call Term()<CR>
   tnoremap <F2> <C-\><C-n>:NERDTreeToggle<CR>
   tnoremap <C-x><C-n> <C-\><C-n>:NERDTreeToggle<CR>
   "}}}

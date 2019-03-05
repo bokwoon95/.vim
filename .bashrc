@@ -174,6 +174,14 @@ ipmain() {
     done
   fi
 }
+# Needed for git prompt variable $__git_ps1
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
 if [[ $(uname) = 'Darwin' ]]; then
   # export MYIP=$(ifconfig | grep "inet " | grep -Fv 127.0.0.1 | awk '{print $2}')
   export MYIP=$(ipmain)
@@ -182,9 +190,10 @@ else
   export MYIP=$(ifconfig | grep "inet 192.168" | tail -1 | sed -n "s|^\s*inet \(192.168[0-9\.]\+\).*|\1|p")
 fi
 if [[ "$MYIP" == "" ]]; then
-  export PS1="\H $PWD"
+  export PS1="\H $PWD $(__git_ps1)"
 else
-  export PS1="$MYIP \H $PWD"
+  export PS1="$MYIP \H $PWD $(__git_ps1)"
 fi
 PS1="$PS1"'\n'"\u$ "
 # PS1="$PS1"$'\n'"\u$ "
+# export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]$(__git_ps1) \[\033[00m\]\$ '
