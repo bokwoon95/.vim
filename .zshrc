@@ -608,10 +608,10 @@ fi
 alias sv="source venv/bin/activate"
 
 # Git aliases
-alias  gac-Add-commit-and-push="git add . && git commit -v && git push origin \"$(git branch | grep * | cut -d ' ' -f2)\"" #stage everything, create new commit and push in one step
-alias  gak-Add-kommit-amend-and-push-force="git add . && git commit -v --amend --no-edit && git push -f origin \"$(git branch | grep * | cut -d ' ' -f2)\"" #stage & commit everything into previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
-alias  goc-commit-amend-and-push="git commit -v && git push origin \"$(git branch | grep * | cut -d ' ' -f2)\"" #commit whatever's been staged into the previous commit and push in one step (DO NOT USE FOR SHARED REPOSITORIES)
-alias  gok-kommit-amend-and-push-force="git commit -v --amend --no-edit && git push -f origin \"$(git branch | grep * | cut -d ' ' -f2)\"" #commit whatever's been staged into the previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
+alias  gac-Add-commit-and-push="git add . && git commit -v && git push origin \"$(git branch | grep \* | cut -d ' ' -f2)\"" #stage everything, create new commit and push in one step
+alias  gak-Add-kommit-amend-and-push-force="git add . && git commit -v --amend --no-edit && git push -f origin \"$(git branch | grep \* | cut -d ' ' -f2)\"" #stage & commit everything into previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
+alias  goc-commit-amend-and-push="git commit -v && git push origin \"$(git branch | grep \* | cut -d ' ' -f2)\"" #commit whatever's been staged into the previous commit and push in one step (DO NOT USE FOR SHARED REPOSITORIES)
+alias  gok-kommit-amend-and-push-force="git commit -v --amend --no-edit && git push -f origin \"$(git branch | grep \* | cut -d ' ' -f2)\"" #commit whatever's been staged into the previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
 alias gsp-slave-pull="git fetch --all && git reset --hard \"origin/$(git branch | grep \* | cut -d ' ' -f2)\""
 alias gx="git status"
 alias ga="git add"
@@ -640,7 +640,7 @@ alias gcb="git checkout -b"
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
 alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gsl="git stash list | vim - +'set nonu' +'set ls=1'"
-alias grs="git reset --soft HEAD~1" #soft git commit rollback
+alias grs="git reset --soft HEAD~1 && git reset ." #soft git commit rollback
 alias gr.="git reset ."
 alias gdiv="git diff | vim -M - +'set nonu' +'set ls=1' +'nnoremap q :qa!<CR>' +'echo(\"[PRESS q TO QUIT]\")'"
 gdi () {
