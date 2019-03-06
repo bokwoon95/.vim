@@ -646,7 +646,7 @@ gsp-slave-pull () {
     br="$1"
   fi
   git fetch --all
-  git reset --hard origin/$$br
+  git reset --hard origin/$br
 }
 alias gsl="git stash list | vim - +'set nonu' +'set ls=1'"
 alias grs="git reset --soft HEAD~1" #soft git commit rollback
