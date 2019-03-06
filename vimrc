@@ -1125,6 +1125,7 @@ command! -nargs=1 -complete=command Redir silent call Redir(<q-args>)
 "}}}
 
 "{{{ :terminal settings
+tnoremap <C-\><C-\> <C-\><C-n>
 augroup Terminal
   autocmd!
   if has('nvim')
@@ -1175,7 +1176,6 @@ tnoremap <C-w><C-t> <C-\><C-n>:call Term()<CR>
 if has('nvim')
   highlight TermCursor ctermfg=1 guifg=1
   "{{{Escaping, Renaming & Opening Terminal Buffers
-  tnoremap <C-\><C-\> <C-\><C-n>
   tnoremap <F2> <C-\><C-n>:NERDTreeToggle<CR>
   tnoremap <C-x><C-n> <C-\><C-n>:NERDTreeToggle<CR>
   "}}}

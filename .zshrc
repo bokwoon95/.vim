@@ -638,7 +638,16 @@ alias gb="git branch"
 alias gcb="git checkout -b"
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
 alias gll="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias gsp-slave-pull="git fetch --all && git reset --hard origin/master"
+# alias gsp-slave-pull="git fetch --all && git reset --hard origin/master"
+gsp-slave-pull () {
+  if [[ "$1" == "" ]]; then
+    br="master"
+  else
+    br="$1"
+  fi
+  git fetch --all
+  git reset --hard origin/$$br
+}
 alias gsl="git stash list | vim - +'set nonu' +'set ls=1'"
 alias grs="git reset --soft HEAD~1" #soft git commit rollback
 alias gr.="git reset ."
