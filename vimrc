@@ -493,7 +493,7 @@ nnoremap <C-x>b :ls<CR>:b<Space>
 cnoremap <silent> <expr> <CR> getcmdline() == "b " ? "\<C-c>:b#\<CR>" : "\<CR>"
 nnoremap <C-x><C-h> :setlocal hlsearch!<bar>set hlsearch?<CR>
 inoremap <expr> <C-y> !pumvisible() ? "\<C-o>mm\<C-o>:set paste\<CR>\<C-r>+\<C-o>:set nopaste\<CR>\<Esc>'[=']`mi" : "\<C-y>"
-command! TT verbose setlocal ts? sts? sw? et?
+command! TL verbose setlocal ts? sts? sw? et?
 command! T2 setlocal ts=2 sts=2 sw=2 et | echo "indentation set to 2 spaces"
 command! T4 setlocal ts=4 sts=4 sw=4 et | echo "indentation set to 4 spaces"
 command! Tb4 setlocal ts=4 sts=4 sw=4 noet | echo "indentation set to 4-spaced Tabs"
@@ -1161,17 +1161,25 @@ fun! Term(...) abort
     let g:lasttermname = name
   endif
 endfun
-fun! s:termnames(...) abort
+fun! s:termnames(ArgLead, CmdLine, CursorPos) abort
   let g:termnames = []
   for bn in range(1,bufnr('$'))
     if bufname(bn) =~# "term:.*" && bufloaded(bn)
       call add(g:termnames, bufname(bn)[5:-1])
     endif
   endfor
-  return g:termnames
+  return filter(g:termnames, 'v:val =~ "^'. a:ArgLead .'"')
+endfun
+fun! s:term(...) abort
+  let name = (a:0 > 0 && a:1 != "") ? a:1  : ""
+  if exists("g:lasttermname") && bufwinnr(g:lasttermname) > 0
+    execute bufwinnr(g:lasttermname) . "wincmd c"
+  endif
+  silent call Term(name)
 endfun
 command! -nargs=? -complete=customlist,s:termnames Term silent call Term(<f-args>)
-command! -nargs=? -complete=customlist,s:termnames T silent call Term(<f-args>)
+command! -nargs=? -complete=customlist,s:termnames T silent call s:term(<f-args>)
+command! -nargs=? -complete=customlist,s:termnames TT silent call Term(<f-args>)
 nnoremap <C-w><C-t> :call Term()<CR>
 tnoremap <C-w><C-t> <C-\><C-n>:call Term()<CR>
 "}}}
