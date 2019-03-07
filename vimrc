@@ -1190,6 +1190,8 @@ if has('nvim')
   "}}}
   "{{{Window Management in Terminal Buffers
   tnoremap <A-w> <C-\><C-n><C-w>
+  tnoremap <C-w> <C-\><C-n><C-w>
+  tnoremap <A-h> <C-\><C-n><C-w>h
   tnoremap <A-j> <C-\><C-n><C-w>j
   tnoremap <A-k> <C-\><C-n><C-w>k
   tnoremap <A-l> <C-\><C-n><C-w>l
@@ -1211,7 +1213,6 @@ if has('nvim')
   tnoremap <A-[> <C-\><C-n>gT
   tnoremap <A-]> <C-\><C-n>gt
   "}}}
-  tnoremap <M-BS> <C-\><C-n><C-^>
   tnoremap <C-^> <C-\><C-n>:e<Space>#<CR>| "switch from terminal to prev buffer
   tnoremap <M-z> pwd\|pbcopy<CR><C-\><C-n>:cd <C-r>+<CR>i| "make vim CWD same as terminal CWD
   tnoremap <M-e> <C-\><C-n>:e<Space>

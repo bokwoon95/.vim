@@ -8,11 +8,30 @@
   excludesfile = ~/.gitignore
   editor = vim
 [alias]
-  d = difftool
-  dc = difftool --cached
-  diffc = diff --cached
-  pr = pull --rebase
-  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog
+  s = "status"
+  b = "branch"
+  a = "add"
+  aa = "add ."
+  ap = "add -p"
+  c = "checkout"
+  cb = "checkout -b"
+  diffc = "diff --cached"
+  d = "difftool"
+  dc = "difftool --cached"
+  pullr = "pull --rebase"
+  l = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
+  ll = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+  co = "!#commit"
+  aco = "!#add commit"
+  acpush = "!acpush() {\
+    git add . && git commit -v && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
+    }; acpush"
+  cpush = "!cpush() {\
+    git commit -v && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
+    }; cpush"
+  pullf = "!pullf() {\
+    git fetch --all && git reset --hard origin/$(git branch | grep \\* | cut -d ' ' -f2);\
+    }; pullf"
 [diff]
   tool = vimdiff
   algorithm = patience
