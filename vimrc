@@ -434,6 +434,8 @@ Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
 
 Plug 'tpope/vim-rails'
 
+Plug 'tpope/vim-dispatch'
+
 silent! call plug#end()
 "}}}
 
