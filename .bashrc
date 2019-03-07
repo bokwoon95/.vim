@@ -190,9 +190,9 @@ else
   export MYIP=$(ifconfig | grep "inet 192.168" | tail -1 | sed -n "s|^\s*inet \(192.168[0-9\.]\+\).*|\1|p")
 fi
 if [[ "$MYIP" == "" ]]; then
-  export PS1="\H \w $(__git_ps1)"
+  export PS1="\H \w$(__git_ps1)"
 else
-  export PS1="$MYIP \H \w $(__git_ps1)"
+  export PS1="$MYIP \H \w$(__git_ps1)"
 fi
 PS1="$PS1"'\n'"\u$ "
 # PS1="$PS1"$'\n'"\u$ "
