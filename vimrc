@@ -628,6 +628,7 @@ command! EE call Checkt()
 command! EA call Checkt(1)
 xmap <S-Tab> %
 inoremap <C-g><C-d> <C-d>| "C-t indents, C-g C-d de-indents in insert mode
+command! Timestamps %s/^\s*\zs\(\d\{10}\)/\=strftime('%c', submatch(1))/g
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-d>
@@ -1228,7 +1229,7 @@ if !has('nvim')
   silent! tnoremap <c-x><c-b> <c-\><c-n>:ls<cr>:b<space>
   silent! tnoremap <c-q> <c-\><c-n>:bp<cr>
   silent! tnoremap <c-s> <c-\><c-n>:bn<cr>
-  silent! cabbrev termm term ++curwin
+  silent! cnoreabbrev termm term ++curwin
   hi! link StatusLineTerm   StatusLine
   hi! link StatusLineTermNC StatusLineNC
 endif

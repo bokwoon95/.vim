@@ -8,8 +8,13 @@
   excludesfile = ~/.gitignore
   editor = vim
 [alias]
+  x = "status"
   s = "status"
   b = "branch"
+  ra = "reset ."
+  rs = "!rs() {\
+    git reset --soft HEAD~1 && git reset .;\
+    }; rs"
   a = "add"
   aa = "add ."
   ap = "add -p"
@@ -32,6 +37,11 @@
   pullf = "!pullf() {\
     git fetch --all && git reset --hard origin/$(git branch | grep \\* | cut -d ' ' -f2);\
     }; pullf"
+  checkdangling = "fsck --unreachable --no-reflogs"
+  prunedangling = "!prunedangling() {\
+    git reflog expire --expire-unreachable=now --all;\
+    git gc --prune=now;\
+    }; prunedangling"
 [diff]
   tool = vimdiff
   algorithm = patience

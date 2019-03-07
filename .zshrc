@@ -608,6 +608,7 @@ fi
 alias sv="source venv/bin/activate"
 
 # Git aliases
+alias g="git "
 alias  gac-Add-commit-and-push="git add . && git commit -v && git push origin \"\$(git branch | grep \* | cut -d ' ' -f2)\"" #stage everything, create new commit and push in one step
 alias  gak-Add-kommit-amend-and-push-force="git add . && git commit -v --amend --no-edit && git push -f origin \"\$(git branch | grep \* | cut -d ' ' -f2)\"" #stage & commit everything into previous commit and force push in one step (DO NOT USE FOR SHARED REPOSITORIES)
 alias  goc-commit-and-push="git commit -v && git push origin \"\$(git branch | grep \* | cut -d ' ' -f2)\"" #commit whatever's been staged into the previous commit and push in one step (DO NOT USE FOR SHARED REPOSITORIES)
