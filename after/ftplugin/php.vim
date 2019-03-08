@@ -5,7 +5,7 @@ if !has("gui_running")
   setlocal colorcolumn=120
 endif
 
-command! PHPlint !php -l %
+command! -buffer PHPlint !php -l %
 
 nnoremap <buffer> K :Dash<CR>
 xnoremap <buffer> K "+y:Dash <C-r>+<CR>
