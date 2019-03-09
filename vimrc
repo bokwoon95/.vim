@@ -439,6 +439,12 @@ Plug 'tpope/vim-dispatch'
 silent! call plug#end()
 "}}}
 
+" vL*NjjVnkkyopgh:g/^$/d\VjdLBBBBikV{jzfj:let @/=''testcase \d''\
+" ^SELECT * FROM zzdb6q3;
+" -- Load data for ^testcase 6
+" press q
+let @e="vL*NjjVnkkyopgh:g/^$/dVjdLBBBBikV{jzfj:let @/='testcase \\d'"
+
 syntax enable
 set hidden                     " Hide Buffers, not Kill
 set autoindent                 " Autoindentation
@@ -982,6 +988,7 @@ augroup Autocommands
   " autocmd BufLeave NERD_tree_* setlocal nocursorline
   autocmd BufNewFile,BufRead *.fish setlocal filetype=fish
   autocmd BufNewFile,BufRead *.ejs setlocal filetype=html
+  autocmd BufNewFile,BufRead *.vue setlocal filetype=html
   autocmd BufEnter,BufLeave * if &buftype ==# 'terminal' | let g:t_bufnum = expand('<abuf>') | endif
   autocmd CompleteDone * pclose
 augroup END
@@ -1147,7 +1154,7 @@ fun! Term(...) abort
   if bufwinnr(name) > 0
     execute bufwinnr(name) . "wincmd c"
   else
-    13split
+    15split
     if bufexists(name)
       execute "buffer " . name
     else
