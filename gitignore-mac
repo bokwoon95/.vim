@@ -33,3 +33,6 @@ vendor
 
 # NUS Skylab
 nusskylab-db/
+
+request.http
+request.response*

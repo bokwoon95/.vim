@@ -138,7 +138,7 @@ Plug 'tpope/vim-fugitive'|               " Git wrapper
 
 Plug '907th/vim-auto-save'|              " Saveless vim
 nnoremap =oa :AutoSaveToggle<CR>
-let g:auto_save_events = ["CursorHold", "CursorHoldI", "TextChanged", "InsertLeave"]
+" let g:auto_save_events = ["CursorHold", "CursorHoldI", "TextChanged", "InsertLeave"]
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_silent = 1
 
@@ -435,6 +435,13 @@ Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
 Plug 'tpope/vim-rails'
 
 Plug 'tpope/vim-dispatch'
+
+Plug 'bokwoon95/vim-http'
+let g:vim_http_tempbuffer = 1
+let g:vim_http_split_vertically = 1
+command! -range=% JQ <line1>,<line2>!jq '.'
+
+Plug 'tpope/vim-unimpaired'
 
 silent! call plug#end()
 "}}}
@@ -783,29 +790,29 @@ cnoremap <C-M-b> <S-Left>
 "}}}
 "{{{ Vim Unimpaired
 "Insert space above and below
-function! s:BlankUp(count) abort
-  put!=repeat(nr2char(10), a:count)
-  ']+1
-  silent! call repeat#set("\<Plug>unimpairedBlankUp", a:count)
-endfunction
-function! s:BlankDown(count) abort
-  put =repeat(nr2char(10), a:count)
-  '[-1
-  silent! call repeat#set("\<Plug>unimpairedBlankDown", a:count)
-endfunction
-nnoremap <silent> [<Space> :<C-U>call <SID>BlankUp(v:count1)<CR>
-nnoremap <silent> ]<Space> :<C-U>call <SID>BlankDown(v:count1)<CR>
-
-"Settings
-nnoremap [ol :setlocal list<CR>
-nnoremap ]ol :setlocal nolist<CR>
-nnoremap [oh :setlocal hlsearch<CR>
-nnoremap ]oh :setlocal nohlsearch<CR>
-inoremap <C-x><C-h> <C-o>:setlocal hlsearch!<bar>set hlsearch?<CR>
-nnoremap [os :setlocal spell<CR>
-nnoremap ]os :setlocal nospell<CR>
-nnoremap [od :diffthis<CR>
-nnoremap ]od :diffoff<CR>
+" function! s:BlankUp(count) abort
+"   put!=repeat(nr2char(10), a:count)
+"   ']+1
+"   silent! call repeat#set("\<Plug>unimpairedBlankUp", a:count)
+" endfunction
+" function! s:BlankDown(count) abort
+"   put =repeat(nr2char(10), a:count)
+"   '[-1
+"   silent! call repeat#set("\<Plug>unimpairedBlankDown", a:count)
+" endfunction
+" nnoremap <silent> [<Space> :<C-U>call <SID>BlankUp(v:count1)<CR>
+" nnoremap <silent> ]<Space> :<C-U>call <SID>BlankDown(v:count1)<CR>
+"
+" "Settings
+" nnoremap [ol :setlocal list<CR>
+" nnoremap ]ol :setlocal nolist<CR>
+" nnoremap [oh :setlocal hlsearch<CR>
+" nnoremap ]oh :setlocal nohlsearch<CR>
+" inoremap <C-x><C-h> <C-o>:setlocal hlsearch!<bar>set hlsearch?<CR>
+" nnoremap [os :setlocal spell<CR>
+" nnoremap ]os :setlocal nospell<CR>
+" nnoremap [od :diffthis<CR>
+" nnoremap ]od :diffoff<CR>
 nnoremap [wd :let g:prevwin=win_getid()<CR>
       \:let b:wsv=winsaveview()<CR>
       \:windo diffthis<CR>
@@ -814,18 +821,18 @@ nnoremap [wd :let g:prevwin=win_getid()<CR>
 nnoremap ]wd :let b:wsv=winsaveview()<CR>
       \:diffoff!<CR>
       \:silent! call winrestview(b:wsv)<CR>
-nnoremap [on :setlocal number<CR>
-nnoremap ]on :setlocal nonumber<CR>
-nnoremap [oc :setlocal cursorline<CR>
-nnoremap ]oc :setlocal nocursorline<CR>
-nnoremap [ov :setlocal virtualedit=all<CR>
-nnoremap ]ov :setlocal virtualedit=<CR>
-nnoremap [b :bprev<CR>
-nnoremap ]b :bnext<CR>
-nnoremap [l :lprevious<CR>
-nnoremap ]l :lnext<CR>
-nnoremap [q :cprevious<CR>
-nnoremap ]q :cnext<CR>
+" nnoremap [on :setlocal number<CR>
+" nnoremap ]on :setlocal nonumber<CR>
+" nnoremap [oc :setlocal cursorline<CR>
+" nnoremap ]oc :setlocal nocursorline<CR>
+" nnoremap [ov :setlocal virtualedit=all<CR>
+" nnoremap ]ov :setlocal virtualedit=<CR>
+" nnoremap [b :bprev<CR>
+" nnoremap ]b :bnext<CR>
+" nnoremap [l :lprevious<CR>
+" nnoremap ]l :lnext<CR>
+" nnoremap [q :cprevious<CR>
+" nnoremap ]q :cnext<CR>
 "}}}
 "{{{ Vim Tips
 " To apply macros to multiple lines, highlight the lines and :norm!@@
