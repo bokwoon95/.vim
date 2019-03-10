@@ -438,7 +438,6 @@ Plug 'tpope/vim-dispatch'
 
 Plug 'bokwoon95/vim-http'
 let g:vim_http_tempbuffer = 1
-let g:vim_http_split_vertically = 1
 command! -range=% JQ <line1>,<line2>!jq '.'
 
 Plug 'tpope/vim-unimpaired'
@@ -641,6 +640,12 @@ fun! Checkt(...) abort
 endfun
 command! EE call Checkt()
 command! EA call Checkt(1)
+fun! Bufdo(cmd) abort
+  let currbufnr = bufnr("%")
+  execute "bufdo " . a:cmd
+  execute "buffer" . currbufnr
+endfun
+command! -nargs=1 -complete=command Bufdo silent call Bufdo(<q-args>)
 xmap <S-Tab> %
 inoremap <C-g><C-d> <C-d>| "C-t indents, C-g C-d de-indents in insert mode
 command! Timestamps %s/^\s*\zs\(\d\{10}\)/\=strftime('%c', submatch(1))/g

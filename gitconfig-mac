@@ -27,7 +27,7 @@
   l = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
   ll = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
   co = "commit"
-  aco = "add commit"
+  aco = "!aco() { git add . && git commit; }; aco"
   acpush = "!acpush() {\
     git add . && git commit -v && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
     }; acpush"
