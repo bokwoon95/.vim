@@ -32,6 +32,7 @@ node_modules
 vendor
 
 # NUS Skylab
-nusskylab-db/
+nusskylab_dev/
+.byebug_history
 
 httprequests/

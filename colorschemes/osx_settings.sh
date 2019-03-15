@@ -79,7 +79,8 @@ defaults write com.apple.dock autohide -bool true && defaults write com.apple.do
 defaults write NSGlobalDomain _HIHideMenuBar -bool true && killall Finder
 
 # To show hidden files in Finder (restart for changes to take place):
-defaults write com.apple.finder AppleShowAllFiles YES && killall Finder
+# defaults write com.apple.finder AppleShowAllFiles YES && killall Finder
+# I've decided to disable this. To toggle, I can always use Cmd+Shift+.
 
 # To show hidden applications (Cmd-H) in dock:
 defaults write com.apple.Dock showhidden -bool YES;killall Dock
