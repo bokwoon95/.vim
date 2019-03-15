@@ -270,6 +270,7 @@ let g:ctrlsf_mapping = {
             \}
 
 Plug 'tpope/vim-ragtag'
+let g:ragtag_global_maps = 1
 
 Plug 'mattn/emmet-vim'
 let g:user_emmet_leader_key='<C-z>'
@@ -441,6 +442,9 @@ let g:vim_http_tempbuffer = 1
 command! -range=% JQ <line1>,<line2>!jq '.'
 
 Plug 'tpope/vim-unimpaired'
+
+Plug 'tpope/vim-dadbod'
+let g:dadbod_manage_dbext = 1
 
 silent! call plug#end()
 "}}}
