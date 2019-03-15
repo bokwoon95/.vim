@@ -445,12 +445,6 @@ Plug 'tpope/vim-unimpaired'
 silent! call plug#end()
 "}}}
 
-" vL*NjjVnkkyopgh:g/^$/d\VjdLBBBBikV{jzfj:let @/=''testcase \d''\
-" ^SELECT * FROM zzdb6q3;
-" -- Load data for ^testcase 6
-" press q
-let @e="vL*NjjVnkkyopgh:g/^$/dVjdLBBBBikV{jzfj:let @/='testcase \\d'"
-
 syntax enable
 set hidden                     " Hide Buffers, not Kill
 set autoindent                 " Autoindentation
