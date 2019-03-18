@@ -647,6 +647,8 @@ command! -nargs=1 -complete=command Bufdo silent call Bufdo(<q-args>)
 xmap <S-Tab> %
 inoremap <C-g><C-d> <C-d>| "C-t indents, C-g C-d de-indents in insert mode
 command! Timestamps %s/^\s*\zs\(\d\{10}\)/\=strftime('%c', submatch(1))/g
+xnoremap <expr> p '"_d"' . v:register . 'p'
+xnoremap <expr> P '"_d"' . v:register . 'P'
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-d>
