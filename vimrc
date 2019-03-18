@@ -446,6 +446,8 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-dadbod'
 let g:dadbod_manage_dbext = 1
 
+Plug 'elixir-editors/vim-elixir'
+
 silent! call plug#end()
 "}}}
 
