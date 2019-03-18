@@ -153,6 +153,10 @@ let NERDTreeMapJumpPrevSibling='<C-p>'
 let NERDTreeMapPreview='<M-k>'
 let NERDTreeHighlightCursorline=1
 let NERDTreeHijackNetrw=1
+if !has('gui_running')
+  let NERDTreeDirArrowCollapsible = '▽'
+  let NERDTreeDirArrowExpandable = '▶'
+endif
 
 Plug 'Yggdroot/indentLine'|              " Visual guides for indentation
 let g:indentLine_enabled=1

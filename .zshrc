@@ -860,3 +860,6 @@ fi
 if [[ -z "$TMUX" && ! -n "${NVIM_LISTEN_ADDRESS+x}" ]]; then
   TERM=screen-256color-bce tmux -u new-session -A -s main
 fi
+
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
