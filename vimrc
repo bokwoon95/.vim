@@ -666,6 +666,9 @@ fun! Bw()
   set hidden
 endfun
 command! Bw call Bw()
+nnoremap c "_c
+nnoremap C "_C
+nnoremap D "_D
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-d>

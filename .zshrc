@@ -218,6 +218,12 @@ gbin () {
   fi
 }
 
+# Vagrant
+homestead() {
+  (cd ~/Homestead && vagrant $*)
+}
+alias hs="homestead"
+
 # Service aliases
 if [[ $(uname) = 'Linux' ]]; then
   alias sx="sudo service"
