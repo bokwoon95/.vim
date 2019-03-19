@@ -43,7 +43,8 @@
     git gc --prune=now;\
     }; prunedangling"
   em = "!em() {\
-    vim $(git status --porcelain | awk '{print $2}');\
+    [ -z $EDITOR ] && EDITOR='vim';\
+    $EDITOR $(git status --porcelain | awk '{print $2}');\
     }; em"
 [diff]
   tool = vimdiff

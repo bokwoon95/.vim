@@ -192,6 +192,9 @@ path-prepend ~/Qt5.5.0/5.5/clang_64/bin
 # This must happen after ~/.local/bin is added to $PATH
 if command -v nvim >/dev/null 2>&1; then
   alias vim="nvim"
+  export EDITOR="nvim"
+else
+  export EDITOR="vim"
 fi
 if command -v clip.exe >/dev/null 2>&1; then
   xo() {
@@ -269,7 +272,6 @@ fi
 # old config #
 ##############
 
-export EDITOR='vim'
 if [[ -d ~/minvim/ && -f ~/minvim/min.vim ]]; then
   alias minvim="vim -u ~/minvim/min.vim"
 fi
