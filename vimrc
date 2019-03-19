@@ -1196,6 +1196,7 @@ fun! Term(...) abort
         terminal ++curwin
       endif
       execute "file " . name
+      set nobuflisted
     endif
     let g:lasttermname = name
   endif
