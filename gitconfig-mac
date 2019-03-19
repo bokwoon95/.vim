@@ -42,6 +42,9 @@
     git reflog expire --expire-unreachable=now --all;\
     git gc --prune=now;\
     }; prunedangling"
+  em = "!em() {\
+    vim $(git status --porcelain | awk '{print $2}');\
+    }; em"
 [diff]
   tool = vimdiff
   algorithm = patience
