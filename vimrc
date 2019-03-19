@@ -655,6 +655,17 @@ inoremap <C-g><C-d> <C-d>| "C-t indents, C-g C-d de-indents in insert mode
 command! Timestamps %s/^\s*\zs\(\d\{10}\)/\=strftime('%c', submatch(1))/g
 xnoremap <expr> p '"_d"' . v:register . 'p'
 xnoremap <expr> P '"_d"' . v:register . 'P'
+nnoremap gf :set nohidden<CR>gf
+fun! Bw()
+  set nohidden
+  for i in range(1, bufnr('$'))
+    if getbufvar(i, '&filetype') == "netrw"
+      silent execute 'bwipeout! ' . i
+    endif
+  endfor
+  set hidden
+endfun
+command! Bw call Bw()
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-d>
