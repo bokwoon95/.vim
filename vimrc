@@ -441,7 +441,7 @@ Plug 'tpope/vim-rails'
 
 Plug 'tpope/vim-dispatch'
 
-Plug 'bokwoon95/vim-http'
+Plug 'nicwest/vim-http'
 let g:vim_http_tempbuffer = 1
 command! -range=% JQ <line1>,<line2>!jq '.'
 
