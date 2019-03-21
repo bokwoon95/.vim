@@ -58,8 +58,8 @@ git difference [optional COMMIT(S)]
 git show [COMMIT]
 • Display the code changes for a particular commit
 
-git undo
-• Undo the latest save. Very useful when you have pushed a commit and realize you need to make one small change. Just undo and push again! But take note, rewriting history you'll have to force push!
+git undosave
+• Undo the latest save. Very useful when you have pushed a commit and realize you need to make one small change. Just undosave, save again then forcepush!
 
 ========
 = Demo =
@@ -67,11 +67,12 @@ git undo
 
 Demo 1: Save, save, save, rollback. All history is preserved (as a tree), so you can always find the right commit to rollback to.
 commands - git save, git rollback
-Demo 1.5: You make some changes, save and push. Later your friend makes another change and pushes, so you pull in his changes before pushing yours.
+Demo 1.5: You make some changes, save and push. Later your friend makes another change and pushes, so you pull in his changes before making any more changes.
 commands - git push, git savepush, git pullr
 
-Demo 2: Writing, push, push rejected. Simply fixpush , dive into the code to remove merge conflict markers, and push again. Or, just remond them to do a pullr before savepushing.
+Demo 2: Writing, push, push rejected. Simply fixpush , dive into the code to remove merge conflict markers, and push again. Or, always remember to do a pullr before savepushing.
 commands - git fixpush
 
 Demo 3: Writing, savepush, oh no I need to make one small change! Simply undo, make changes, then save and forcepush.
-commands - git undo, git forcepush
+(Drive home the point that as long as you're not merely adding commits to github, but rather modifying it in some way, you -WILL- have to do a forcepush. Such as after a rollback)
+commands - git undosave, git forcepush
