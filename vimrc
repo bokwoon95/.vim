@@ -621,7 +621,7 @@ nnoremap <expr> <C-x><C-r> &diff ? "
       \:silent! call winrestview(b:wsv)<CR>
       \": ""
 nnoremap <expr> <C-x><C-d> &diff ? ":diffget<CR>" : ""
-cnoremap <C-j> <Down>
+cmap <C-j> <Down>
 nnoremap gh `[v`]| "Select last pasted text
 nnoremap <expr> <C-c><C-c> bufname("") == "[Command Line]" ? ":close<CR>" : ""
 " cnoremap sudow w !sudo tee % >/dev/null

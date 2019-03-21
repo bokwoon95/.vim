@@ -7,9 +7,9 @@ endif
 
 command! -buffer PHPlint !php -l %
 
-nnoremap <buffer> K :Dash<CR>
-xnoremap <buffer> K "+y:Dash <C-r>+<CR>
-nnoremap <buffer> gK :Dash <cWORD><CR>
+" nnoremap <buffer> K :Dash<CR>
+" xnoremap <buffer> K "+y:Dash <C-r>+<CR>
+" nnoremap <buffer> gK :Dash <cWORD><CR>
 nnoremap <buffer> <C-c><C-d> :ALEGoToDefinition<CR>
 nnoremap <buffer> <C-c><C-h> :ALEHover<CR>
 
