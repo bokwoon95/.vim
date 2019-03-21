@@ -1247,6 +1247,18 @@ command! -nargs=1 -complete=command Redir silent call Redir(<q-args>)
 " 	:Redir hi ............. show the full output of command ':hi' in a scratch window
 " 	:Redir !ls -al ........ show the full output of command ':!ls -al' in a scratch window
 "}}}
+"{{{ KeepOpen
+fun! KeepOpen(...)
+  let l:exclude = map(copy(a:000), {i,x -> str2nr(x)})
+  let l:buflist = filter(range(1, bufnr('$')), 'buflisted(v:val)')
+  let g:dellist = filter(l:buflist, {i,x -> !(index(l:exclude, x) >= 0)})
+  if len(g:dellist) > 1
+    execute 'bd ' . join(g:dellist, ' ')
+  endif
+endfun
+command! -nargs=+ KeepOpen call KeepOpen(<f-args>)
+nnoremap <C-x><C-x><C-k> :ls<CR>:KeepOpen<Space>
+"}}}
 "}}}
 
 "{{{ :terminal settings
