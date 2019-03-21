@@ -452,6 +452,10 @@ let g:dadbod_manage_dbext = 1
 
 Plug 'elixir-editors/vim-elixir'
 
+Plug 'romainl/vim-devdocs'
+
+Plug 'jwalton512/vim-blade'
+
 silent! call plug#end()
 "}}}
 
