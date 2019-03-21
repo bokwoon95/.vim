@@ -5,6 +5,7 @@
 commit - a 'save point'
 origin - GitHub
 HEAD -> master - Where you are right now
+NOTE: If you are not working with GitHub, anything with the word 'push' or 'pull' in it you can safely ignore! That means the only relevant commands are git save and git rollback(!)
 
 ==============
 = idempotent =
@@ -27,25 +28,50 @@ git push
 • Pushes your unpushed commits to GitHub
 
 git savepush [MESSAGE]
-• Combination of the above two
+• Combination of the save and push
 
-git pullr
-(is there a better name than pullr?)
-• Pulls the latest commit(s) from GitHub. It is better than pull because it will rebase linearly, avoiding stupid merge commits. If the latest commits conflict with your work, you will enter a merge conflict
+git pull(r)
+• Pulls the latest commit(s) from GitHub. pullr is better than pull because it will rebase linearly, avoiding stupid merge commits. If the latest commits conflict with your work, you will enter a merge conflict.
 
 ========================
 = when things go wrong =
 ========================
 
-git rollback [COMMIT]
-• Once something goes wrong you can rollback to a previous commit, using the commit's hash found by git history. (Note that rollback is not equivalent to checkout, because rollback doesn't go into detached head mode. It will always forcibly move master along with head)
-
 git fixpush
 • When someone else has already pushed and you try to push as well, GitHub will reject your push. fixpush will update (pull) the latest changes in first, thus allowing you to push. If the latest changes conflict with the changes you are about to push, there will be a merge conflict which you have to resolve before you can push.
 
+git rollback [COMMIT]
+• Once something goes wrong you can rollback to a previous commit, using the commit's hash found by git history. (Note that rollback is not equivalent to checkout, because rollback doesn't go into detached head mode. It will always forcibly move master along with head)
+
 git forcepush
+(should I make a saveforcepush, or tell users to save then forcepush?)
 • Whenever you rewrite history (e.g. after a rollback), GitHub will not easily let you push into it as a sort of a safeguard. You have to explicitly specify that you want to force-push whatever you have into GitHub.
 
-git difference
+================
+= useful tools =
+================
+
+git difference [optional COMMIT(S)]
 (make sure difftool=vim and algorithm=patience, plus q for quitting :qa!)
-• Shows the difference between two provided commits. If one commit is provided, it will be compared with 'head'. If no commits are provided, 'head' will be compared with the unsaved changes.
+• If no commits are provided, 'head' will be compared with the unsaved changes. If one commit is provided, that commit will be compared with 'head'. If both commits are provided, they are compared with each other.
+
+git show [COMMIT]
+• Display the code changes for a particular commit
+
+git undo
+• Undo the latest save. Very useful when you have pushed a commit and realize you need to make one small change. Just undo and push again! But take note, rewriting history you'll have to force push!
+
+========
+= Demo =
+========
+
+Demo 1: Save, save, save, rollback. All history is preserved (as a tree), so you can always find the right commit to rollback to.
+commands - git save, git rollback
+Demo 1.5: You make some changes, save and push. Later your friend makes another change and pushes, so you pull in his changes before pushing yours.
+commands - git push, git savepush, git pullr
+
+Demo 2: Writing, push, push rejected. Simply fixpush , dive into the code to remove merge conflict markers, and push again. Or, just remond them to do a pullr before savepushing.
+commands - git fixpush
+
+Demo 3: Writing, savepush, oh no I need to make one small change! Simply undo, make changes, then save and forcepush.
+commands - git undo, git forcepush
