@@ -487,6 +487,7 @@ set whichwrap+=[,],<,>         " <Left> & <Right> keys will wrap to prev/next li
 syntax sync minlines=256       " start highlighting from 256 lines backwards
 set synmaxcol=300              " do not highlight very long lines
 set autoread                   " Reload files if they have been changed externally
+set lazyredraw                 " Wait for changes to finish before redrawing screen
 augroup Checkt
   autocmd!
   autocmd FocusGained,BufEnter * checktime " To trigger vim's autoread on focus gained or buffer enter

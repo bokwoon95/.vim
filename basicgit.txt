@@ -1,0 +1,51 @@
+===============
+= terminology =
+===============
+
+commit - a 'save point'
+origin - GitHub
+HEAD -> master - Where you are right now
+
+==============
+= idempotent =
+==============
+
+git status
+• display what files have been changed, etc
+
+git history
+• display the commit history. Uses reflog so that branches beyond master are visible.
+
+================
+= basic saving =
+================
+
+git save [MESSAGE]
+• Saves a commit with a message
+
+git push
+• Pushes your unpushed commits to GitHub
+
+git savepush [MESSAGE]
+• Combination of the above two
+
+git pullr
+(is there a better name than pullr?)
+• Pulls the latest commit(s) from GitHub. It is better than pull because it will rebase linearly, avoiding stupid merge commits. If the latest commits conflict with your work, you will enter a merge conflict
+
+========================
+= when things go wrong =
+========================
+
+git rollback [COMMIT]
+• Once something goes wrong you can rollback to a previous commit, using the commit's hash found by git history. (Note that rollback is not equivalent to checkout, because rollback doesn't go into detached head mode. It will always forcibly move master along with head)
+
+git fixpush
+• When someone else has already pushed and you try to push as well, GitHub will reject your push. fixpush will update (pull) the latest changes in first, thus allowing you to push. If the latest changes conflict with the changes you are about to push, there will be a merge conflict which you have to resolve before you can push.
+
+git forcepush
+• Whenever you rewrite history (e.g. after a rollback), GitHub will not easily let you push into it as a sort of a safeguard. You have to explicitly specify that you want to force-push whatever you have into GitHub.
+
+git difference
+(make sure difftool=vim and algorithm=patience, plus q for quitting :qa!)
+• Shows the difference between two provided commits. If one commit is provided, it will be compared with 'head'. If no commits are provided, 'head' will be compared with the unsaved changes.
