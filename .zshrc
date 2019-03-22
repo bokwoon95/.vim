@@ -820,6 +820,13 @@ bindkey '^ ' forward-word
 
 # project aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if command -v ag >/dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+elif command -v rg >/dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
+else
+  export FZF_DEFAULT_COMMAND='find .'
+fi
 
 # neovim-remote
 if [ -n "${NVIM_LISTEN_ADDRESS}" ]; then

@@ -1,4 +1,5 @@
 setlocal ts=4 sw=4 sts=4 noet
+setlocal commentstring=//\ %s
 setlocal formatoptions-=cro
 if !has("gui_running")
   setlocal colorcolumn=80

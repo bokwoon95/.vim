@@ -60,6 +60,14 @@
     [ -z $EDITOR ] && EDITOR='vim';\
     $EDITOR $(git status --porcelain | awk '{print $2}');\
     }; em"
+  ec = "!ec() {\
+    [ -z $EDITOR ] && EDITOR='vim';\
+    git diff --name-only | uniq | xargs $EDITOR;\
+    }; ec"
+  copyfile = "!copyfile() {\
+    git checkout $1 $2;\
+    git status;\
+    }; copyfile"
 [diff]
   tool = vimdiff
   algorithm = patience
