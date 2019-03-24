@@ -19,7 +19,7 @@
   fixpush = "!pullpush() {\
     git reset --soft HEAD~1\
     && git reset .\
-    && git stash\
+    && git stash --include-untracked\
     && git pull --rebase\
     && git stash apply;\
     }; pullpush"
@@ -68,6 +68,15 @@
     git checkout $1 $2;\
     git status;\
     }; copyfile"
+  save = "!save() {\
+    git add . && git commit -m $1;\
+    }; save"
+  rollback = "!rollback() {\
+    git checkout $1 && git branch -f master HEAD;\
+  }; rollback"
+  sync = "!sync() {\
+    git stash --include-untracked && git pull --rebase && git stash pop;\
+    }; sync"
 [diff]
   tool = vimdiff
   algorithm = patience
