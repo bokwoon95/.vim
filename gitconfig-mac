@@ -16,13 +16,12 @@
     else git add . && git commit -v --message=\"$@\" && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
     fi;\
     }; acpush"
-  fixpush = "!pullpush() {\
-    git reset --soft HEAD~1\
-    && git reset .\
+  fixpush = "!fixpush() {\
+    git reset --soft HEAD~1 && git reset .\
     && git stash --include-untracked\
     && git pull --rebase\
-    && git stash apply;\
-    }; pullpush"
+    && git stash pop;\
+    }; fixpush"
   s = "status"
   b = "branch"
   ra = "reset ."
@@ -68,15 +67,30 @@
     git checkout $1 $2;\
     git status;\
     }; copyfile"
-  save = "!save() {\
-    git add . && git commit -m $1;\
-    }; save"
+  commitall = "!commitall() {\
+    if [ $# -eq 0 ];\
+    then git add . && git commit -v;\
+    else git add . && git commit -vm \"$@\";\
+    fi;\
+    }; commitall" # aco
+  undocommit = "!undocommit() {\
+    git reset --soft HEAD~1 && git reset .;\
+    }; undocommit" # rs
+  commitpush = "!commitpush() {\
+    if [ $# -eq 0 ];\
+    then git add . && git commit -v && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
+    else git add . && git commit -v --message=\"$@\" && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
+    fi;\
+    }; commitpush" # acpush
   rollback = "!rollback() {\
     git checkout $1 && git branch -f master HEAD;\
   }; rollback"
-  sync = "!sync() {\
-    git stash --include-untracked && git pull --rebase && git stash pop;\
-    }; sync"
+  forcepush = "git push -f"
+  forcepull = "!forcepull() {\
+    git fetch --all && git reset --hard origin/$(git branch | grep \\* | cut -d ' ' -f2);\
+    }; forcepull" # pullf
+  stash = "stash --include-untracked"
+  unstash = "stash pop"
 [diff]
   tool = vimdiff
   algorithm = patience
@@ -88,3 +102,5 @@
   ;set to true if you want to be prompted everytime you open another diff
 [commit]
   verbose = true
+[pull]
+  rebase = true
