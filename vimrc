@@ -778,33 +778,33 @@ nnoremap <expr> <C-g> bufname("") =~ "NERD_tree_\\d"  ? ":NERDTreeToggle<CR>" :
       \ getwininfo(win_getid())[0]['loclist'] ? ":lclose<CR>" : "<C-g>"
 " see :h expression-syntax for why =~ over ==
 "undo
-inoremap <C-_> <C-o>u<C-o>u
+inoremap <C-_> <C-c>u
 inoremap <CR> <C-g>u<CR>
 "movement
 inoremap <C-b> <Left>
-inoremap <expr> <C-n> pumvisible() ? "<Down>": "<C-o>gj"
-inoremap <expr> <C-p> pumvisible() ? "<Up>": "<C-o>gk"
-inoremap <expr> <C-M-n> pumvisible() ? "<Down><Down><Down>": "<C-o>5gj"
-inoremap <expr> <C-M-p> pumvisible() ? "<Up><Up><Up>": "<C-o>5gk"
+inoremap <expr> <C-n> pumvisible() ? "<Down>": "<C-c>gja"
+inoremap <expr> <C-p> pumvisible() ? "<Up>": "<C-c>gka"
+inoremap <expr> <C-M-n> pumvisible() ? "<Down><Down><Down>": "<C-c>5gja"
+inoremap <expr> <C-M-p> pumvisible() ? "<Up><Up><Up>": "<C-c>5gka"
 inoremap <C-f> <Right>
 inoremap <M-f> <S-Right>
 inoremap <M-b> <S-Left>
 inoremap <C-a> <C-c>I
 inoremap <C-e> <End>
 "forward delete, backward delete & character delete
-inoremap <M-d> <C-g>u<C-o>vec<C-g>u
+inoremap <M-d> <C-g>u<C-c>vec<C-g>u
 inoremap <M-BS> <C-g>u<C-w><C-g>u
 inoremap <C-BS> <C-g>u<C-w><C-g>u
 inoremap <C-w> <C-g>u<C-w><C-g>u
 inoremap <C-d> <Del>
 "kill to EOL, kill to SOL, and kill entire line
-inoremap <C-k> <C-o>D
+inoremap <C-k> <C-c>`^Da
 inoremap <C-M-k> <C-k>| "C-M-k replaces C-k for entering digraphs
 "save
 inoremap <C-x><C-s> <C-o>:w<CR>
 nnoremap <C-x><C-s> :w<CR>
 "paste from vim register
-inoremap <M-y> \<C-o>:set paste\<CR>\<C-r>"\<C-o>:set nopaste\<CR>
+inoremap <M-y> \<C-c>:set paste\<CR>a\<C-r>"\<C-c>:set nopaste\<CR>a
 "emacs misc
 nnoremap <C-x><C-c> :wqa<CR>
 nnoremap <C-x><C-x><C-c> :qa!<CR>
