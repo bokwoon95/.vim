@@ -9,6 +9,7 @@
   editor = vim
 [alias]
   l = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
+  history = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog" # l
   ll = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
   acpush = "!acpush() {\
     if [ $# -eq 0 ];\
@@ -16,12 +17,6 @@
     else git add . && git commit -v --message=\"$@\" && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
     fi;\
     }; acpush"
-  fixpush = "!fixpush() {\
-    git reset --soft HEAD~1 && git reset .\
-    && git stash --include-untracked\
-    && git pull --rebase\
-    && git stash pop;\
-    }; fixpush"
   s = "status"
   b = "branch"
   ra = "reset ."
@@ -36,7 +31,6 @@
   diffc = "diff --cached"
   d = "difftool"
   dc = "difftool --cached"
-  pullr = "pull --rebase"
   co = "commit"
   aco = "!aco() {\
     if [ $# -eq 0 ];\
@@ -67,30 +61,37 @@
     git checkout $1 $2;\
     git status;\
     }; copyfile"
-  commitall = "!commitall() {\
+
+  commits = "!commits() {\
     if [ $# -eq 0 ];\
     then git add . && git commit -v;\
     else git add . && git commit -vm \"$@\";\
     fi;\
-    }; commitall" # aco
-  undocommit = "!undocommit() {\
-    git reset --soft HEAD~1 && git reset .;\
-    }; undocommit" # rs
+    }; commits"
   commitpush = "!commitpush() {\
     if [ $# -eq 0 ];\
     then git add . && git commit -v && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
     else git add . && git commit -v --message=\"$@\" && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
     fi;\
-    }; commitpush" # acpush
-  rollback = "!rollback() {\
+    }; commitpush"
+  fixpush = "!fixpush() {\
+    git reset --soft HEAD~1 && git reset .\
+    && git stash --include-untracked\
+    && git pull --rebase\
+    && git stash pop;\
+    }; fixpush"
+  goto = "!goto() {\
     git checkout $1 && git branch -f master HEAD;\
-  }; rollback"
-  forcepush = "git push -f"
+    }; goto"
   forcepull = "!forcepull() {\
     git fetch --all && git reset --hard origin/$(git branch | grep \\* | cut -d ' ' -f2);\
     }; forcepull" # pullf
-  stash = "stash --include-untracked"
-  unstash = "stash pop"
+  forcepush = "git push -f"
+  undocommit = "!undocommit() {\
+    git reset --soft HEAD~1 && git reset .;\
+    }; undocommit"
+  stache = "stash --include-untracked"
+  unstache = "stash pop"
 [diff]
   tool = vimdiff
   algorithm = patience
