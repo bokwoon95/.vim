@@ -513,7 +513,8 @@ noremap <C-l> 4<C-e>
 nnoremap <C-x>b :ls<CR>:b<Space>
 cnoremap <silent> <expr> <CR> getcmdline() == "b " ? "\<C-c>:b#\<CR>" : "\<CR>"
 nnoremap <C-x><C-h> :setlocal hlsearch!<bar>set hlsearch?<CR>
-inoremap <expr> <C-y> !pumvisible() ? "\<C-o>mm\<C-o>:set paste\<CR>\<C-r>+\<C-o>:set nopaste\<CR>\<Esc>'[=']`mi" : "\<C-y>"
+" inoremap <expr> <C-y> !pumvisible() ? "\<C-o>mm\<C-o>:set paste\<CR>\<C-r>+\<C-o>:set nopaste\<CR>\<Esc>'[=']`mi" : "\<C-y>"
+inoremap <expr> <C-y> !pumvisible() ? "<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>" : "\<C-y>"
 command! TL verbose setlocal ts? sts? sw? et?
 command! T2 setlocal ts=2 sts=2 sw=2 et | echo "indentation set to 2 spaces"
 command! T4 setlocal ts=4 sts=4 sw=4 et | echo "indentation set to 4 spaces"
@@ -804,7 +805,9 @@ inoremap <C-M-k> <C-k>| "C-M-k replaces C-k for entering digraphs
 inoremap <C-x><C-s> <C-o>:w<CR>
 nnoremap <C-x><C-s> :w<CR>
 "paste from vim register
-inoremap <M-y> \<C-c>:set paste\<CR>a\<C-r>"\<C-c>:set nopaste\<CR>a
+" inoremap <M-y> \<C-c>:set paste\<CR>a\<C-r>"\<C-c>:set nopaste\<CR>a
+" inoremap <M-y> <C-r>"
+inoremap <M-y> <C-o>mm<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR><C-o>`]
 "emacs misc
 nnoremap <C-x><C-c> :wqa<CR>
 nnoremap <C-x><C-x><C-c> :qa!<CR>
