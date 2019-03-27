@@ -463,6 +463,7 @@ syntax enable
 set hidden                     " Hide Buffers, not Kill
 set autoindent                 " Autoindentation
 set wildmenu                   " Show completion options in vim command line
+set wildcharm=<C-z>            " Wildmenu completion for mappings
 set wildmode=list:longest,full " Bash-style completion menu
 set wildignorecase             " ignore case in wildmenu
 set number                     " Show line numbers
@@ -677,26 +678,26 @@ nnoremap C "_C
 nnoremap D "_D
 "}}}
 "{{{ Wildmenu Macros
-nnoremap <M-e> :e<Space><C-d>
-cnoremap <M-e> <Home><S-Right><C-w>e<End><C-d>
-nnoremap <M-c>d :cd<Space><C-d>
-cnoremap <M-c>d <Home><S-Right><C-w>cd<End><C-d>
+nnoremap <M-e> :e<Space><C-z>
+cnoremap <M-e> <Home><S-Right><C-w>e<End><C-z>
+nnoremap <M-c>d :cd<Space><C-z>
+cnoremap <M-c>d <Home><S-Right><C-w>cd<End><C-z>
 cnoremap %% <Home><S-Right><S-Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
-      \<C-r>=expand('%:h').'/'<CR><C-d>
+      \<C-r>=expand('%:h').'/'<CR><C-z>
 cnoremap <M-h> <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
-      \~/<C-d>
+      \~/<C-z>
 cnoremap <M-d>k <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
-      \~/Desktop/<C-d>
+      \~/Desktop/<C-z>
 cnoremap <M-v>im <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
-      \~/.vim/<C-d>
+      \~/.vim/<C-z>
 cnoremap <M-d>oc <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
-      \~/Documents/<C-d>
+      \~/Documents/<C-z>
 cnoremap <M-d>bo <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
-      \~/Dropbox/<C-d>
+      \~/Dropbox/<C-z>
 cnoremap <M-d>dc <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
-      \~/Dropbox/Documents/<C-d>
+      \~/Dropbox/Documents/<C-z>
 cnoremap <M-d>w <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
-      \~/Downloads/<C-d>
+      \~/Downloads/<C-z>
 nnoremap <Leader>nv :e<Space>~/.config/nvim/init.vim<CR>
 nnoremap <Leader>iv :e<Space>~/.vim/vimrc<CR>
 "}}}
@@ -811,7 +812,7 @@ inoremap <M-y> <C-o>mm<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR><C-o>`]
 "emacs misc
 nnoremap <C-x><C-c> :wqa<CR>
 nnoremap <C-x><C-x><C-c> :qa!<CR>
-nnoremap <C-x>f :e<Space><C-r>=expand('%:h').'/'<CR><C-d>
+nnoremap <C-x>f :e<Space><C-r>=expand('%:h').'/'<CR><C-z>
 nnoremap <C-c>l :e $MYVIMRC<CR>
 nnoremap <C-x><C-k> :ls<CR>:bd<Space>
 nnoremap <C-x>k :ls<CR>:bd!<Space>
@@ -1333,7 +1334,7 @@ if has('nvim')
   tnoremap <C-s> <C-\><C-n>:bn<CR>
   tnoremap <C-q> <C-\><C-n>:bp<CR>
   tnoremap <C-x><C-b> <C-\><C-n>:Buffers<CR>
-  tnoremap <C-x>b <C-\><C-n>:ls<CR>:b<Space><C-d>
+  tnoremap <C-x>b <C-\><C-n>:ls<CR>:b<Space><C-z>
   tnoremap <C-x><C-f> <C-\><C-n>:Files<CR>
   tnoremap <C-x>f <C-\><C-n>:e<Space>
   tnoremap <A-p> <C-\><C-n>:Files<CR>
