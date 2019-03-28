@@ -81,7 +81,7 @@
     && git stash pop;\
     }; fixpush"
   goto = "!goto() {\
-    git checkout $1 && git branch -f master HEAD;\
+    git checkout $1 && git branch -f master HEAD && git checkout master;\
     }; goto"
   forcepull = "!forcepull() {\
     git fetch --all && git reset --hard origin/$(git branch | grep \\* | cut -d ' ' -f2);\
