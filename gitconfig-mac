@@ -9,7 +9,6 @@
   editor = vim
 [alias]
   l = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
-  history = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog" # l
   ll = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
   acpush = "!acpush() {\
     if [ $# -eq 0 ];\
@@ -62,6 +61,7 @@
     git status;\
     }; copyfile"
 
+  history = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
   commits = "!commits() {\
     if [ $# -eq 0 ];\
     then git add . && git commit -v;\
@@ -85,7 +85,7 @@
     }; goto"
   forcepull = "!forcepull() {\
     git fetch --all && git reset --hard origin/$(git branch | grep \\* | cut -d ' ' -f2);\
-    }; forcepull" # pullf
+    }; forcepull"
   forcepush = "git push -f"
   undocommit = "!undocommit() {\
     git reset --soft HEAD~1 && git reset .;\
@@ -95,6 +95,22 @@
     }; pulll"
   stache = "stash --include-untracked"
   unstache = "stash pop"
+  stachelist = "stash list"
+  stachedrop = "stash drop"
+  cheatsheet = "!\
+    echo '   s                     git status';\
+    echo '   l                     shows the commit log';\
+    echo '                         ';\
+    echo '   commits [msg]         make new commit with a message';\
+    echo '   commitpush [msg]      make new commit with a message & push to GitHub';\
+    echo '   pulll                 if pull fails do a pulll';\
+    echo '                         ';\
+    echo '   goto [commit]         goto a particular commit';\
+    echo '   fixpush               Fixes a failed push if you forgot to pull before pushing';\
+    echo '   forcepull             Forcibly overwrite your repo with GitHubs repo';\
+    echo '   forcepush             Forcibly overwrite Githubs repo with your repo';\
+    echo '   undocommit            Undo your last commit from the git log';\
+    "
 [diff]
   tool = vimdiff
   algorithm = patience
