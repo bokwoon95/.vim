@@ -98,18 +98,18 @@
   stachelist = "stash list"
   stachedrop = "stash drop"
   cheatsheet = "!\
-    echo '   s                     git status';\
-    echo '   l                     shows the commit log';\
-    echo '                         ';\
-    echo '   commits [msg]         make new commit with a message';\
-    echo '   commitpush [msg]      make new commit with a message & push to GitHub';\
-    echo '   pulll                 if pull fails do a pulll';\
-    echo '                         ';\
-    echo '   goto [commit]         goto a particular commit';\
-    echo '   fixpush               Fixes a failed push if you forgot to pull before pushing';\
-    echo '   forcepull             Forcibly overwrite your repo with GitHubs repo';\
-    echo '   forcepush             Forcibly overwrite Githubs repo with your repo';\
-    echo '   undocommit            Undo your last commit from the git log';\
+    echo 's                     git status';\
+    echo 'l                     Shows the commit log';\
+    echo '                      ';\
+    echo 'commits [msg]         Make new commit with a message';\
+    echo 'commitpush [msg]      Make new commit with a message & push to GitHub';\
+    echo 'pulll                 git pull without overwriting local files';\
+    echo '                      ';\
+    echo 'goto [commit]         Goto a particular commit';\
+    echo 'fixpush               Fixes a failed push if you forgot to pull before pushing';\
+    echo 'forcepull             Forcibly overwrite your repo with GitHubs repo';\
+    echo 'forcepush             Forcibly overwrite Githubs repo with your repo';\
+    echo 'undocommit            Undo your last commit from the git log';\
     "
 [diff]
   tool = vimdiff
