@@ -74,6 +74,12 @@
     else git add . && git commit -v --message=\"$@\" && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
     fi;\
     }; commitpush"
+  somecommitpush = "!somecommitpush() {\
+    if [ $# -eq 0 ];\
+    then git commit -v && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
+    else git commit -v --message=\"$@\" && git push origin $(git branch | grep \\* | cut -d ' ' -f2);\
+    fi;\
+    }; somecommitpush"
   fixpush = "!fixpush() {\
     git reset --soft HEAD~1 && git reset .\
     && git stash --include-untracked\
