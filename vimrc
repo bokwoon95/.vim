@@ -663,7 +663,7 @@ inoremap <C-g><C-d> <C-d>| "C-t indents, C-g C-d de-indents in insert mode
 command! Timestamps %s/^\s*\zs\(\d\{10}\)/\=strftime('%c', submatch(1))/g
 xnoremap <expr> p '"_d"' . v:register . 'p'
 xnoremap <expr> P '"_d"' . v:register . 'P'
-nnoremap gf :set nohidden<CR>gf
+nnoremap gf :set nohidden<CR>gf:set hidden<CR>
 fun! Bw()
   set nohidden
   for i in range(1, bufnr('$'))
