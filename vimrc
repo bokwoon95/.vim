@@ -519,6 +519,7 @@ inoremap <expr> <C-y> !pumvisible() ? "<C-o>:set paste<CR><C-r>+<C-o>:set nopast
 command! TL verbose setlocal ts? sts? sw? et?
 command! T2 setlocal ts=2 sts=2 sw=2 et | echo "indentation set to 2 spaces"
 command! T4 setlocal ts=4 sts=4 sw=4 et | echo "indentation set to 4 spaces"
+command! Tb2 setlocal ts=2 sts=2 sw=2 noet | echo "indentation set to 2-spaced Tabs"
 command! Tb4 setlocal ts=4 sts=4 sw=4 noet | echo "indentation set to 4-spaced Tabs"
 command! Spa setlocal paste
 command! Sna setlocal nopaste
