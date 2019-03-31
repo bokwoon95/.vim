@@ -325,7 +325,7 @@ respace () {
 }
 testt () {
   result=$(test "$@"; echo $?)
-  if [ $result == 0 ]; then
+  if [[ $result == 0 ]]; then
     echo True
   else
     echo False

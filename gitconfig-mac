@@ -1,12 +1,27 @@
-[credential]
-  helper = osxkeychain
 [user]
   name = bokwoon
   email = bokwoon.c@gmail.com
+[credential]
+  helper = osxkeychain
 [core]
-  pager = less
   excludesfile = ~/.gitignore
+  pager = less
   editor = vim
+[pull]
+  rebase = true
+[diff]
+  tool = vimdiff
+  algorithm = patience
+[difftool]
+  prompt = true
+[commit]
+  verbose = true
+[pager]
+  log = /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less -RS
+  show = /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less -RS
+  diff = /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight | less -RS
+[interactive]
+  diffFilter = /usr/local/opt/git/share/git-core/contrib/diff-highlight/diff-highlight
 [alias]
   l = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
   ll = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
@@ -61,7 +76,6 @@
     git status;\
     }; copyfile"
 
-  history = "log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --reflog"
   commits = "!commits() {\
     if [ $# -eq 0 ];\
     then git add . && git commit -v;\
@@ -117,16 +131,3 @@
     echo '   forcepush             Forcibly overwrite Githubs repo with your repo';\
     echo '   undocommit            Undo your last commit from the git log';\
     "
-[diff]
-  tool = vimdiff
-  algorithm = patience
-[pager]
-  show = diff-highlight | less
-  diff = diff-highlight | less
-[difftool]
-  prompt = true
-  ;set to true if you want to be prompted everytime you open another diff
-[commit]
-  verbose = true
-[pull]
-  rebase = true

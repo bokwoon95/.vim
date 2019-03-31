@@ -189,11 +189,11 @@ else
   # export MYIP=$(ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | tail -1 | cut -d: -f2 | awk '{ print $1}')
   export MYIP=$(ifconfig | grep "inet 192.168" | tail -1 | sed -n "s|^\s*inet \(192.168[0-9\.]\+\).*|\1|p")
 fi
-if [[ "$MYIP" == "" ]]; then
-  export PS1="\H \w$(__git_ps1)"
-else
-  export PS1="$MYIP \H \w$(__git_ps1)"
-fi
+# if [[ "$MYIP" == "" ]]; then
+#   export PS1="\H \w$(__git_ps1)"
+# else
+#   export PS1="$MYIP \H \w$(__git_ps1)"
+# fi
 PS1="$PS1"'\n'"\u$ "
 # PS1="$PS1"$'\n'"\u$ "
 # export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[01;31m\]$(__git_ps1) \[\033[00m\]\$ '
