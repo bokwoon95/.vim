@@ -138,7 +138,7 @@ Plug 'tpope/vim-fugitive'|               " Git wrapper
 
 Plug '907th/vim-auto-save'|              " Saveless vim
 nnoremap =oa :AutoSaveToggle<CR>
-" let g:auto_save_events = ["CursorHold", "CursorHoldI", "TextChanged", "InsertLeave"]
+let g:auto_save_events = ["CursorHold", "CursorHoldI", "TextChanged", "InsertLeave"]
 let g:auto_save = 1  " enable AutoSave on Vim startup
 let g:auto_save_silent = 1
 
@@ -418,8 +418,6 @@ Plug 'editorconfig/editorconfig-vim'
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 let g:EditorConfig_disable_rules = ['trim_trailing_whitespace']
 
-Plug 'vim-scripts/Super-Shell-Indent'
-
 Plug 'mhinz/vim-signify'
 let g:signify_vcs_list = ['git']
 nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
@@ -674,6 +672,7 @@ fun! Bw()
   set hidden
 endfun
 command! Bw call Bw()
+noremap x "_x
 nnoremap c "_c
 nnoremap C "_C
 nnoremap D "_D
