@@ -36,3 +36,5 @@ nusskylab_dev/
 .byebug_history
 
 httprequests/
+
+*.dSYM/

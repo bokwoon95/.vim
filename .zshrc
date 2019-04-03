@@ -378,7 +378,7 @@ cck () {
         makeheaders "$CLASTFILE"".c"
       fi
       if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE"".out"
+        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
       fi
     fi
   else
@@ -388,12 +388,12 @@ cck () {
         makeheaders "$CLASTFILE"".c"
       fi
       if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE"".out"
+        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
       elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         echo "warning present, continue? y/n (leave blank for \"y\")"
         read CONTINUE
         if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-          ./"$CLASTFILE"".out"
+          ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
         fi
       fi
     else
@@ -407,19 +407,19 @@ ccb () {
       echo "\$CLASTFILE not set, pleace run ccb with a .c file first"
     else
       if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE"".out"
+        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
       fi
     fi
   else
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
     if [[ "$CLASTFILE" != "$1" ]]; then
       if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE"".out"
+        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
       elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         echo "warning present, continue? y/n (leave blank for \"y\")"
         read CONTINUE
         if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-          ./"$CLASTFILE"".out"
+          ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
         fi
       fi
     else
@@ -441,12 +441,12 @@ ldb () {
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.out$:\1:")
     if [[ "$CLASTFILE" != "$1" ]]; then
       if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        PATH=/usr/bin /usr/bin/lldb "$CLASTFILE"".out"
+        PATH=/usr/bin /usr/bin/lldb "$CLASTFILE.out $(echo $@ | cut -d' ' -f2-)"
       elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         echo "warning present, continue? y/n (leave blank for \"y\")"
         read CONTINUE
         if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-          PATH=/usr/bin /usr/bin/lldb "$CLASTFILE"".out"
+          PATH=/usr/bin /usr/bin/lldb "$CLASTFILE.out $(echo $@ | cut -d' ' -f2-)"
         fi
       fi
     else
@@ -460,19 +460,19 @@ ccn () {
       echo "\$CLASTFILE not set, pleace run ccn with a .c file first"
     else
       if cc -lncurses -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE"".out"
+        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
       fi
     fi
   else
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
     if [[ "$CLASTFILE" != "$1" ]]; then
       if cc -lncurses -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE"".out"
+        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
       elif cc -lncurses -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         echo "warning present, continue? y/n (leave blank for \"y\")"
         read CONTINUE
         if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-          ./"$CLASTFILE"".out"
+          ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
         fi
       fi
     else
