@@ -582,7 +582,7 @@ noremap <M-d> "_d| "Black_hole delete without saving to register
 noremap Y "+y| "Copy to system clipboard in normal/visual mode
 nnoremap YY "+yy| "Copy to system clipboard in normal/visual mode
 nnoremap y7 m`^yg_``| "yank current line (without newline)
-nnoremap Y& m`^"+yg$``| "Copy current line (without newline) to system clipboard
+nnoremap Y& m`^"+yg_``| "Copy current line (without newline) to system clipboard
 nnoremap <M-p> "+p| "Paste from system clipboard
 nnoremap <Leader>pc :let<Space>@+=expand('%:p:h')<CR>| "copy file's directory path to clipboard
 nnoremap <Leader>fc :let<Space>@+=expand('%:p')<CR>| "copy file's full path+filename to clipboard
@@ -1043,7 +1043,8 @@ if has('gui_running')
   if has('macunix')
     set linespace=1
     " set guifont=Source\ Code\ Pro:h12
-    set guifont=Go\ Mono:h12
+    " set guifont=Go\ Mono:h12
+    set guifont=FiraMono-Regular:h12
   elseif has('unix')
     set guifont=DejaVu\ Sans\ Mono\ Book
     set lines=40 columns=150
@@ -1262,7 +1263,7 @@ fun! KeepOpen(...)
   endif
 endfun
 command! -nargs=+ KeepOpen call KeepOpen(<f-args>)
-nnoremap <C-x><C-x><C-k> :ls<CR>:KeepOpen<Space>
+nnoremap <C-c><C-k> :ls<CR>:KeepOpen<Space>
 "}}}
 "}}}
 
@@ -1279,36 +1280,32 @@ augroup Terminal
 augroup END
 nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
 fun! Term(...) abort
-  let name =
+  let l:name =
         \(a:0 > 0 && a:1 != "")   ? "term:" . a:1  :
         \exists("g:lasttermname") ? g:lasttermname :
         \"term:shell"
-  if bufwinnr(name) > 0
-    execute bufwinnr(name) . "wincmd c"
+  if bufwinnr(l:name) > 0
+    execute bufwinnr(l:name) . "wincmd c"
   else
     15split
-    if bufexists(name)
-      execute "buffer " . name
+    if bufexists(l:name)
+      execute "buffer " . l:name
     else
-      if has('nvim')
-        terminal
-      else
-        terminal ++curwin
-      endif
-      execute "file " . name
+      execute has('nvim') ? "terminal" : "terminal ++curwin"
+      execute "file " . l:name
       set nobuflisted
     endif
-    let g:lasttermname = name
+    let g:lasttermname = l:name
   endif
 endfun
 fun! s:termnames(ArgLead, CmdLine, CursorPos) abort
-  let g:termnames = []
-  for bn in range(1,bufnr('$'))
-    if bufname(bn) =~# "term:.*" && bufloaded(bn)
-      call add(g:termnames, bufname(bn)[5:-1])
+  let l:termnames = []
+  for l:bn in range(1,bufnr('$'))
+    if bufname(l:bn) =~# "term:.*" && bufloaded(l:bn)
+      call add(l:termnames, bufname(l:bn)[5:-1])
     endif
   endfor
-  return filter(g:termnames, 'v:val =~ "^'. a:ArgLead .'"')
+  return filter(l:termnames, 'v:val =~ "^'. a:ArgLead .'"')
 endfun
 fun! s:term(...) abort
   let name = (a:0 > 0 && a:1 != "") ? a:1  : ""
@@ -1317,8 +1314,8 @@ fun! s:term(...) abort
   endif
   silent call Term(name)
 endfun
-command! -nargs=? -complete=customlist,s:termnames Term silent call Term(<f-args>)
-command! -nargs=? -complete=customlist,s:termnames T silent call s:term(<f-args>)
+command! -nargs=? -complete=customlist,s:termnames Term silent call Term(<f-args>) " Term will not replace any open terminals
+command! -nargs=? -complete=customlist,s:termnames T silent call s:term(<f-args>) " T will replace any open terminals
 command! -nargs=? -complete=customlist,s:termnames TT silent call Term(<f-args>)
 nnoremap <C-w><C-t> :call Term()<CR>
 tnoremap <C-w><C-t> <C-\><C-n>:call Term()<CR>

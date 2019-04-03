@@ -336,6 +336,23 @@ alias sudo='sudo '
 sudoe () {
   sudo bash -c "$(declare -f $1); $@"
 }
+diffc () {
+  if ! command -v colordiff >/dev/null 2>&1; then
+    echo "------------------------"
+    echo "downloading colordiff..."
+    echo "------------------------"
+    sudo curl https://raw.githubusercontent.com/bokwoon95/.vim/master/colordiff -Lo /usr/local/bin/colordiff --create-dirs
+    sudo chmod a+x /usr/local/bin/colordiff
+  fi
+  if ! command -v diff-highlight >/dev/null 2>&1; then
+    echo "-----------------------------"
+    echo "downloading diff-highlight..."
+    echo "-----------------------------"
+    sudo curl https://raw.githubusercontent.com/git/git/fd99e2bda0ca6a361ef03c04d6d7fdc7a9c40b78/contrib/diff-highlight/diff-highlight -Lo /usr/local/bin/diff-highlight --create-dirs
+    sudo chmod a+x /usr/local/bin/diff-highlight
+  fi
+  colordiff -u "$@" | diff-highlight
+}
 
 # misc
 alias py="python3"
