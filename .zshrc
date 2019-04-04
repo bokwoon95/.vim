@@ -353,6 +353,28 @@ diffc () {
   fi
   colordiff -u "$@" | diff-highlight
 }
+expandurl () {
+  [ "$#" -eq 0 ] && u=$(</dev/stdin) || u="$1"
+  curl -sIL "$u" 2>&1 | awk '/^Location/ {print $2}' | tail -n1;
+}
+curlsh () {
+  [ "$#" -eq 0 ] && s=$(</dev/stdin) || s="$1"
+  file=$(mktemp);curl -L "$s" > $file;vi $file && sh $file;rm $file;
+}
+fage () {
+  [ "$#" -eq 0 ] && f=$(</dev/stdin) || f="$1"
+  echo "$(( $(date +%s) - $(date -r $f +%s) ))"
+}
+fmtsec () {
+  [ "$#" -eq 0 ] && local T=$(</dev/stdin) || local T="$1"
+  local Y=$((T/60/60/24/30/12))
+  local m=$((T/60/60/24/30%12))
+  local d=$((T/60/60/24%30))
+  local H=$((T/60/60%24))
+  local M=$((T/60%60))
+  local S=$((T%60))
+  echo "$Y.years $m.months $d.days $H.hours $M.minutes $S.seconds"
+}
 
 # misc
 alias py="python3"
@@ -893,5 +915,5 @@ if [[ -z "$TMUX" && ! -n "${NVIM_LISTEN_ADDRESS+x}" ]]; then
   TERM=screen-256color-bce tmux -u new-session -A -s main
 fi
 
-export LC_ALL=en_US.UTF-8  
+export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
