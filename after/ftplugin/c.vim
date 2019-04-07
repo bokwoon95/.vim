@@ -4,7 +4,8 @@ setlocal formatoptions-=cro
 if !has("gui_running")
   setlocal colorcolumn=80
 endif
-command! -nargs=+ -buffer Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
+" command! -nargs=+ -buffer Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
+command! -nargs=+ -buffer Cppman call system("tmux split-window cppman " . expand(<q-args>))
 nnoremap <silent><buffer> K :Cppman <cword><CR>
 
 inoremap <buffer> <C-q><C-q> printf("\n");<Left><Left><Left><Left><Left>

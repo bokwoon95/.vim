@@ -59,14 +59,14 @@ setopt transient_rprompt # only show the rprompt on the current prompt
 setopt multios # perform implicit tees or cats when multiple redirections are attempted
 
 # Setup terminal, and turn on colors
-export TERM=xterm-256color
+export TERM=screen-256color-bce
 export CLICOLOR=1
 # export LSCOLORS=Gxfxcxdxbxegedabagacad
 
 # This resolves issues install the mysql, postgres, and other gems with native non universal binary extensions
 export ARCHFLAGS='-arch x86_64'
 
-export LESS='--ignore-case --raw-control-chars --LONG-PROMPT --chop-long-lines --shift 4'
+export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT --chop-long-lines --shift 4 -FX'
 export PAGER='less'
 # export EDITOR='subl -w'
 
@@ -94,6 +94,7 @@ autoload -U compinit
 compinit
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*' menu select
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==34=34}:${(s.:.)LS_COLORS}")';
 # zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
 # zstyle ':completion:*:warnings' format '%BSorry, no matches for: %d%b'
 # setopt correctall
@@ -180,6 +181,7 @@ path-prepend() {
 path-prepend ~/.config/composer/vendor/bin
 path-prepend ~/.composer/vendor/bin
 path-prepend ~/.local/bin
+path-prepend ~/bin
 path-prepend /usr/local/opt/mysql@5.7/bin
 path-prepend /usr/local/mysql/bin
 path-prepend ~/pear/bin

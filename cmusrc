@@ -8,3 +8,7 @@ set shuffle=true
 set softvol=true
 set output_plugin=ao
 set start_view=sorted
+bind common ^N win-down
+bind common ^P win-up
+bind common ^J win-down
+bind common ^K win-up
