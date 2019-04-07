@@ -510,7 +510,7 @@ ccn () {
 # youtube-dl aliases
 youtube-dl3 () {
 if [[ "$#" -eq 0 ]]; then
-  echo "provide Youtube URL(s) to extract their mp3. Playlist URLs will have all their audio files inside extracted."
+  echo "Provide Youtube URL(s) to extract their mp3. Playlist URLs will have all their audio files inside extracted. Make sure to surround the URL in quotes"
 else
   for filename in "$@"; do
     youtube-dl -x --audio-format mp3 "$filename"
@@ -519,7 +519,7 @@ fi
 }
 youtube-dl4 () {
 if [[ "$#" -eq 0 ]]; then
-  echo "provide Youtube URL(s) to extract their mp4. Playlist URLs will have all their videos inside extracted."
+  echo "Provide Youtube URL(s) to extract their mp4. Playlist URLs will have all their videos inside extracted. Make sure to surround the URL in quotes"
 else
   for filename in "$@"; do
     youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/bestvideo+bestaudio' --merge-output-format mp4 "$filename"
