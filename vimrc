@@ -490,6 +490,7 @@ set lazyredraw                 " Wait for changes to finish before redrawing scr
 augroup Checkt
   autocmd!
   autocmd FocusGained,BufEnter * checktime " To trigger vim's autoread on focus gained or buffer enter
+  autocmd FocusGained,BufEnter * silent! SignifyRefresh
 augroup END
 autocmd! Filetype vim setlocal foldmethod=marker ts=2 sts=2 sw=2 et
 command! GMS /^<<<<<<< .*$\|^>>>>>>> .*$\|^=======$

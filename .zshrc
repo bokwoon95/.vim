@@ -59,9 +59,11 @@ setopt transient_rprompt # only show the rprompt on the current prompt
 setopt multios # perform implicit tees or cats when multiple redirections are attempted
 
 # Setup terminal, and turn on colors
-export TERM=screen-256color-bce
+export TERM=xterm-256color
 export CLICOLOR=1
 # export LSCOLORS=Gxfxcxdxbxegedabagacad
+alias cmus="TERM=screen-256color-bce cmus"
+alias weechat="TERM=screen-256color-bce weechat"
 
 # This resolves issues install the mysql, postgres, and other gems with native non universal binary extensions
 export ARCHFLAGS='-arch x86_64'
