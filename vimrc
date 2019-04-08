@@ -172,7 +172,7 @@ Plug 'arthurxavierx/vim-caser'
 
 Plug 'junegunn/rainbow_parentheses.vim'
 function! RainbowParensHighlights() abort
-  hi rainbowParensShell16 ctermfg=28 guifg=Blue3
+  " hi rainbowParensShell16 ctermfg=28 guifg=Blue3
 endfunction
 augroup rainbow_lisp
   autocmd!
@@ -495,15 +495,6 @@ augroup END
 autocmd! Filetype vim setlocal foldmethod=marker ts=2 sts=2 sw=2 et
 command! GMS /^<<<<<<< .*$\|^>>>>>>> .*$\|^=======$
 set foldtext=repeat('\ ',indent(v:foldstart)).foldtext()
-set infercase
-if !empty(glob('~/.vim/words'))
-  set dictionary+=~/.vim/words
-  set spellfile=~/.vim/spell/en.utf-8.add
-elseif !empty(glob('~/vimfiles/words'))
-  set dictionary+=~/vimfiles/words
-  set spellfile=~/vimfiles/spell/en.utf-8.add
-endif
-set spellcapcheck=
 
 " Survival Pack
 noremap <C-j> 5gj
@@ -822,6 +813,13 @@ cnoremap <C-a> <Home>
 cnoremap <C-b> <End>
 cnoremap <C-M-f> <S-Right>
 cnoremap <C-M-b> <S-Left>
+"vim-rsi
+cnoremap <C-x><C-a> <C-a>
+cnoremap <C-b> <Left>
+cnoremap <expr> <C-f> getcmdpos()>strlen(getcmdline())?&cedit:"\<lt>Right>"
+cnoremap <expr> <C-d> getcmdpos()>strlen(getcmdline())?"\<lt>C-d>":"\<lt>Del>"
+cnoremap <M-b> <S-Left>
+cnoremap <M-f> <S-Right>
 "}}}
 "{{{ Vim Unimpaired
 "Insert space above and below
@@ -952,6 +950,25 @@ augroup AutosaveView
   "    ^^^using bufwinleave triggers some buffer deleted unexpectedly by autocmd error
   au BufRead * silent! call Loadview()
 augroup END
+"}}}
+"{{{ Spelling
+set infercase
+if !empty(glob('~/.vim/words'))
+  set dictionary+=~/.vim/words
+  set spellfile=~/.vim/spell/en.utf-8.add
+elseif !empty(glob('~/vimfiles/words'))
+  set dictionary+=~/vimfiles/words
+  set spellfile=~/vimfiles/spell/en.utf-8.add
+endif
+set spellcapcheck=
+" Don't mark URL-like things as spelling errors
+syn match UrlNoSpell '\w\+:\/\/[^[:space:]]\+' contains=@NoSpell
+" Don't count acronyms / abbreviations as spelling errors
+" (all upper-case letters, at least three characters)
+" Also will not count acronym with 's' at the end a spelling error
+" Also will not count numbers that are part of this
+" Recognizes the following as correct:
+syn match AcronymNoSpell '\<\(\u\|\d\)\{3,}s\?\>' contains=@NoSpell
 "}}}
 
 " Set swap & undo file directory
