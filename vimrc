@@ -432,8 +432,8 @@ nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
             \": ""
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
-", {'tag': '*', 'do': { -> coc#util#install()}}
+" Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 Plug 'tpope/vim-rails'
 
@@ -1024,9 +1024,10 @@ function! MyHighlights() abort
     hi Whitespace term=bold ctermfg=237 guifg=Grey70
     " Plugins
     hi ALEErrorLine cterm=bold,underline
-    highlight SignifySignAdd    cterm=bold ctermbg=none  ctermfg=green
-    highlight SignifySignDelete cterm=bold ctermbg=none  ctermfg=red
-    highlight SignifySignChange cterm=bold ctermbg=none  ctermfg=blue
+    hi SignifySignAdd    cterm=bold ctermbg=none  ctermfg=green
+    hi SignifySignDelete cterm=bold ctermbg=none  ctermfg=red
+    hi SignifySignChange cterm=bold ctermbg=none  ctermfg=blue
+    hi CocInfoFloat ctermfg=black
   endif
 endfunction
 fun! RestoreCursorPosition() abort
