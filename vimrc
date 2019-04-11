@@ -432,8 +432,8 @@ nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
             \": ""
 
 " requires yarn to be installed
-" Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
+" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 Plug 'tpope/vim-rails'
 

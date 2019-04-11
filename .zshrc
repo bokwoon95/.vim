@@ -379,6 +379,36 @@ fmtsec () {
   local S=$((T%60))
   echo "$Y.years $m.months $d.days $H.hours $M.minutes $S.seconds"
 }
+agf () {
+  if [ "$#" -ge 1 ]; then
+    find_this="$1"; shift
+    [ "$1" = "" ] && files='.' || files="$@"
+    ag -r -C3 "$find_this" "$files"
+  else
+    echo "usage    : agf old [args...]"
+    echo "desc     : searches for \$old in \$args files. Omit \$args for current dir."
+    echo "examples :"
+    echo "   agf some_word"
+    echo "   agf some_word ."
+    echo "   agf some_word file1.txt file2.md"
+  fi
+}
+ragf () {
+  if [ "$#" -ge 2 ]; then
+    find_this="$1"; shift
+    replace_with="$1"; shift
+    [ "$1" = "" ] && files='.' || files="$@"
+    ag -l0 --nocolor "$find_this" "$@" | xargs -0 perl -pi -e "s{$find_this}{$replace_with}g";
+    ag -r -C3  "$replace_with" "$files"
+  else
+    echo "usage    : ragf old new [args...]"
+    echo "desc     : search and replace \$old with \$new in \$args files. Omit \$args for current dir."
+    echo "examples :"
+    echo "   ragf old new"
+    echo "   ragf old new ."
+    echo "   ragf old new file1.txt file2.md"
+  fi
+}
 
 # misc
 alias py="python3"
