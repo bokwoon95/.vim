@@ -381,11 +381,8 @@ fmtsec () {
 }
 agf () {
   if [ "$#" -ge 1 ]; then
-    if [ "$(set -o | grep shwordsplit)" != "" ]; then
-      if [  "$(set -o | grep shwordsplit | awk '{print $2}')" = "off" ]; then
-        setopt SH_WORD_SPLIT && local shwordsplit="ENABLED"
-      fi
-    fi
+    local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
+    [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
     PATTERN="$1"; shift
     if [ "$#" -eq 0 ]; then
       INCLUDED="$(pwd)"
@@ -414,11 +411,8 @@ agf () {
 }
 ragf () {
   if [ "$#" -ge 2 ]; then
-    if [ "$(set -o | grep shwordsplit)" != "" ]; then
-      if [  "$(set -o | grep shwordsplit | awk '{print $2}')" = "off" ]; then
-        setopt SH_WORD_SPLIT && local shwordsplit="ENABLED";
-      fi
-    fi
+    local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
+    [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
     OLD="$1"; shift
     NEW="$1"; shift
     if [ "$#" -eq 0 ]; then
