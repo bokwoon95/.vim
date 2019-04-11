@@ -381,60 +381,74 @@ fmtsec () {
 }
 agf () {
   if [ "$#" -ge 1 ]; then
-    setopt SH_WORD_SPLIT >/dev/null 2>&1
-    find_this="$1"; shift
-    if [ "$#" -eq 0 ]; then
-      include="$(pwd)"
-      exclude=""
-    else
-      include="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
-      # exclude="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs | tr -s ' ' '\n')"
-      exclude="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
-      [ "$include" = "" -a "$exclude" = "" ] && include="$@"
-      [ "$include" = "" -o "$(echo "$include" | xargs)" = "::" ] && include="$(pwd)"
+    if [ "$(set -o | grep shwordsplit)" != "" ]; then
+      if [  "$(set -o | grep shwordsplit | awk '{print $2}')" = "off" ]; then
+        setopt SH_WORD_SPLIT && local shwordsplit="ENABLED"
+      fi
     fi
-    # ag -r -C3 --pager="less -RiMSFX -#4" "$find_this" "$include" -p <(printf "$exclude")
-    ag -r -C3 --pager="less -RiMSFX -#4" "$replace_with" $include -p <(printf "$(echo $exclude | tr -s ' ' '\n')")
-    unsetopt SH_WORD_SPLIT >/dev/null 2>&1
+    PATTERN="$1"; shift
+    if [ "$#" -eq 0 ]; then
+      INCLUDED="$(pwd)"
+      EXCLUDED=""
+    else
+      INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
+      EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
+      [ "$INCLUDED" = "" -a "$EXCLUDED" = "" ] && INCLUDED="$@"
+      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED="$(pwd)"
+    fi
+    ag --context=3 --pager="less -RiMSFX -#4" "$PATTERN" $INCLUDED --path-to-ignore <(printf "$(echo $EXCLUDED | tr -s ' ' '\n')")
+    [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
   else
-    echo "usage    : agf old [included...] [:: excluded...]"
-    echo "desc     : searches for \$old in \$included files, ignoring \$excluded files. By default, \$included is the current dir and \$excluded is empty."
-    echo "examples :"
-    echo "   agf some_word"
-    echo "   agf some_word *.py"
-    echo "   agf some_word file1.txt file2.md"
-    echo "   agf some_word included.txt :: excluded.txt"
-    echo "   agf some_word :: excluded.txt"
+    echo "   Usage: agf <pattern> [INCLUDED...] [:: EXCLUDED...]"
+    echo
+    echo "   Search for <pattern> within <INCLUDED> files, ignoring <EXCLUDED> files."
+    echo "   <INCLUDED> files are separated from <EXCLUDED> files by a '::'."
+    echo "   When omitted, <INCLUDED> is the current dir and <EXCLUDED> is empty."
+    echo
+    echo "   Examples:"
+    echo "      agf pattern"
+    echo "      agf pattern *.py"
+    echo "      agf pattern file1.txt folder1/ :: folder1/file2.txt"
+    echo "      agf pattern :: file1.txt **/*.log"
   fi
 }
 ragf () {
   if [ "$#" -ge 2 ]; then
-    setopt SH_WORD_SPLIT >/dev/null 2>&1
-    find_this="$1"; shift
-    replace_with="$1"; shift
-    if [ "$#" -eq 0 ]; then
-      include="$(pwd)"
-      exclude=""
-    else
-      include="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
-      exclude="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
-      [ "$include" = "" -a "$exclude" = "" ] && include="$@"
-      [ "$include" = "" -o "$(echo "$include" | xargs)" = "::" ] && include="$(pwd)"
+    if [ "$(set -o | grep shwordsplit)" != "" ]; then
+      if [  "$(set -o | grep shwordsplit | awk '{print $2}')" = "off" ]; then
+        setopt SH_WORD_SPLIT && local shwordsplit="ENABLED";
+      fi
     fi
-    ag -l0 --nocolor "$find_this" $include -p <(printf "$(echo $exclude | tr -s ' ' '\n')") | xargs -0 perl -pi -e "s|$find_this|$replace_with|g";
-    ag -r -C3 --pager="less -RiMSFX -#4" "$replace_with" $include -p <(printf "$(echo $exclude | tr -s ' ' '\n')")
-    unsetopt SH_WORD_SPLIT >/dev/null 2>&1
+    OLD="$1"; shift
+    NEW="$1"; shift
+    if [ "$#" -eq 0 ]; then
+      INCLUDED="$(pwd)"
+      EXCLUDED=""
+    else
+      INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
+      EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
+      [ "$INCLUDED" = "" -a "$EXCLUDED" = "" ] && INCLUDED="$@"
+      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED="$(pwd)"
+    fi
+    ag --files-with-matches -0 "$OLD" $INCLUDED -p <(printf "$(echo $EXCLUDED | tr -s ' ' '\n')") | xargs -0 perl -pi -e "s@$OLD@$NEW@g"
+    ag --context=3 --pager="less -RiMSFX -#4" "$NEW" $INCLUDED --path-to-ignore <(printf "$(echo $EXCLUDED | tr -s ' ' '\n')")
+    [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
   else
-    echo "usage    : ragf old new [included...] [:: excluded...]"
-    echo "desc     : search and replace \$old with \$new in \$included files, ignoring \$excluded files. By default, \$included is the current dir and \$excluded is empty."
-    echo "examples :"
-    echo "   ragf old new"
-    echo "   ragf old new *.py"
-    echo "   ragf old new file1.txt file2.md"
-    echo "   ragf old new included.txt :: excluded.txt"
-    echo "   ragf old new :: excluded.txt"
+    echo "   Usage: ragf <old> <new> [INCLUDED...] [:: EXCLUDED...]"
+    echo
+    echo "   Search and replace <old> with <new> in <INCLUDED> files, ignoring <EXCLUDED> files."
+    echo "   <INCLUDED> files are separated from <EXCLUDED> files by a '::'."
+    echo "   When omitted, <INCLUDED> is the current dir and <EXCLUDED> is empty."
+    echo "   Note: If your regex uses '@', it must be escaped i.e. '\\@'"
+    echo
+    echo "   Examples:"
+    echo "      ragf old new"
+    echo "      ragf old new *.py"
+    echo "      ragf old new file1.txt folder1/ :: folder1/file2.txt"
+    echo "      ragf old new :: file1.txt **/*.log"
   fi
 }
+
 
 # misc
 alias py="python3"
