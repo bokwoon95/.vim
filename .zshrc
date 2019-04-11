@@ -68,7 +68,7 @@ alias weechat="TERM=screen-256color-bce weechat"
 # This resolves issues install the mysql, postgres, and other gems with native non universal binary extensions
 export ARCHFLAGS='-arch x86_64'
 
-export LESS='--ignore-case --RAW-CONTROL-CHARS --LONG-PROMPT --chop-long-lines --shift 4 -FX'
+export LESS='-RiMSFX -#4'
 export PAGER='less'
 # export EDITOR='subl -w'
 
@@ -383,13 +383,13 @@ agf () {
   if [ "$#" -ge 1 ]; then
     find_this="$1"; shift
     [ "$1" = "" ] && files='.' || files="$@"
-    ag -r -C3 "$find_this" "$files"
+    ag -r -C3 --pager="less -RiMSFX -#4" "$find_this" "$files"
   else
     echo "usage    : agf old [args...]"
     echo "desc     : searches for \$old in \$args files. Omit \$args for current dir."
     echo "examples :"
     echo "   agf some_word"
-    echo "   agf some_word ."
+    echo "   agf some_word *.py"
     echo "   agf some_word file1.txt file2.md"
   fi
 }
@@ -399,13 +399,13 @@ ragf () {
     replace_with="$1"; shift
     [ "$1" = "" ] && files='.' || files="$@"
     ag -l0 --nocolor "$find_this" "$@" | xargs -0 perl -pi -e "s{$find_this}{$replace_with}g";
-    ag -r -C3  "$replace_with" "$files"
+    ag -r -C3 --pager="less -RiMSFX -#4" "$replace_with" "$files"
   else
     echo "usage    : ragf old new [args...]"
     echo "desc     : search and replace \$old with \$new in \$args files. Omit \$args for current dir."
     echo "examples :"
     echo "   ragf old new"
-    echo "   ragf old new ."
+    echo "   ragf old new *.py"
     echo "   ragf old new file1.txt file2.md"
   fi
 }
