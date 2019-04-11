@@ -382,11 +382,24 @@ fmtsec () {
 agf () {
   if [ "$#" -ge 1 ]; then
     find_this="$1"; shift
-    [ "$1" = "" ] && files='.' || files="$@"
-    ag -r -C3 --pager="less -RiMSFX -#4" "$find_this" "$files"
+    if [ "$1" = "" -a "$1" != "::" ]; then
+      include="."
+      exclude=""
+    else
+      include=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p")
+      exclude=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | tr -s ' ' '\n')
+      if [ "$include" != "$exclude" ]; then
+        [ "$include" = "" ] && include="."
+      else
+        include="$@"
+        exclude=""
+      fi
+    fi
+    [ "$(echo $include | xargs)" = "." ] && include=$(pwd)
+    ag -r -C3 --pager="less -RiMSFX -#4" "$find_this" "$include" -p <(printf "$exclude")
   else
-    echo "usage    : agf old [args...]"
-    echo "desc     : searches for \$old in \$args files. Omit \$args for current dir."
+    echo "usage    : agf old [included...] [:: excluded...]"
+    echo "desc     : searches for \$old in \$included files, ignoring \$excluded files. By default, \$included is the current dir and \$excluded is empty."
     echo "examples :"
     echo "   agf some_word"
     echo "   agf some_word *.py"
@@ -397,17 +410,59 @@ ragf () {
   if [ "$#" -ge 2 ]; then
     find_this="$1"; shift
     replace_with="$1"; shift
-    [ "$1" = "" ] && files='.' || files="$@"
-    ag -l0 --nocolor "$find_this" "$@" | xargs -0 perl -pi -e "s{$find_this}{$replace_with}g";
-    ag -r -C3 --pager="less -RiMSFX -#4" "$replace_with" "$files"
+    if [ "$1" = "" -a "$1" != "::" ]; then
+      include="."
+      exclude=""
+    else
+      include=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p")
+      exclude=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | tr -s ' ' '\n')
+      if [ "$include" != "$exclude" ]; then
+        [ "$include" = "" ] && include="."
+      else
+        include="$@"
+        exclude=""
+      fi
+    fi
+    [ "$(echo $include | xargs)" = "." ] && include=$(pwd)
+    ag -l0 --nocolor "$find_this" "$include" -p <(printf "$exclude") | xargs -0 perl -pi -e "s{$find_this}{$replace_with}g";
+    ag -r -C3 --pager="less -RiMSFX -#4" "$replace_with" "$include" -p <(printf "$exclude")
   else
-    echo "usage    : ragf old new [args...]"
-    echo "desc     : search and replace \$old with \$new in \$args files. Omit \$args for current dir."
+    echo "usage    : ragf old new [included...] [:: excluded...]"
+    echo "desc     : search and replace \$old with \$new in \$included files, ignoring \$excluded files. By default, \$included is the current dir and \$excluded is empty."
     echo "examples :"
     echo "   ragf old new"
     echo "   ragf old new *.py"
     echo "   ragf old new file1.txt file2.md"
+    echo "   ragf old new included.txt :: excluded.txt"
+    echo "   ragf old new :: excluded.txt"
   fi
+}
+z () {
+  find_this="$1"; shift
+  # if [ "$1" = "" -a "$1" != "::" ]; then
+  #   include="."
+  #   exclude=""
+  # else
+  #   include=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p")
+  #   exclude=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | tr -s ' ' '\n')
+  #   if [ "$include" != "$exclude" ]; then
+  #     [ "$include" = "" ] && include="."
+  #   else
+  #     include="$@"
+  #     exclude=""
+  #   fi
+  # fi
+  # [ "$(echo $include | xargs)" = "." ] && include=$(pwd)
+  # echo "ag -r -C3 --pager=\"less -RiMSFX -#4\" $find_this $include -p <(printf $exclude)"
+
+  include=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)
+  exclude=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)
+  exclude2=$(echo "$exclude" | tr -s ' ' '\n')
+  echo "$include"
+  echo "$exclude"
+  # echo "$exclude2"
+
+  # echo "ag -r -C3 --pager=\"less -RiMSFX -#4\" $find_this $include -p <(printf $exclude)"
 }
 
 # misc
