@@ -438,30 +438,19 @@ ragf () {
   fi
 }
 z () {
-  find_this="$1"; shift
-  # if [ "$1" = "" -a "$1" != "::" ]; then
-  #   include="."
-  #   exclude=""
-  # else
-  #   include=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p")
-  #   exclude=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | tr -s ' ' '\n')
-  #   if [ "$include" != "$exclude" ]; then
-  #     [ "$include" = "" ] && include="."
-  #   else
-  #     include="$@"
-  #     exclude=""
-  #   fi
-  # fi
+  # find_this="$1"; shift
+  if [ "$1" = "" -a "$1" != "::" ]; then
+    include="$(pwd)"
+    exclude=""
+  else
+    include="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
+    exclude="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs | tr -s ' ' '\n')"
+    [ "$include" = "" -a "$exclude" = "" ] && include="$@"
+    [ "$include" = "" -o "$include" = "::" ] && include="$(pwd)"
+    echo "include: $include"
+    echo "exclude: $exclude"
+  fi
   # [ "$(echo $include | xargs)" = "." ] && include=$(pwd)
-  # echo "ag -r -C3 --pager=\"less -RiMSFX -#4\" $find_this $include -p <(printf $exclude)"
-
-  include=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)
-  exclude=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)
-  exclude2=$(echo "$exclude" | tr -s ' ' '\n')
-  echo "$include"
-  echo "$exclude"
-  # echo "$exclude2"
-
   # echo "ag -r -C3 --pager=\"less -RiMSFX -#4\" $find_this $include -p <(printf $exclude)"
 }
 
