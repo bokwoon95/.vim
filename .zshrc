@@ -381,22 +381,21 @@ fmtsec () {
 }
 agf () {
   if [ "$#" -ge 1 ]; then
+    setopt SH_WORD_SPLIT >/dev/null 2>&1
     find_this="$1"; shift
-    if [ "$1" = "" -a "$1" != "::" ]; then
-      include="."
+    if [ "$#" -eq 0 ]; then
+      include="$(pwd)"
       exclude=""
     else
-      include=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p")
-      exclude=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | tr -s ' ' '\n')
-      if [ "$include" != "$exclude" ]; then
-        [ "$include" = "" ] && include="."
-      else
-        include="$@"
-        exclude=""
-      fi
+      include="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
+      # exclude="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs | tr -s ' ' '\n')"
+      exclude="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
+      [ "$include" = "" -a "$exclude" = "" ] && include="$@"
+      [ "$include" = "" -o "$(echo "$include" | xargs)" = "::" ] && include="$(pwd)"
     fi
-    [ "$(echo $include | xargs)" = "." ] && include=$(pwd)
-    ag -r -C3 --pager="less -RiMSFX -#4" "$find_this" "$include" -p <(printf "$exclude")
+    # ag -r -C3 --pager="less -RiMSFX -#4" "$find_this" "$include" -p <(printf "$exclude")
+    ag -r -C3 --pager="less -RiMSFX -#4" "$replace_with" $include -p <(printf "$(echo $exclude | tr -s ' ' '\n')")
+    unsetopt SH_WORD_SPLIT >/dev/null 2>&1
   else
     echo "usage    : agf old [included...] [:: excluded...]"
     echo "desc     : searches for \$old in \$included files, ignoring \$excluded files. By default, \$included is the current dir and \$excluded is empty."
@@ -404,28 +403,27 @@ agf () {
     echo "   agf some_word"
     echo "   agf some_word *.py"
     echo "   agf some_word file1.txt file2.md"
+    echo "   agf some_word included.txt :: excluded.txt"
+    echo "   agf some_word :: excluded.txt"
   fi
 }
 ragf () {
   if [ "$#" -ge 2 ]; then
+    setopt SH_WORD_SPLIT >/dev/null 2>&1
     find_this="$1"; shift
     replace_with="$1"; shift
-    if [ "$1" = "" -a "$1" != "::" ]; then
-      include="."
+    if [ "$#" -eq 0 ]; then
+      include="$(pwd)"
       exclude=""
     else
-      include=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p")
-      exclude=$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | tr -s ' ' '\n')
-      if [ "$include" != "$exclude" ]; then
-        [ "$include" = "" ] && include="."
-      else
-        include="$@"
-        exclude=""
-      fi
+      include="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
+      exclude="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
+      [ "$include" = "" -a "$exclude" = "" ] && include="$@"
+      [ "$include" = "" -o "$(echo "$include" | xargs)" = "::" ] && include="$(pwd)"
     fi
-    [ "$(echo $include | xargs)" = "." ] && include=$(pwd)
-    ag -l0 --nocolor "$find_this" "$include" -p <(printf "$exclude") | xargs -0 perl -pi -e "s{$find_this}{$replace_with}g";
-    ag -r -C3 --pager="less -RiMSFX -#4" "$replace_with" "$include" -p <(printf "$exclude")
+    ag -l0 --nocolor "$find_this" $include -p <(printf "$(echo $exclude | tr -s ' ' '\n')") | xargs -0 perl -pi -e "s|$find_this|$replace_with|g";
+    ag -r -C3 --pager="less -RiMSFX -#4" "$replace_with" $include -p <(printf "$(echo $exclude | tr -s ' ' '\n')")
+    unsetopt SH_WORD_SPLIT >/dev/null 2>&1
   else
     echo "usage    : ragf old new [included...] [:: excluded...]"
     echo "desc     : search and replace \$old with \$new in \$included files, ignoring \$excluded files. By default, \$included is the current dir and \$excluded is empty."
@@ -436,22 +434,6 @@ ragf () {
     echo "   ragf old new included.txt :: excluded.txt"
     echo "   ragf old new :: excluded.txt"
   fi
-}
-z () {
-  # find_this="$1"; shift
-  if [ "$1" = "" -a "$1" != "::" ]; then
-    include="$(pwd)"
-    exclude=""
-  else
-    include="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
-    exclude="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs | tr -s ' ' '\n')"
-    [ "$include" = "" -a "$exclude" = "" ] && include="$@"
-    [ "$include" = "" -o "$include" = "::" ] && include="$(pwd)"
-    echo "include: $include"
-    echo "exclude: $exclude"
-  fi
-  # [ "$(echo $include | xargs)" = "." ] && include=$(pwd)
-  # echo "ag -r -C3 --pager=\"less -RiMSFX -#4\" $find_this $include -p <(printf $exclude)"
 }
 
 # misc
