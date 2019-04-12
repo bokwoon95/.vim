@@ -442,24 +442,25 @@ ragf () {
     echo "      ragf old new :: file1.txt **/*.log"
   fi
 }
-grepf () {
+gpf () {
   if [ "$#" -ge 1 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
 
     local PATTERN="$1"; shift
 
-    local INCLUDED INCLIST INCD INCF INCLUDEDIR INCLUDE
-    local EXCLUDED EXCLIST EXCD EXCF EXCLUDEDIR EXCLUDE
     if [ "$#" -eq 0 ]; then
-      INCLUDED=""
-      EXCLUDED=""
+      local INCLUDED=""
+      local EXCLUDED=""
     else
-      INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
-      EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
+      local INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
+      local EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
       [ "$INCLUDED" = "" -a "$EXCLUDED" = "" ] && INCLUDED="$@"
       [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED=""
     fi
+
+    local INCLIST INCD INCF INCLUDEDIR INCLUDE
+    local EXCLIST EXCD EXCF EXCLUDEDIR EXCLUDE
     INCLIST=($INCLUDED); INCD=(); INCF=()
     for i in $INCLIST; do
       if [ "$(echo -n $i | tail -c1)" = "/" ]
@@ -477,19 +478,12 @@ grepf () {
     [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
 
-    # echo "files to search in:"
-    # echo "-------------------"
-    # grep -rIli --color=always "$PATTERN" * --exclude-dir={.git,plugged}
-    # echo
-
-    echo "grep -rIHn --context=3 --color=always \"$PATTERN\" * $INCLUDEDIR $INCLUDE --exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}  $EXCLUDE | less"
-    # grep -rIHn --context=3 --color=always "$PATTERN" * $INCLUDEDIR $INCLUDE --exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}  $EXCLUDE | less
-    # grep -rIHn --context=3 --color=always "$PATTERN" * "$INCLUDEDIR" "$INCLUDE" "$EXCLUDEDIR" "$EXCLUDE" | less
+    eval "grep -rEIHn --context=3 --color=always -e \"$PATTERN\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | less"
 
     [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
   fi
 }
-rgrepf () {
+rgpf () {
   if [ "$#" -ge 2 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
@@ -497,40 +491,38 @@ rgrepf () {
     local OLD="$1"; shift
     local NEW="$1"; shift
 
-    local INCLUDED INCLIST INCD INCF INCLUDEDIR INCLUDE
-    local EXCLUDED EXCLIST EXCD EXCF EXCLUDEDIR EXCLUDE
     if [ "$#" -eq 0 ]; then
-      INCLUDED="$(pwd)"
-      EXCLUDED=""
+      local INCLUDED=""
+      local EXCLUDED=""
     else
-      INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
-      EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
+      local INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
+      local EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
       [ "$INCLUDED" = "" -a "$EXCLUDED" = "" ] && INCLUDED="$@"
-      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED="$(pwd)"
+      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED=""
     fi
+
+    local INCLIST INCD INCF INCLUDEDIR INCLUDE
+    local EXCLIST EXCD EXCF EXCLUDEDIR EXCLUDE
     INCLIST=($INCLUDED); INCD=(); INCF=()
     for i in $INCLIST; do
       if [ "$(echo -n $i | tail -c1)" = "/" ]
       then INCD+=("$(echo $i | sed 's/.$//')")
       else INCF+=("$i") fi
     done
-    [ "$INCD" != "" ] && INCLUDEDIR="--include-dir={$(echo $INCD | awk -v OFS="," '$1=$1')}"
-    [ "$INCF" != "" ] && INCLUDE="--include={$(echo $INCF | awk -v OFS="," '$1=$1')}"
+    [ "$INCD" != "" ] && INCLUDEDIR="--include-dir={$(echo $INCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
+    [ "$INCF" != "" ] && INCLUDE="--include={$(echo $INCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     EXCLIST=($EXCLUDED); EXCD=(); EXCF=()
     for i in $EXCLIST; do
       if [ "$(echo -n $i | tail -c1)" = "/" ]
       then EXCD+=("$(echo $i | sed 's/.$//')")
       else EXCF+=("$i") fi
     done
-    [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1')}"
-    [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1')}"
+    [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
+    [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
 
-    # echo "files to search in:"
-    # echo "-------------------"
-    # grep -rIli --color=always "$PATTERN" * --exclude-dir={.git,plugged}
-    # echo
+    eval "grep -rEIl --color=always \"$OLD\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | xargs perl -pi -e \"s@$OLD@$NEW@g\""
 
-    # grep -rIHn --context=3 --color=always "$PATTERN" * --exclude-dir={.git,plugged} | less
+    eval "grep -rEIHn --context=3 --color=always -e \"$NEW\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | less"
 
     [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
   fi
