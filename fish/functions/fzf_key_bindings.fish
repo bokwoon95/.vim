@@ -1,1 +1,0 @@
-/home/admaterials18/.fzf/shell/key-bindings.fish
