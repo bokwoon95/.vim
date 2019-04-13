@@ -358,15 +358,15 @@ diffc () {
   colordiff -u "$@" | diff-highlight
 }
 expandurl () {
-  [ "$#" -eq 0 ] && u=$(</dev/stdin) || u="$1"
+  if [ "$#" -eq 0 ]; then u=$(</dev/stdin); else u="$1"; fi
   curl -sIL "$u" 2>&1 | awk '/^Location/ {print $2}' | tail -n1;
 }
 curlsh () {
-  [ "$#" -eq 0 ] && s=$(</dev/stdin) || s="$1"
+  if [ "$#" -eq 0 ]; then s=$(</dev/stdin); else s="$1"; fi
   file=$(mktemp);curl -L "$s" > $file;vi $file && sh $file;rm $file;
 }
 fage () {
-  [ "$#" -eq 0 ] && f=$(</dev/stdin) || f="$1"
+  if [ "$#" -eq 0 ]; then f=$(</dev/stdin); else f="$1"; fi
   echo "$(( $(date +%s) - $(date -r $f +%s) ))"
 }
 fmtsec () {
@@ -463,7 +463,7 @@ gpf () {
     local EXCLIST EXCD EXCF EXCLUDEDIR EXCLUDE
     INCLIST=($INCLUDED); INCD=(); INCF=()
     for i in $INCLIST; do
-      if [ "$(echo -n $i | tail -c1)" = "/" ]
+      if [ "$(printf $i | tail -c1)" = "/" ]
       then INCD+=("$(echo $i | sed 's/.$//')")
       else INCF+=("$i") fi
     done
@@ -471,7 +471,7 @@ gpf () {
     [ "$INCF" != "" ] && INCLUDE="--include={$(echo $INCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     EXCLIST=($EXCLUDED); EXCD=(); EXCF=()
     for i in $EXCLIST; do
-      if [ "$(echo -n $i | tail -c1)" = "/" ]
+      if [ "$(printf $i | tail -c1)" = "/" ]
       then EXCD+=("$(echo $i | sed 's/.$//')")
       else EXCF+=("$i") fi
     done
@@ -505,7 +505,7 @@ rgpf () {
     local EXCLIST EXCD EXCF EXCLUDEDIR EXCLUDE
     INCLIST=($INCLUDED); INCD=(); INCF=()
     for i in $INCLIST; do
-      if [ "$(echo -n $i | tail -c1)" = "/" ]
+      if [ "$(printf $i | tail -c1)" = "/" ]
       then INCD+=("$(echo $i | sed 's/.$//')")
       else INCF+=("$i") fi
     done
@@ -513,7 +513,7 @@ rgpf () {
     [ "$INCF" != "" ] && INCLUDE="--include={$(echo $INCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     EXCLIST=($EXCLUDED); EXCD=(); EXCF=()
     for i in $EXCLIST; do
-      if [ "$(echo -n $i | tail -c1)" = "/" ]
+      if [ "$(printf $i | tail -c1)" = "/" ]
       then EXCD+=("$(echo $i | sed 's/.$//')")
       else EXCF+=("$i") fi
     done
