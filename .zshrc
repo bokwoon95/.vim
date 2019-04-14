@@ -650,10 +650,12 @@ fi
 # C
 cck () { # compile with makeheaders
   if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
-    echo "\$CLASTFILE not found, please run ccs with a .c file first"; return 1
+    echo "\$CLASTFILE not found, please run ccs with a .c file first"
+    return 1
   fi
   if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
-    echo "That's not a .c file"; return 1
+    echo "That's not a .c file"
+    return 1
   fi
   export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
   if command -v makeheaders >/dev/null 2>&1; then
@@ -671,10 +673,12 @@ cck () { # compile with makeheaders
 }
 ccb () { # compile without makeheaders
   if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
-    echo "\$CLASTFILE not found, please run ccs with a .c file first"; return 1
+    echo "\$CLASTFILE not found, please run ccs with a .c file first"
+    return 1
   fi
   if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
-    echo "That's not a .c file"; return 1
+    echo "That's not a .c file"
+    return 1
   fi
   export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
   if cc -g --std=c99 -Wall -Werror "$CLASTFILE.c" -o "$CLASTFILE.out"; then
@@ -689,10 +693,12 @@ ccb () { # compile without makeheaders
 }
 ccs () { # compile without makeheaders, ignoring errors
   if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
-    echo "\$CLASTFILE not found, please run ccs with a .c file first"; return 1
+    echo "\$CLASTFILE not found, please run ccs with a .c file first"
+    return 1
   fi
   if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
-    echo "That's not a .c file"; return 1
+    echo "That's not a .c file"
+    return 1
   fi
   export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
   if cc -g --std=c99 "$CLASTFILE.c" -o "$CLASTFILE.out"; then
