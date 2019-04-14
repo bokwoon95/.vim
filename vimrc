@@ -487,6 +487,7 @@ syntax sync minlines=256       " start highlighting from 256 lines backwards
 set synmaxcol=300              " do not highlight very long lines
 set autoread                   " Reload files if they have been changed externally
 set lazyredraw                 " Wait for changes to finish before redrawing screen
+set noequalalways              " Don't resize existing windows when a window is closed
 augroup Checkt
   autocmd!
   autocmd FocusGained,BufEnter * checktime " To trigger vim's autoread on focus gained or buffer enter
@@ -1299,12 +1300,25 @@ augroup Terminal
 augroup END
 nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
 fun! Term(...) abort
+  let l:currmax=0
+  let l:currwinnr=win_getid()
+  for l:bn in range(1,bufnr('$'))
+    let l:currbufname = bufname(l:bn)
+    let l:currshellnr = str2nr(bufname(l:bn)[10:-1])
+    if bufloaded(l:bn) && l:currbufname =~# "term:shell.*" && l:currshellnr != 0
+      if l:currshellnr > l:currmax
+        let l:currmax = l:currshellnr
+      endif
+    endif
+  endfor
   let l:name =
         \(a:0 > 0 && a:1 != "")   ? "term:" . a:1  :
-        \exists("g:lasttermname") ? g:lasttermname :
-        \"term:shell"
+        \exists("w:lasttermname") ? w:lasttermname :
+        \"term:shell".(l:currmax+1)
   if bufwinnr(l:name) > 0
     execute bufwinnr(l:name) . "wincmd c"
+  elseif bufname('%') =~# "term:.*"
+    execute bufwinnr(bufname('%')) . "wincmd c"
   else
     15split
     if bufexists(l:name)
@@ -1314,7 +1328,7 @@ fun! Term(...) abort
       execute "file " . l:name
       set nobuflisted
     endif
-    let g:lasttermname = l:name
+    call setwinvar(l:currwinnr, 'lasttermname', l:name)
   endif
 endfun
 fun! s:termnames(ArgLead, CmdLine, CursorPos) abort
@@ -1328,8 +1342,8 @@ fun! s:termnames(ArgLead, CmdLine, CursorPos) abort
 endfun
 fun! s:term(...) abort
   let name = (a:0 > 0 && a:1 != "") ? a:1  : ""
-  if exists("g:lasttermname") && bufwinnr(g:lasttermname) > 0
-    execute bufwinnr(g:lasttermname) . "wincmd c"
+  if exists("w:lasttermname") && bufwinnr(w:lasttermname) > 0
+    execute bufwinnr(w:lasttermname) . "wincmd c"
   endif
   silent call Term(name)
 endfun
