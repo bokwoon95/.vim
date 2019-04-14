@@ -653,21 +653,24 @@ cck () { # compile with makeheaders
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
   fi
-  if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
-    echo "That's not a .c file"
-    return 1
+  if [ "$#" -gt 0 ]; then
+    if [ "$(printf $1 | tail -c2)" != ".c" ]; then
+      echo "That's not a .c file"
+      return 1
+    fi
+    export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    shift; export CLASTARGS="$@"
   fi
-  export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
   if command -v makeheaders >/dev/null 2>&1; then
     makeheaders "$CLASTFILE.c"
   fi
   if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-    ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+    eval "./$CLASTFILE.out $CLASTARGS"
   elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
     echo "warning present, continue? y/n (leave blank for \"y\")"
     read CONTINUE
     if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-      ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+      eval "./$CLASTFILE.out $CLASTARGS"
     fi
   fi
 }
@@ -676,18 +679,21 @@ ccb () { # compile without makeheaders
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
   fi
-  if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
-    echo "That's not a .c file"
-    return 1
+  if [ "$#" -gt 0 ]; then
+    if [ "$(printf $1 | tail -c2)" != ".c" ]; then
+      echo "That's not a .c file"
+      return 1
+    fi
+    export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    shift; export CLASTARGS="$@"
   fi
-  export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
-  if cc -g --std=c99 -Wall -Werror "$CLASTFILE.c" -o "$CLASTFILE.out"; then
-    ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-  elif cc -g --std=c99 -Wall "$CLASTFILE.c" -o "$CLASTFILE.out"; then
+  if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+    eval "./$CLASTFILE.out $CLASTARGS"
+  elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
     echo "warning present, continue? y/n (leave blank for \"y\")"
     read CONTINUE
     if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-      ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+      eval "./$CLASTFILE.out $CLASTARGS"
     fi
   fi
 }
@@ -696,13 +702,16 @@ ccs () { # compile without makeheaders, ignoring errors
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
   fi
-  if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
-    echo "That's not a .c file"
-    return 1
+  if [ "$#" -gt 0 ]; then
+    if [ "$(printf $1 | tail -c2)" != ".c" ]; then
+      echo "That's not a .c file"
+      return 1
+    fi
+    export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    shift; export CLASTARGS="$@"
   fi
-  export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
   if cc -g --std=c99 "$CLASTFILE.c" -o "$CLASTFILE.out"; then
-    ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+    eval "./$CLASTFILE.out $CLASTARGS"
   fi
 }
 ldb () {
