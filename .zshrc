@@ -656,7 +656,7 @@ if command -v rbenv >/dev/null 2>&1; then
 fi
 
 # C
-cck () { # compile with makeheaders
+cch () { # cc headers, compile with makeheaders
   if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
@@ -666,7 +666,7 @@ cck () { # compile with makeheaders
       echo "That's not a .c file"
       return 1
     fi
-    export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    export CLASTFILE="$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")"
     shift; export CLASTARGS="$@"
   fi
   if command -v makeheaders >/dev/null 2>&1; then
@@ -677,12 +677,12 @@ cck () { # compile with makeheaders
   elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
     echo "warning present, continue? y/n (leave blank for \"y\")"
     read CONTINUE
-    if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+    if [ "$CONTINUE" = "" -o "$CONTINUE" = "y" ]; then
       eval "./$CLASTFILE.out $CLASTARGS"
     fi
   fi
 }
-ccb () { # compile without makeheaders
+ccc () { # cc convenient, with warnings
   if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
@@ -692,7 +692,7 @@ ccb () { # compile without makeheaders
       echo "That's not a .c file"
       return 1
     fi
-    export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    export CLASTFILE="$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")"
     shift; export CLASTARGS="$@"
   fi
   if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
@@ -700,12 +700,12 @@ ccb () { # compile without makeheaders
   elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
     echo "warning present, continue? y/n (leave blank for \"y\")"
     read CONTINUE
-    if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+    if [ "$CONTINUE" = "" -o "$CONTINUE" = "y" ]; then
       eval "./$CLASTFILE.out $CLASTARGS"
     fi
   fi
 }
-ccs () { # compile without makeheaders, ignoring errors
+ccs () { # cc silent, ignore any warnings
   if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
@@ -715,7 +715,7 @@ ccs () { # compile without makeheaders, ignoring errors
       echo "That's not a .c file"
       return 1
     fi
-    export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    export CLASTFILE="$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")"
     shift; export CLASTARGS="$@"
   fi
   if cc -g --std=c99 "$CLASTFILE.c" -o "$CLASTFILE.out"; then
@@ -740,7 +740,7 @@ ldb () {
       elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         echo "warning present, continue? y/n (leave blank for \"y\")"
         read CONTINUE
-        if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+        if [ "$CONTINUE" = "" -o "$CONTINUE" = "y" ]; then
           PATH=/usr/bin /usr/bin/lldb "$CLASTFILE.out $(echo $@ | cut -d' ' -f2-)"
         fi
       fi
@@ -749,29 +749,26 @@ ldb () {
     fi
   fi
 }
-ccn () { # compile with ncurses
-  if [[ "$#" -eq 0 ]]; then
-    if [[ "$CLASTFILE" == "" ]]; then
-      echo "\$CLASTFILE not set, pleace run ccn with a .c file first"
-    else
-      if cc -lncurses -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-      fi
+ccn () { # cc ncurses, compile with ncurses lib
+  if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
+    echo "\$CLASTFILE not found, please run ccs with a .c file first"
+    return 1
+  fi
+  if [ "$#" -gt 0 ]; then
+    if [ "$(printf $1 | tail -c2)" != ".c" ]; then
+      echo "That's not a .c file"
+      return 1
     fi
-  else
-    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
-    if [[ "$CLASTFILE" != "$1" ]]; then
-      if cc -lncurses -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-      elif cc -lncurses -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        echo "warning present, continue? y/n (leave blank for \"y\")"
-        read CONTINUE
-        if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-          ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-        fi
-      fi
-    else
-      CLASTFILE=""
+    export CLASTFILE="$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")"
+    shift; export CLASTARGS="$@"
+  fi
+  if cc -g -lncurses --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+    eval "./$CLASTFILE.out $CLASTARGS"
+  elif cc -g -lncurses --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+    echo "warning present, continue? y/n (leave blank for \"y\")"
+    read CONTINUE
+    if [ "$CONTINUE" = "" -o "$CONTINUE" = "y" ]; then
+      eval "./$CLASTFILE.out $CLASTARGS"
     fi
   fi
 }
