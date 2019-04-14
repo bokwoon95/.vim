@@ -201,7 +201,7 @@ else
   export EDITOR="vim"
 fi
 if command -v clip.exe >/dev/null 2>&1; then
-  xo() {
+  function xo () {
     cmd.exe /C start "$@"
   }
 elif [[ $(uname) = 'Linux' ]]; then
