@@ -1320,7 +1320,7 @@ fun! Term(...) abort
   elseif bufname('%') =~# "term:.*"
     execute bufwinnr(bufname('%')) . "wincmd c"
   else
-    15split
+    execute float2nr((winheight(0)*0.35)) . "split"
     if bufexists(l:name)
       execute "buffer " . l:name
     else
