@@ -649,79 +649,54 @@ fi
 
 # C
 cck () { # compile with makeheaders
-  if [[ "$#" -eq 0 ]]; then
-    if [[ "$CLASTFILE" == "" ]]; then
-      echo "\$CLASTFILE not set, pleace run cck with a .c file first"
-    else
-      if command -v makeheaders >/dev/null 2>&1; then
-        makeheaders "$CLASTFILE"".c"
-      fi
-      if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-      fi
-    fi
-  else
-    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
-    if [[ "$CLASTFILE" != "$1" ]]; then
-      if command -v makeheaders >/dev/null 2>&1; then
-        makeheaders "$CLASTFILE"".c"
-      fi
-      if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-      elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        echo "warning present, continue? y/n (leave blank for \"y\")"
-        read CONTINUE
-        if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-          ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-        fi
-      fi
-    else
-      CLASTFILE=""
+  if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
+    echo "\$CLASTFILE not found, please run ccs with a .c file first"; return 1
+  fi
+  if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
+    echo "That's not a .c file"; return 1
+  fi
+  CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+  if command -v makeheaders >/dev/null 2>&1; then
+    makeheaders "$CLASTFILE.c"
+  fi
+  if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+    ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+  elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+    echo "warning present, continue? y/n (leave blank for \"y\")"
+    read CONTINUE
+    if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+      ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
     fi
   fi
 }
 ccb () { # compile without makeheaders
-  if [[ "$#" -eq 0 ]]; then
-    if [[ "$CLASTFILE" == "" ]]; then
-      echo "\$CLASTFILE not set, pleace run ccb with a .c file first"
-    else
-      if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-      fi
-    fi
-  else
-    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
-    if [[ "$CLASTFILE" != "$1" ]]; then
-      if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f1-)"
-      elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        echo "warning present, continue? y/n (leave blank for \"y\")"
-        read CONTINUE
-        if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-          ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f1-)"
-        fi
-      fi
-    else
-      CLASTFILE=""
+  if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
+    echo "\$CLASTFILE not found, please run ccs with a .c file first"; return 1
+  fi
+  if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
+    echo "That's not a .c file"; return 1
+  fi
+  CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+  if cc -g --std=c99 -Wall -Werror "$CLASTFILE.c" -o "$CLASTFILE.out"; then
+    ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+  elif cc -g --std=c99 -Wall "$CLASTFILE.c" -o "$CLASTFILE.out"; then
+    echo "warning present, continue? y/n (leave blank for \"y\")"
+    read CONTINUE
+    if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
+      ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
     fi
   fi
 }
 ccs () { # compile without makeheaders, ignoring errors
-  if [[ "$#" -eq 0 ]]; then
-    if [[ "$CLASTFILE" == "" ]]; then
-      echo "\$CLASTFILE not set, pleace run ccb with a .c file first"
-    else
-      if cc -g --std=c99 "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-      fi
-    fi
-  else
-    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
-    if [[ "$CLASTFILE" != "$1" ]]; then
-      ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
-    else
-      CLASTFILE=""
-    fi
+  if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
+    echo "\$CLASTFILE not found, please run ccs with a .c file first"; return 1
+  fi
+  if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
+    echo "That's not a .c file"; return 1
+  fi
+  CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+  if cc -g --std=c99 "$CLASTFILE.c" -o "$CLASTFILE.out"; then
+    ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
   fi
 }
 ldb () {
