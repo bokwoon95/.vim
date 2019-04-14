@@ -473,7 +473,7 @@ gpf () {
     for i in $EXCLIST; do
       if [ "$(printf $i | tail -c1)" = "/" ]
       then EXCD+=("$(echo $i | sed 's/.$//')")
-      else EXCF+=("$i") fi
+      else EXCF+=("$i"); fi
     done
     [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
@@ -515,7 +515,7 @@ rgpf () {
     for i in $EXCLIST; do
       if [ "$(printf $i | tail -c1)" = "/" ]
       then EXCD+=("$(echo $i | sed 's/.$//')")
-      else EXCF+=("$i") fi
+      else EXCF+=("$i"); fi
     done
     [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
@@ -577,12 +577,20 @@ grepf () {
     echo "      grepf pattern *.py"
     echo "      grepf pattern file1.txt folder1/ :: folder1/file2.txt"
     echo "      grepf pattern :: file1.txt **/*.log"
+    echo
+    echo "   Options:"
+    echo "      --info       Instead of showing each match, show an overview of which files"
+    echo "                   were matched and how many matches each file."
+    echo "      --showcmd    Show the full command that grepf transforms into."
   fi
 }
 rgrepf () {
   if [ "$#" -ge 2 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
+
+    local OLD="$1"; shift
+    local NEW="$1"; shift
 
     local INCLUDED_RAW=""
     local EXCLUDED_RAW=""
