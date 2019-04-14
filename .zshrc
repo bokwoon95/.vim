@@ -655,7 +655,7 @@ cck () { # compile with makeheaders
   if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
     echo "That's not a .c file"; return 1
   fi
-  CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+  export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
   if command -v makeheaders >/dev/null 2>&1; then
     makeheaders "$CLASTFILE.c"
   fi
@@ -676,7 +676,7 @@ ccb () { # compile without makeheaders
   if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
     echo "That's not a .c file"; return 1
   fi
-  CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+  export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
   if cc -g --std=c99 -Wall -Werror "$CLASTFILE.c" -o "$CLASTFILE.out"; then
     ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
   elif cc -g --std=c99 -Wall "$CLASTFILE.c" -o "$CLASTFILE.out"; then
@@ -694,7 +694,7 @@ ccs () { # compile without makeheaders, ignoring errors
   if [ "$#" -gt 0 -a "$(printf $1 | tail -c2)" != ".c" ]; then
     echo "That's not a .c file"; return 1
   fi
-  CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+  export CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
   if cc -g --std=c99 "$CLASTFILE.c" -o "$CLASTFILE.out"; then
     ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
   fi
