@@ -620,7 +620,7 @@ rgrepf () {
     [ "$DIRS" != "" ] && EXCLUDED_DIRS="--exclude-dir={$(echo $DIRS | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     [ "$FILES" != "" ] && EXCLUDED_FILES="--exclude={$(echo $FILES | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
 
-    eval "grep -rEIl \"$OLD\" * $INCLUDED_DIRS $INCLUDED_FILES $EXCLUDED_DIRS $EXCLUDED_FILES | xargs perl -pi -e \"s@$OLD@$NEW@g\""
+    eval "grep -rEIl --null \"$OLD\" * $INCLUDED_DIRS $INCLUDED_FILES $EXCLUDED_DIRS $EXCLUDED_FILES | xargs -0 perl -pi -e \"s@$OLD@$NEW@g\""
 
     eval "grep -rEIHn --context=3 --color=always -e \"$NEW\" * $INCLUDED_DIRS $INCLUDED_FILES $EXCLUDED_DIRS $EXCLUDED_FILES | less -RiMSFX#4"
 
