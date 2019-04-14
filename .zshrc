@@ -385,13 +385,13 @@ agf () {
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
     PATTERN="$1"; shift
     if [ "$#" -eq 0 ]; then
-      INCLUDED="$(pwd)"
+      INCLUDED="$PWD"
       EXCLUDED=""
     else
       INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
       EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
       [ "$INCLUDED" = "" -a "$EXCLUDED" = "" ] && INCLUDED="$@"
-      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED="$(pwd)"
+      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED="$PWD"
     fi
     ag --context=3 --pager="less -RiMSFX -#4" "$PATTERN" $INCLUDED --path-to-ignore <(printf "$(echo $EXCLUDED | tr -s ' ' '\n')")
     [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
@@ -416,13 +416,13 @@ ragf () {
     OLD="$1"; shift
     NEW="$1"; shift
     if [ "$#" -eq 0 ]; then
-      INCLUDED="$(pwd)"
+      INCLUDED="$PWD"
       EXCLUDED=""
     else
       INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
       EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
       [ "$INCLUDED" = "" -a "$EXCLUDED" = "" ] && INCLUDED="$@"
-      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED="$(pwd)"
+      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED="$PWD"
     fi
     ag --files-with-matches -0 "$OLD" $INCLUDED -p <(printf "$(echo $EXCLUDED | tr -s ' ' '\n')") | xargs -0 perl -pi -e "s@$OLD@$NEW@g"
     ag --context=3 --pager="less -RiMSFX -#4" "$NEW" $INCLUDED --path-to-ignore <(printf "$(echo $EXCLUDED | tr -s ' ' '\n')")
@@ -478,7 +478,7 @@ gpf () {
     [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
 
-    eval "grep -rEIHn --context=3 --color=always -e \"$PATTERN\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | less"
+    eval "grep -rEIHn --context=3 --color=always -e \"$PATTERN\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | less -RiMSFX#4"
 
     [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
   fi
@@ -520,9 +520,49 @@ rgpf () {
     [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
     [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
 
-    eval "grep -rEIl --color=always \"$OLD\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | xargs perl -pi -e \"s@$OLD@$NEW@g\""
+    eval "grep -rEIl \"$OLD\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | xargs perl -pi -e \"s@$OLD@$NEW@g\""
 
-    eval "grep -rEIHn --context=3 --color=always -e \"$NEW\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | less"
+    eval "grep -rEIHn --context=3 --color=always -e \"$NEW\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | less -RiMSFX#4"
+
+    [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
+  fi
+}
+grepf () {
+  if [ "$#" -ge 1 ]; then
+    local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
+    [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
+
+    local PATTERN="$1"; shift
+
+    local INCLUDED_RAW=""
+    local EXCLUDED_RAW=""
+    if [ "$#" -gt 0 ]; then
+      INCLUDED_RAW="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
+      EXCLUDED_RAW="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
+      [ "$INCLUDED_RAW" = "" -a "$EXCLUDED_RAW" = "" ] && INCLUDED_RAW="$@"
+      [ "$INCLUDED_RAW" = "" -o "$INCLUDED_RAW" = "::" ] && INCLUDED_RAW=""
+    fi
+    local ARRAY DIRS FILES
+    local INCLUDED_DIRS INCLUDED_FILES
+    local EXCLUDED_DIRS EXCLUDED_FILES
+    ARRAY=($INCLUDED_RAW); DIRS=(); FILES=()
+    for i in $ARRAY; do
+      if [ "$(printf $i | tail -c1)" = "/" ]
+      then DIRS+=("$(echo $i | sed 's/.$//')")
+      else FILES+=("$i"); fi
+    done
+    [ "$DIRS" != "" ] && INCLUDED_DIRS="--include-dir={$(echo $DIRS | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
+    [ "$FILES" != "" ] && INCLUDED_FILES="--include={$(echo $FILES | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
+    ARRAY=($EXCLUDED_RAW); DIRS=(); FILES=()
+    for i in $ARRAY; do
+      if [ "$(printf $i | tail -c1)" = "/" ]
+      then DIRS+=("$(echo $i | sed 's/.$//')")
+      else FILES+=("$i"); fi
+    done
+    [ "$DIRS" != "" ] && EXCLUDED_DIRS="--exclude-dir={$(echo $DIRS | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
+    [ "$FILES" != "" ] && EXCLUDED_FILES="--exclude={$(echo $FILES | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
+
+    eval "grep -rEIHn --context=3 --color=always -e \"$PATTERN\" * $INCLUDED_DIRS $INCLUDED_FILES $EXCLUDED_DIRS $EXCLUDED_FILES | less -RiMSFX#4"
 
     [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
   fi
@@ -543,7 +583,7 @@ if command -v rbenv >/dev/null 2>&1; then
 fi
 
 # C
-cck () {
+cck () { # compile with makeheaders
   if [[ "$#" -eq 0 ]]; then
     if [[ "$CLASTFILE" == "" ]]; then
       echo "\$CLASTFILE not set, pleace run cck with a .c file first"
@@ -575,7 +615,7 @@ cck () {
     fi
   fi
 }
-ccb () {
+ccb () { # compile without makeheaders
   if [[ "$#" -eq 0 ]]; then
     if [[ "$CLASTFILE" == "" ]]; then
       echo "\$CLASTFILE not set, pleace run ccb with a .c file first"
@@ -588,14 +628,32 @@ ccb () {
     CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
     if [[ "$CLASTFILE" != "$1" ]]; then
       if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f1-)"
       elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
         echo "warning present, continue? y/n (leave blank for \"y\")"
         read CONTINUE
         if [[ "$CONTINUE" == "" || "$CONTINUE" == "y" ]]; then
-          ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+          ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f1-)"
         fi
       fi
+    else
+      CLASTFILE=""
+    fi
+  fi
+}
+ccs () { # compile without makeheaders, ignoring errors
+  if [[ "$#" -eq 0 ]]; then
+    if [[ "$CLASTFILE" == "" ]]; then
+      echo "\$CLASTFILE not set, pleace run ccb with a .c file first"
+    else
+      if cc -g --std=c99 "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+        ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
+      fi
+    fi
+  else
+    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")
+    if [[ "$CLASTFILE" != "$1" ]]; then
+      ./"$CLASTFILE.out" "$(echo $@ | cut -d' ' -f2-)"
     else
       CLASTFILE=""
     fi
@@ -628,7 +686,7 @@ ldb () {
     fi
   fi
 }
-ccn () {
+ccn () { # compile with ncurses
   if [[ "$#" -eq 0 ]]; then
     if [[ "$CLASTFILE" == "" ]]; then
       echo "\$CLASTFILE not set, pleace run ccn with a .c file first"
@@ -929,7 +987,7 @@ sshfx () { #not working for some reason
 }
 
 tel-resize() {
-  if [[ $(pwd) != "$HOME/Desktop" ]]; then
+  if [[ "$PWD" != "$HOME/Desktop" ]]; then
     echo "Not in desktop"
     cd ~/Desktop
   fi
@@ -970,7 +1028,7 @@ tel-resize() {
 }
 
 tclean() {
-  if [[ $(pwd) != "$HOME/Desktop" ]]; then
+  if [[ "$PWD" != "$HOME/Desktop" ]]; then
     echo "Not in desktop"
     cd ~/Desktop
   fi
