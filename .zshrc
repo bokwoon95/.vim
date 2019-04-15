@@ -218,7 +218,7 @@ path-prepend /usr/local/go/bin
 export GOPATH="$HOME/go"
 alias goc="cdd $GOPATH/src/github.com/bokwoon95/"
 gbin () {
-  if [[ "$#" -eq 0 ]]; then
+  if [[ $# -eq 0 ]]; then
     cd $GOPATH/bin/ && pwd && ls
   else
     $GOPATH/bin/$1
@@ -296,7 +296,7 @@ alias lsl="ls -alF"
 alias cp="cp -v"
 alias mv="mv -v"
 cdd () {
-  if [[ "$#" -eq 0 ]]; then
+  if [[ $# -eq 0 ]]; then
     cd && pwd && ls
   else
     cd "$1" && pwd && ls;
@@ -308,7 +308,7 @@ mkcd () {
 }
 alias checksize="du -h -d 1 | sort -n" #display file sizes
 mann () {
-  if [[ "$#" -eq 0 ]]; then
+  if [[ $# -eq 0 ]]; then
     echo "What manual page do you want?"
   else
     man $1 |
@@ -358,19 +358,19 @@ diffc () {
   colordiff -u "$@" | diff-highlight
 }
 expandurl () {
-  if [ "$#" -eq 0 ]; then u=$(</dev/stdin); else u="$1"; fi
+  if [ $# -eq 0 ]; then u=$(</dev/stdin); else u="$1"; fi
   curl -sIL "$u" 2>&1 | awk '/^Location/ {print $2}' | tail -n1;
 }
 curlsh () {
-  if [ "$#" -eq 0 ]; then s=$(</dev/stdin); else s="$1"; fi
+  if [ $# -eq 0 ]; then s=$(</dev/stdin); else s="$1"; fi
   file=$(mktemp);curl -L "$s" > $file;vi $file && sh $file;rm $file;
 }
 fage () {
-  if [ "$#" -eq 0 ]; then f=$(</dev/stdin); else f="$1"; fi
+  if [ $# -eq 0 ]; then f=$(</dev/stdin); else f="$1"; fi
   echo "$(( $(date +%s) - $(date -r $f +%s) ))"
 }
 fmtsec () {
-  [ "$#" -eq 0 ] && local T=$(</dev/stdin) || local T="$1"
+  [ $# -eq 0 ] && local T=$(</dev/stdin) || local T="$1"
   local Y=$((T/60/60/24/30/12))
   local m=$((T/60/60/24/30%12))
   local d=$((T/60/60/24%30))
@@ -380,11 +380,11 @@ fmtsec () {
   echo "$Y.years $m.months $d.days $H.hours $M.minutes $S.seconds"
 }
 agf () {
-  if [ "$#" -ge 1 ]; then
+  if [ $# -ge 1 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
     PATTERN="$1"; shift
-    if [ "$#" -eq 0 ]; then
+    if [ $# -eq 0 ]; then
       INCLUDED="$PWD"
       EXCLUDED=""
     else
@@ -410,12 +410,12 @@ agf () {
   fi
 }
 ragf () {
-  if [ "$#" -ge 2 ]; then
+  if [ $# -ge 2 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
     OLD="$1"; shift
     NEW="$1"; shift
-    if [ "$#" -eq 0 ]; then
+    if [ $# -eq 0 ]; then
       INCLUDED="$PWD"
       EXCLUDED=""
     else
@@ -443,13 +443,13 @@ ragf () {
   fi
 }
 gpf () {
-  if [ "$#" -ge 1 ]; then
+  if [ $# -ge 1 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
 
     local PATTERN="$1"; shift
 
-    if [ "$#" -eq 0 ]; then
+    if [ $# -eq 0 ]; then
       local INCLUDED=""
       local EXCLUDED=""
     else
@@ -484,14 +484,14 @@ gpf () {
   fi
 }
 rgpf () {
-  if [ "$#" -ge 2 ]; then
+  if [ $# -ge 2 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
 
     local OLD="$1"; shift
     local NEW="$1"; shift
 
-    if [ "$#" -eq 0 ]; then
+    if [ $# -eq 0 ]; then
       local INCLUDED=""
       local EXCLUDED=""
     else
@@ -528,7 +528,7 @@ rgpf () {
   fi
 }
 grepf () {
-  if [ "$#" -ge 1 ]; then
+  if [ $# -ge 1 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
 
@@ -536,7 +536,7 @@ grepf () {
 
     local INCLUDED_RAW=""
     local EXCLUDED_RAW=""
-    if [ "$#" -gt 0 ]; then
+    if [ $# -gt 0 ]; then
       INCLUDED_RAW="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
       EXCLUDED_RAW="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
       [ "$INCLUDED_RAW" = "" -a "$EXCLUDED_RAW" = "" ] && INCLUDED_RAW="$@"
@@ -585,7 +585,7 @@ grepf () {
   fi
 }
 rgrepf () {
-  if [ "$#" -ge 2 ]; then
+  if [ $# -ge 2 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
 
@@ -594,7 +594,7 @@ rgrepf () {
 
     local INCLUDED_RAW=""
     local EXCLUDED_RAW=""
-    if [ "$#" -gt 0 ]; then
+    if [ $# -gt 0 ]; then
       INCLUDED_RAW="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
       EXCLUDED_RAW="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
       [ "$INCLUDED_RAW" = "" -a "$EXCLUDED_RAW" = "" ] && INCLUDED_RAW="$@"
@@ -621,6 +621,7 @@ rgrepf () {
     [ "$FILES" != "" ] && EXCLUDED_FILES="--exclude={$(echo $FILES | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
 
     eval "grep -rEIl --null \"$OLD\" * $INCLUDED_DIRS $INCLUDED_FILES $EXCLUDED_DIRS $EXCLUDED_FILES | xargs -0 perl -pi -e \"s@$OLD@$NEW@g\""
+    # eval "grep -rEIl --null \"$OLD\" * $INCLUDED_DIRS $INCLUDED_FILES $EXCLUDED_DIRS $EXCLUDED_FILES | xargs -0 sed -i "" -E \"s@$OLD@$NEW@g\""
 
     eval "grep -rEIHn --context=3 --color=always -e \"$NEW\" * $INCLUDED_DIRS $INCLUDED_FILES $EXCLUDED_DIRS $EXCLUDED_FILES | less -RiMSFX#4"
 
@@ -657,11 +658,17 @@ fi
 
 # C
 cch () { # cc headers, compile with makeheaders
-  if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
+  if [ "$1" = "-l" ]; then
+    echo "makeheaders $CLASTFILE.c"
+    echo "cc -g --std=c99 -Wall -Werror $CLASTFILE.c -o $CLASTFILE.out"
+    echo "./$CLASTFILE.out $CLASTARGS"
+    return 0
+  fi
+  if [ $# -eq 0 -a "$CLASTFILE" = "" ]; then
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
   fi
-  if [ "$#" -gt 0 ]; then
+  if [ $# -gt 0 ]; then
     if [ "$(printf $1 | tail -c2)" != ".c" ]; then
       echo "That's not a .c file"
       return 1
@@ -683,11 +690,16 @@ cch () { # cc headers, compile with makeheaders
   fi
 }
 ccc () { # cc convenient, with warnings
-  if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
+  if [ "$1" = "-l" ]; then
+    echo "cc -g --std=c99 -Wall -Werror $CLASTFILE.c -o $CLASTFILE.out"
+    echo "./$CLASTFILE.out $CLASTARGS"
+    return 0
+  fi
+  if [ $# -eq 0 -a "$CLASTFILE" = "" ]; then
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
   fi
-  if [ "$#" -gt 0 ]; then
+  if [ $# -gt 0 ]; then
     if [ "$(printf $1 | tail -c2)" != ".c" ]; then
       echo "That's not a .c file"
       return 1
@@ -706,11 +718,16 @@ ccc () { # cc convenient, with warnings
   fi
 }
 ccs () { # cc silent, ignore any warnings
-  if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
+  if [ "$1" = "-l" ]; then
+    echo "cc -g --std=c99 $CLASTFILE.c -o $CLASTFILE.out"
+    echo "./$CLASTFILE.out $CLASTARGS"
+    return 0
+  fi
+  if [ $# -eq 0 -a "$CLASTFILE" = "" ]; then
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
   fi
-  if [ "$#" -gt 0 ]; then
+  if [ $# -gt 0 ]; then
     if [ "$(printf $1 | tail -c2)" != ".c" ]; then
       echo "That's not a .c file"
       return 1
@@ -723,7 +740,7 @@ ccs () { # cc silent, ignore any warnings
   fi
 }
 ldb () {
-  if [[ "$#" -eq 0 ]]; then
+  if [[ $# -eq 0 ]]; then
     PATH=/usr/bin /usr/bin/lldb
     # if [[ "$CLASTFILE" == "" ]]; then
     #   echo "\$CLASTFILE not set, pleace run ldb with an .out file first"
@@ -750,11 +767,11 @@ ldb () {
   fi
 }
 ccn () { # cc ncurses, compile with ncurses lib
-  if [ "$#" -eq 0 -a "$CLASTFILE" = "" ]; then
+  if [ $# -eq 0 -a "$CLASTFILE" = "" ]; then
     echo "\$CLASTFILE not found, please run ccs with a .c file first"
     return 1
   fi
-  if [ "$#" -gt 0 ]; then
+  if [ $# -gt 0 ]; then
     if [ "$(printf $1 | tail -c2)" != ".c" ]; then
       echo "That's not a .c file"
       return 1
@@ -775,7 +792,7 @@ ccn () { # cc ncurses, compile with ncurses lib
 
 # youtube-dl aliases
 youtube-dl3 () {
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
   echo "Provide Youtube URL(s) to extract their mp3. Playlist URLs will have all their audio files inside extracted. Make sure to surround the URL in quotes"
 else
   for filename in "$@"; do
@@ -784,7 +801,7 @@ else
 fi
 }
 youtube-dl4 () {
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
   echo "Provide Youtube URL(s) to extract their mp4. Playlist URLs will have all their videos inside extracted. Make sure to surround the URL in quotes"
 else
   for filename in "$@"; do
@@ -797,11 +814,11 @@ setopt +o nomatch
 
 # ffmpeg aliases
 fftrim () { #3 arguments, input file, start time, duration
-  if [[ "$#" -eq 0 ]]; then
+  if [[ $# -eq 0 ]]; then
     echo "HOW TO USE: fftrim takes in 3 arguments, input_file.mp3/.mp4, start_time, duration"
     echo "EXAMPLE: fftrim song.mp3 0 1:00     (trims song.mp3 from 0:00 onward, output duration will be 1 minute long"
     echo "EXAMPLE: fftrim video.mp4 0:30 1:00 (trims video.mp4 from 0:30 onward, output duration will be 1 minute long)"
-  elif [ "$#" -ne 3 ]; then
+  elif [ $# -ne 3 ]; then
     echo "NOTE: fftrim takes in only 3 arguments! input_file.mp3/.mp4, start_time, duration"
   else
     if [[ ${1: -4} == ".mp3" ]]; then
@@ -814,9 +831,9 @@ fftrim () { #3 arguments, input file, start time, duration
   fi
 }
 ffadeoutmp3 () { #input file, start of fade, duration of fade
-  if [[ "$#" -eq 0 ]]; then
+  if [[ $# -eq 0 ]]; then
     echo "HOW TO USE: ffadeoutmp3 takes in 3 arguments, input_file.mp3, start_of_fade(only accepts minutes:seconds format), duration_of_fade(how long the fade should be stretched over, in seconds. Everything after the fade will be silenced)"
-  elif [ "$#" -ne 3 ]; then
+  elif [ $# -ne 3 ]; then
     echo "ffadeoutmp3 takes in only 3 arguments! input_file.mp3, start_of_fade, duration_of_fade"
   else
     minutes=${2%%:*}
@@ -832,7 +849,7 @@ ffadeoutmp3 () { #input file, start of fade, duration of fade
   fi
 }
 ff-convert-to-mp4 () {
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
   echo "HOW TO USE: ff-convert-to-mp4 accepts only TS/flv/mov/avi/mkv/wmv files. It will convert all files provided as arguments that match the first file's filetype"
   echo "EXAMPLE: ff-convert-to-mp4 video1.flv                     (converts video.flv into video.mp4)"
   echo "EXAMPLE: ff-convert-to-mp4 *.flv                          (converts all flv files into mp4)"
@@ -906,7 +923,7 @@ else
 fi
 }
 ff-convert-to-mp3 () {
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
   echo "HOW TO USE: ff-convert-to-mp3 accepts only flac files. It will convert all files provided as arguments that match the first file's filetype"
 elif [[ ${1: -5} == ".flac" ]]; then
   for filename in "$@"; do
@@ -936,14 +953,14 @@ alias ga="git add"
 alias ga.="git add ."
 alias gap="git add -p"
 gco () {
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
   git commit -v
 else
   git commit -vm "$@"
 fi
 }
 gca () {
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
   git add .; git commit -va
 else
   git add .; git commit -vam "$@"
@@ -962,7 +979,7 @@ alias grs="git reset --soft HEAD~1 && git reset ." #soft git commit rollback
 alias gr.="git reset ."
 alias gdiv="git diff | vim -M - +'set nonu' +'set ls=1' +'nnoremap q :qa!<CR>' +'echo(\"[PRESS q TO QUIT]\")'"
 gdi () {
-  if [[ "$#" -eq 0 ]]; then
+  if [[ $# -eq 0 ]]; then
     echo "please input a git file to diff"
   else
     git diff "$1" | vim -M - +'set nonu' +'set ls=1' +'nnoremap q :qa!<CR>' +'echo("[PRESS q TO QUIT]")'
@@ -1016,14 +1033,14 @@ alias aba="abduco -a"
 
 #tmux aliases
 tax () {
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
   TERM=screen-256color-bce tmux -u new-session -A -s main
 else
   TERM=screen-256color-bce tmux -u new-session -A -s $1
 fi
 }
 txm () {
-if [[ "$#" -eq 0 ]]; then
+if [[ $# -eq 0 ]]; then
   TERM=screen-256color-bce tmux -u new -t main
 else
   TERM=screen-256color-bce tmux -u new -s $1 -t main
@@ -1037,7 +1054,7 @@ alias tka="tmux kill-server"
 #https://blogs.harvard.edu/acts/2013/11/08/the-newbie-how-to-set-up-sshfs-on-mac-os-x/
 #for more comprehensive guide on sshfs, check out http://gleek.github.io/blog/2017/04/11/editing-remote-code-with-emacs/
 sshfx () { #not working for some reason
-  if [[ "$#" -ne 2 ]]; then
+  if [[ $# -ne 2 ]]; then
     echo "usage format: sshfx username@remoteserver:/remote/directory/ ~/local/directory/"
     echo "              Mounts the /remote/directory/ onto the ~/local/directory/"
     echo "              umount ~/local/directory/ to unmount (that's 'umount', not 'unmount')"
