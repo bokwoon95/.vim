@@ -740,29 +740,30 @@ ccs () { # cc silent, ignore any warnings
   fi
 }
 ldb () {
-  if [[ $# -eq 0 ]]; then
-    PATH=/usr/bin /usr/bin/lldb
-    # if [[ "$CLASTFILE" == "" ]]; then
-    #   echo "\$CLASTFILE not set, pleace run ldb with an .out file first"
-    # else
-    #   if cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-    #     PATH=/usr/bin /usr/bin/lldb "$CLASTFILE"".out"
-    #   fi
-    # fi
-  else
-    CLASTFILE=$(echo $1 | perl -pe "s:^(.+)\.out$:\1:")
-    if [[ "$CLASTFILE" != "$1" ]]; then
-      if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        PATH=/usr/bin /usr/bin/lldb "$CLASTFILE.out $(echo $@ | cut -d' ' -f2-)"
-      elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
-        echo "warning present, continue? y/n (leave blank for \"y\")"
-        read CONTINUE
-        if [ "$CONTINUE" = "" -o "$CONTINUE" = "y" ]; then
-          PATH=/usr/bin /usr/bin/lldb "$CLASTFILE.out $(echo $@ | cut -d' ' -f2-)"
-        fi
-      fi
-    else
-      CLASTFILE=""
+  if [ "$1" = "-l" ]; then
+    echo "cc -g --std=c99 -Wall -Werror $CLASTFILE.c -o $CLASTFILE.out"
+    echo "PATH=/usr/bin /usr/bin/lldb $CLASTFILE.out $CLASTARGS"
+    return 0
+  fi
+  if [ $# -eq 0 -a "$CLASTFILE" = "" ]; then
+    echo "\$CLASTFILE not found, please run ccs with a .c file first"
+    return 1
+  fi
+  if [ $# -gt 0 ]; then
+    if [ "$(printf $1 | tail -c2)" != ".c" ]; then
+      echo "That's not a .c file"
+      return 1
+    fi
+    export CLASTFILE="$(echo $1 | perl -pe "s:^(.+)\.c$:\1:")"
+    shift; export CLASTARGS="$@"
+  fi
+  if cc -g --std=c99 -Wall -Werror "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+    eval "PATH=/usr/bin /usr/bin/lldb $CLASTFILE.out $CLASTARGS"
+  elif cc -g --std=c99 -Wall "$CLASTFILE"".c" -o "$CLASTFILE"".out"; then
+    echo "warning present, continue? y/n (leave blank for \"y\")"
+    read CONTINUE
+    if [ "$CONTINUE" = "" -o "$CONTINUE" = "y" ]; then
+      eval "PATH=/usr/bin /usr/bin/lldb $CLASTFILE.out $CLASTARGS"
     fi
   fi
 }
