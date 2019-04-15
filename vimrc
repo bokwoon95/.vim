@@ -1301,19 +1301,17 @@ augroup END
 nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
 fun! Term(...) abort
   let l:currmax=0
-  let l:currwinnr=win_getid()
+  let l:currbufnr=bufnr('%')
   for l:bn in range(1,bufnr('$'))
-    let l:currbufname = bufname(l:bn)
-    let l:currshellnr = str2nr(bufname(l:bn)[10:-1])
-    if bufloaded(l:bn) && l:currbufname =~# "term:shell.*" && l:currshellnr != 0
-      if l:currshellnr > l:currmax
-        let l:currmax = l:currshellnr
-      endif
+    let l:bufname = bufname(l:bn)
+    let l:shellnr = str2nr(l:bufname[10:-1])
+    if bufloaded(l:bn) && l:bufname =~# "term:shell.*" && l:shellnr > l:currmax
+      let l:currmax = l:shellnr
     endif
   endfor
   let l:name =
         \(a:0 > 0 && a:1 != "")   ? "term:" . a:1  :
-        \exists("w:lasttermname") ? w:lasttermname :
+        \exists("b:lasttermname") ? b:lasttermname :
         \"term:shell".(l:currmax+1)
   if bufwinnr(l:name) > 0
     execute bufwinnr(l:name) . "wincmd c"
@@ -1328,7 +1326,7 @@ fun! Term(...) abort
       execute "file " . l:name
       set nobuflisted
     endif
-    call setwinvar(l:currwinnr, 'lasttermname', l:name)
+    call setbufvar(l:currbufnr, 'lasttermname', l:name)
   endif
 endfun
 fun! s:termnames(ArgLead, CmdLine, CursorPos) abort
@@ -1342,8 +1340,8 @@ fun! s:termnames(ArgLead, CmdLine, CursorPos) abort
 endfun
 fun! s:term(...) abort
   let name = (a:0 > 0 && a:1 != "") ? a:1  : ""
-  if exists("w:lasttermname") && bufwinnr(w:lasttermname) > 0
-    execute bufwinnr(w:lasttermname) . "wincmd c"
+  if exists("b:lasttermname") && bufwinnr(b:lasttermname) > 0
+    execute bufwinnr(b:lasttermname) . "wincmd c"
   endif
   silent call Term(name)
 endfun
