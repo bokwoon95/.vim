@@ -442,92 +442,7 @@ ragf () {
     echo "      ragf old new :: file1.txt **/*.log"
   fi
 }
-gpf () {
-  if [ $# -ge 1 ]; then
-    local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
-    [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
-
-    local PATTERN="$1"; shift
-
-    if [ $# -eq 0 ]; then
-      local INCLUDED=""
-      local EXCLUDED=""
-    else
-      local INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
-      local EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
-      [ "$INCLUDED" = "" -a "$EXCLUDED" = "" ] && INCLUDED="$@"
-      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED=""
-    fi
-
-    local INCLIST INCD INCF INCLUDEDIR INCLUDE
-    local EXCLIST EXCD EXCF EXCLUDEDIR EXCLUDE
-    INCLIST=($INCLUDED); INCD=(); INCF=()
-    for i in $INCLIST; do
-      if [ "$(printf $i | tail -c1)" = "/" ]
-      then INCD+=("$(echo $i | sed 's/.$//')")
-      else INCF+=("$i") fi
-    done
-    [ "$INCD" != "" ] && INCLUDEDIR="--include-dir={$(echo $INCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
-    [ "$INCF" != "" ] && INCLUDE="--include={$(echo $INCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
-    EXCLIST=($EXCLUDED); EXCD=(); EXCF=()
-    for i in $EXCLIST; do
-      if [ "$(printf $i | tail -c1)" = "/" ]
-      then EXCD+=("$(echo $i | sed 's/.$//')")
-      else EXCF+=("$i"); fi
-    done
-    [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
-    [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
-
-    eval "grep -rEIHn --context=3 --color=always -e \"$PATTERN\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | less -RiMSFX#4"
-
-    [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
-  fi
-}
-rgpf () {
-  if [ $# -ge 2 ]; then
-    local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
-    [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
-
-    local OLD="$1"; shift
-    local NEW="$1"; shift
-
-    if [ $# -eq 0 ]; then
-      local INCLUDED=""
-      local EXCLUDED=""
-    else
-      local INCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\1/p" | xargs)"
-      local EXCLUDED="$(echo "$@" | sed -n "s/\(.*\)::\(.*\)/\2/p" | xargs)"
-      [ "$INCLUDED" = "" -a "$EXCLUDED" = "" ] && INCLUDED="$@"
-      [ "$INCLUDED" = "" -o "$INCLUDED" = "::" ] && INCLUDED=""
-    fi
-
-    local INCLIST INCD INCF INCLUDEDIR INCLUDE
-    local EXCLIST EXCD EXCF EXCLUDEDIR EXCLUDE
-    INCLIST=($INCLUDED); INCD=(); INCF=()
-    for i in $INCLIST; do
-      if [ "$(printf $i | tail -c1)" = "/" ]
-      then INCD+=("$(echo $i | sed 's/.$//')")
-      else INCF+=("$i") fi
-    done
-    [ "$INCD" != "" ] && INCLUDEDIR="--include-dir={$(echo $INCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
-    [ "$INCF" != "" ] && INCLUDE="--include={$(echo $INCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
-    EXCLIST=($EXCLUDED); EXCD=(); EXCF=()
-    for i in $EXCLIST; do
-      if [ "$(printf $i | tail -c1)" = "/" ]
-      then EXCD+=("$(echo $i | sed 's/.$//')")
-      else EXCF+=("$i"); fi
-    done
-    [ "$EXCD" != "" ] && EXCLUDEDIR="--exclude-dir={$(echo $EXCD | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
-    [ "$EXCF" != "" ] && EXCLUDE="--exclude={$(echo $EXCF | awk -v OFS="," '$1=$1' | sed 's/$/,/')}"
-
-    eval "grep -rEIl \"$OLD\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | xargs perl -pi -e \"s@$OLD@$NEW@g\""
-
-    eval "grep -rEIHn --context=3 --color=always -e \"$NEW\" * $INCLUDEDIR $INCLUDE $EXCLUDEDIR $EXCLUDE | less -RiMSFX#4"
-
-    [ "$shwordsplit" = "ENABLED" ] && unsetopt SH_WORD_SPLIT
-  fi
-}
-grepf () {
+grpf () {
   if [ $# -ge 1 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"
@@ -584,7 +499,7 @@ grepf () {
     echo "      --showcmd    Show the full command that grepf transforms into."
   fi
 }
-rgrepf () {
+rgrpf () {
   if [ $# -ge 2 ]; then
     local shwordsplit="$(set -o | grep shwordsplit | awk '{print $2}')"
     [ "$shwordsplit" != "" -a "$shwordsplit" = "off" ] && setopt SH_WORD_SPLIT && shwordsplit="ENABLED"

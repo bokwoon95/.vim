@@ -38,3 +38,7 @@ nusskylab_dev/
 httprequests/
 
 *.dSYM/
+
+# MS Office
+**/~$*
+~$*
