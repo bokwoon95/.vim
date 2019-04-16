@@ -488,6 +488,7 @@ set synmaxcol=300              " do not highlight very long lines
 set autoread                   " Reload files if they have been changed externally
 set lazyredraw                 " Wait for changes to finish before redrawing screen
 set noequalalways              " Don't resize existing windows when a window is closed
+set nostartofline              " Stay in the same column when doing a gg or G jump
 augroup Checkt
   autocmd!
   autocmd FocusGained,BufEnter * checktime " To trigger vim's autoread on focus gained or buffer enter
