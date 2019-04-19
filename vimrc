@@ -153,7 +153,7 @@ let NERDTreeMapJumpPrevSibling='<C-p>'
 let NERDTreeMapPreview='<M-k>'
 let NERDTreeHighlightCursorline=1
 let NERDTreeHijackNetrw=1
-if !has('gui_running')
+if !has('gui_running') && !executable("clip.exe")
   let NERDTreeDirArrowCollapsible = '▽'
   let NERDTreeDirArrowExpandable = '▶'
 endif
