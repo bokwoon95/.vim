@@ -156,6 +156,10 @@ let NERDTreeHijackNetrw=1
 if !has('gui_running') && !executable("clip.exe")
   let NERDTreeDirArrowCollapsible = '▽'
   let NERDTreeDirArrowExpandable = '▶'
+else
+  let NERDTreeDirArrowCollapsible = '◿'
+  let NERDTreeDirArrowExpandable = '▸'
+  " ►▲▼◀ https://www.fileformat.info/info/unicode/block/geometric_shapes/images.htm
 endif
 
 Plug 'Yggdroot/indentLine'|              " Visual guides for indentation
