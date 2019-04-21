@@ -113,7 +113,6 @@ Plug 'wellle/targets.vim'|               " Extended text editing objects
 Plug 'tpope/vim-surround'|               " Effortlessly replace brackets, quotes and HTML tags
 Plug 'tpope/vim-repeat'|                 " repeat vim-surround
 " Plug 'drzel/vim-in-proportion'|          " Preserve split proportions when resizing vim
-Plug 'junegunn/vim-peekaboo'             " Peek into register contents easily
 Plug 'romainl/vim-qlist'|                " Reminder to check out how to use the quickfix list
 Plug 'godlygeek/tabular'|                " Table creation
 Plug 'jszakmeister/vim-togglecursor'
@@ -160,6 +159,12 @@ else
   let NERDTreeDirArrowCollapsible = '◿'
   let NERDTreeDirArrowExpandable = '▸'
   " ►▲▼◀ https://www.fileformat.info/info/unicode/block/geometric_shapes/images.htm
+endif
+if empty(argv()) "&& has('gui_running')
+  augroup NERDTreeOnGuiEnter
+    autocmd!
+    autocmd VimEnter * NERDTree | wincmd p
+  augroup END
 endif
 
 Plug 'Yggdroot/indentLine'|              " Visual guides for indentation
@@ -679,22 +684,22 @@ nnoremap c "_c
 nnoremap C "_C
 nnoremap D "_D
 function! AutoSaveWinView()
-    if !exists("w:SavedBufView")
-        let w:SavedBufView = {}
-    endif
-    let w:SavedBufView[bufnr("%")] = winsaveview()
+  if !exists("w:SavedBufView")
+    let w:SavedBufView = {}
+  endif
+  let w:SavedBufView[bufnr("%")] = winsaveview()
 endfunction
 " Restore current view settings.
 function! AutoRestoreWinView()
-    let buf = bufnr("%")
-    if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
-        let v = winsaveview()
-        let atStartOfFile = v.lnum == 1 && v.col == 0
-        if atStartOfFile && !&diff
-            call winrestview(w:SavedBufView[buf])
-        endif
-        unlet w:SavedBufView[buf]
+  let buf = bufnr("%")
+  if exists("w:SavedBufView") && has_key(w:SavedBufView, buf)
+    let v = winsaveview()
+    let atStartOfFile = v.lnum == 1 && v.col == 0
+    if atStartOfFile && !&diff
+      call winrestview(w:SavedBufView[buf])
     endif
+    unlet w:SavedBufView[buf]
+  endif
 endfunction
 " When switching buffers, preserve window view.
 if v:version >= 700
