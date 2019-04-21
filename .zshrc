@@ -1000,7 +1000,7 @@ if command -v ivledaemon >/dev/null 2>&1; then
   fi
 fi
 
-if [[ -z "$TMUX" && ! -n "${NVIM_LISTEN_ADDRESS+x}" ]]; then
+if [[ -z "$TMUX" && ! -n "${NVIM_LISTEN_ADDRESS+x}" && -z "$VIM_TERMINAL" ]]; then
   TERM=screen-256color-bce tmux -u new-session -A -s main
 fi
 

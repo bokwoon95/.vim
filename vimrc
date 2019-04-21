@@ -454,6 +454,10 @@ Plug 'romainl/vim-devdocs'
 
 Plug 'jwalton512/vim-blade'
 
+Plug 'joshdick/onedark.vim'
+Plug 'morhetz/gruvbox'
+Plug 'patstockwell/vim-monokai-tasty'
+
 silent! call plug#end()
 "}}}
 
@@ -993,7 +997,7 @@ function! MyHighlights() abort
   if has('gui_running') && g:colors_name == 'onedark'
     hi VertSplit cterm=none ctermfg=103 ctermbg=none gui=none guifg=#5C6370 guibg=bg
     hi EndOfBuffer ctermfg=16 guifg=bg
-    hi StatusLine   ctermfg=233  ctermbg=103 cterm=bold gui=bold guibg=#21262d
+    hi StatusLine   ctermfg=233  ctermbg=103 cterm=bold gui=italic guibg=#08090b guifg=#ffeecd
     hi StatusLineNC ctermfg=103 ctermbg=none cterm=none,underline guibg=bg gui=underline
     hi SignColumn ctermbg=none
     hi TabLineSel cterm=bold,underline ctermbg=16 ctermfg=7 gui=bold,underline
@@ -1031,6 +1035,8 @@ function! MyHighlights() abort
     hi SignifySignChange cterm=bold ctermbg=none  ctermfg=blue
     hi CocInfoFloat ctermfg=black
   endif
+  hi! link StatusLineTerm   StatusLine
+  hi! link StatusLineTermNC StatusLineNC
 endfunction
 fun! RestoreCursorPosition() abort
   if &ft =~ 'gitcommit\|gitcommit'
@@ -1042,12 +1048,6 @@ augroup Autocommands
   autocmd!
   autocmd ColorScheme * call MyHighlights()
   autocmd BufReadPost * call RestoreCursorPosition()
-  " autocmd CmdlineEnter * setlocal cursorline
-  " autocmd CmdlineLeave * setlocal nocursorline
-  " autocmd CmdlineLeave * if bufname("") =~ "NERD_tree_\\d" | setlocal cursorline | endif
-  " autocmd CmdlineLeave * if bufname("") != "NERD_tree_\\d" | setlocal nocursorline | endif
-  " autocmd BufEnter NERD_tree_* setlocal cursorline
-  " autocmd BufLeave NERD_tree_* setlocal nocursorline
   autocmd BufNewFile,BufRead *.fish setlocal filetype=fish
   autocmd BufNewFile,BufRead *.ejs setlocal filetype=html
   autocmd BufNewFile,BufRead *.vue setlocal filetype=html
@@ -1057,7 +1057,11 @@ augroup END
 "}}}
 "{{{ GUI Vim Settings
 if has('gui_running')
-  colorscheme morning
+  if !empty(globpath(&rtp, 'colors/onedark.vim'))
+    colorscheme onedark
+  else
+    colorscheme morning
+  endif
   set laststatus=1
   set guioptions=
   set belloff=all
@@ -1351,6 +1355,14 @@ command! -nargs=? -complete=customlist,s:termnames T silent call s:term(<f-args>
 command! -nargs=? -complete=customlist,s:termnames TT silent call Term(<f-args>)
 nnoremap <C-w><C-t> :call Term()<CR>
 tnoremap <C-w><C-t> <C-\><C-n>:call Term()<CR>
+nnoremap <C-x>t :Term<Space><C-d>
+function! ListBuffers()
+  redir => l:ls_output
+  silent exec 'ls!'
+  redir END
+  let l:terms = substitute(l:ls_output, '"\(\f*/\)*\(\f*\)"', '\=submatch(2)', "g")
+  echo l:terms
+endfunction
 "}}}
 "{{{ Neovim :terminal Settings
 if has('nvim')
@@ -1410,7 +1422,5 @@ if !has('nvim')
   silent! tnoremap <c-q> <c-\><c-n>:bp<cr>
   silent! tnoremap <c-s> <c-\><c-n>:bn<cr>
   silent! cnoreabbrev termm term ++curwin
-  hi! link StatusLineTerm   StatusLine
-  hi! link StatusLineTermNC StatusLineNC
 endif
 "}}}
