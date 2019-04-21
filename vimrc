@@ -1066,6 +1066,7 @@ if has('gui_running')
   else
     colorscheme morning
   endif
+  set foldcolumn=1
   set laststatus=1
   set guioptions=
   set belloff=all
