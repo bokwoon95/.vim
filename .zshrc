@@ -1000,16 +1000,10 @@ if command -v ivledaemon >/dev/null 2>&1; then
   fi
 fi
 
-# if [[ -z "$TMUX" && ! -n "${NVIM_LISTEN_ADDRESS+x}" && -z "$VIM_TERMINAL" ]] && [ "${WSLENV+x}" -a "$SHLVL" -gt 1 ]; then
-# if [[ -z "$TMUX" && ! -n "${NVIM_LISTEN_ADDRESS+x}" && -z "$VIM_TERMINAL" && ( -z "${WSLENV+x}" || ( ! -n "${WSLENV+x}" && "SHLVL" -gt 1 )) ]]; then
-# if [ -z "$TMUX" ] && [ ! -n "${NVIM_LISTEN_ADDRESS+x}" ] && [ -z "$VIM_TERMINAL" ] && ([ ! -n "${WSLENV+x}" ] || ([ -n "${WSLENV+x}" ] && [ "SHLVL" -gt 1 ])); then
-  if [ ! "$TMUX" ] &&
-    [ ! "${NVIM_LISTEN_ADDRESS+x}" ] &&
-    [ ! "$VIM_TERMINAL" ] && (
-      [ ! "${WSLENV+x}" ] || (
-      [ -n "${WSLENV+x}" ] && [ "SHLVL" -gt 1 ]
-      )); then
-  TERM=screen-256color-bce tmux -u new-session -A -s main
+if [ ! "$TMUX" ] && [ ! "${NVIM_LISTEN_ADDRESS+x}" ] && [ ! "$VIM_TERMINAL" ]; then
+  if [ ! "${WSLENV+x}" ] || [ "${WSLENV+x}" ] && [ "$SHLVL" -gt 1 ]; then
+    TERM=screen-256color-bce tmux -u new-session -A -s main
+  fi
 fi
 
 export LC_ALL=en_US.UTF-8
