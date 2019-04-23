@@ -157,13 +157,17 @@ let NERDTreeMapJumpPrevSibling='<C-p>'
 let NERDTreeMapPreview='<M-k>'
 let NERDTreeHighlightCursorline=1
 let NERDTreeHijackNetrw=1
-if !has('gui_running') && !executable("clip.exe")
-  let NERDTreeDirArrowCollapsible = '▽'
-  let NERDTreeDirArrowExpandable = '▶'
+if !executable('clip.exe')
+  if !has('gui_running')
+    let NERDTreeDirArrowExpandable = '▶'
+    let NERDTreeDirArrowCollapsible = '▽'
+  else
+    let NERDTreeDirArrowExpandable = '▸'
+    let NERDTreeDirArrowCollapsible = '◿'
+  endif
 else
-  let NERDTreeDirArrowCollapsible = '◿'
-  let NERDTreeDirArrowExpandable = '▸'
-  " ►▲▼◀ https://www.fileformat.info/info/unicode/block/geometric_shapes/images.htm
+  let NERDTreeDirArrowExpandable = '+'
+  let NERDTreeDirArrowCollapsible = '~'
 endif
 if empty(argv()) && !has('gui_running')
   augroup NERDTreeOnGuiEnter
