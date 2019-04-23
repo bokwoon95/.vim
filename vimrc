@@ -160,7 +160,7 @@ else
   let NERDTreeDirArrowExpandable = '▸'
   " ►▲▼◀ https://www.fileformat.info/info/unicode/block/geometric_shapes/images.htm
 endif
-if empty(argv()) "&& has('gui_running')
+if empty(argv()) && !has('gui_running')
   augroup NERDTreeOnGuiEnter
     autocmd!
     autocmd VimEnter * NERDTree | wincmd p
@@ -281,6 +281,10 @@ let g:ctrlsf_mapping = {
             \"chgmode" : "M",
             \"stop"    : "<C-C>"
             \}
+let g:ctrlsf_extra_backend_args = {
+      \ 'ag': '--ignore tags'
+      \ }
+" let g:ctrlsf_ignore_dir = ['bower_components', 'node_modules', '**/tags']
 
 Plug 'tpope/vim-ragtag'
 let g:ragtag_global_maps = 1
@@ -467,6 +471,8 @@ Plug 'joshdick/onedark.vim'
 Plug 'morhetz/gruvbox'
 Plug 'patstockwell/vim-monokai-tasty'
 
+Plug 'ludovicchabant/vim-gutentags'
+
 silent! call plug#end()
 "}}}
 
@@ -532,7 +538,7 @@ command! Sna setlocal nopaste
 inoremap jk <Esc>`^| "doesn't work in terminal vim (see "Terminal Vim Settings" section)
 nnoremap <Leader>vv :e $MYVIMRC<CR>
 nnoremap <Leader>sv :source $MYVIMRC<CR>
-nnoremap <C-]> <NOP>
+nnoremap <C-]> :silent! tag <C-r><C-w><CR>
 command! W execute 'silent! w !sudo tee "%" > /dev/null' <bar> edit!
 "{{{ Saner Defaults
 "Disable uncommonly used Ex mode, bind Q to something more useful
@@ -824,7 +830,7 @@ inoremap <M-b> <S-Left>
 inoremap <C-a> <C-c>I
 inoremap <C-e> <End>
 "forward delete, backward delete & character delete
-inoremap <M-d> <C-g>u<C-c>vec<C-g>u
+inoremap <M-d> <C-g>u<C-c>`^vec<C-g>u
 inoremap <M-BS> <C-g>u<C-w><C-g>u
 inoremap <C-BS> <C-g>u<C-w><C-g>u
 inoremap <C-w> <C-g>u<C-w><C-g>u
@@ -1388,14 +1394,13 @@ command! -nargs=? -complete=customlist,s:termnames T silent call s:term(<f-args>
 command! -nargs=? -complete=customlist,s:termnames TT silent call Term(<f-args>)
 nnoremap <C-w><C-t> :call Term()<CR>
 tnoremap <C-w><C-t> <C-\><C-n>:call Term()<CR>
-nnoremap <C-x>t :Term<Space><C-d>
-function! ListBuffers()
-  redir => l:ls_output
+function! LsTerms()
+  redir => l:ls_ex
   silent exec 'ls!'
   redir END
-  let l:terms = substitute(l:ls_output, '"\(\f*/\)*\(\f*\)"', '\=submatch(2)', "g")
-  echo l:terms
+  echo join(filter(split(l:ls_ex, 'line \d*'), 'v:val =~# ".*term:[^/]"'), '')
 endfunction
+nnoremap <C-x><C-t> :call LsTerms()<CR>:b<Space>
 "}}}
 "{{{ Neovim :terminal Settings
 if has('nvim')
