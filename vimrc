@@ -525,6 +525,9 @@ augroup END
 autocmd! Filetype vim setlocal foldmethod=marker ts=2 sts=2 sw=2 et
 command! GMS /^<<<<<<< .*$\|^>>>>>>> .*$\|^=======$
 set foldtext=repeat('\ ',indent(v:foldstart)).foldtext()
+if has("patch-8.1.0360")
+  set diffopt+=hiddenoff,internal,algorithm:patience,iwhiteall
+endif
 
 " Survival Pack
 noremap <C-j> 5gj
