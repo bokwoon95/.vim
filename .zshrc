@@ -449,7 +449,11 @@ alias pip="pip3"
 krename () {
   kitty @ set-tab-title "$1";
 }
-alias rmt="rmtrash"
+if [ "$(uname)" = 'Darwin' ] && command -v rmtrash >/dev/null 2>&1; then
+  alias rmt="rmtrash "
+elif command -v recycle.exe >/dev/null 2>&1; then
+  alias rmt="recycle.exe "
+fi
 
 # Ruby
 path-prepend ~/.rbenv/bin
