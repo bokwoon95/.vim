@@ -1323,7 +1323,7 @@ function! Redir(cmd)
     execute a:cmd
     redir END
   endif
-  vnew
+  new
   let w:scratch = 1
   setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nonumber
   call setline(1, split(output, "\n"))
