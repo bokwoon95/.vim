@@ -2,6 +2,9 @@ setlocal ts=4 sw=4 sts=4
 " setlocal foldmethod=syntax
 setlocal completeopt-=preview
 setlocal foldlevel=20
+if executable('gofmt')
+  setlocal equalprg=gofmt
+endif
 
 nmap <C-c><C-t> <Plug>(go-info)
 nmap <C-c><C-d> <Plug>(go-doc)

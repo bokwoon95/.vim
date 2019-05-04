@@ -1101,8 +1101,7 @@ augroup Autocommands
   autocmd ColorScheme * call MyHighlights()
   autocmd BufReadPost * call RestoreCursorPosition()
   autocmd BufNewFile,BufRead *.fish setlocal filetype=fish
-  autocmd BufNewFile,BufRead *.ejs setlocal filetype=html
-  autocmd BufNewFile,BufRead *.vue setlocal filetype=html
+  autocmd BufNewFile,BufRead *.ejs,*.vue,*.gohtml,*.tmpl setlocal filetype=html
   autocmd BufEnter,BufLeave * if &buftype ==# 'terminal' | let g:t_bufnum = expand('<abuf>') | endif
   autocmd CompleteDone * pclose
 augroup END
@@ -1344,6 +1343,26 @@ fun! KeepOpen(...)
 endfun
 command! -nargs=+ KeepOpen call KeepOpen(<f-args>)
 nnoremap <C-c><C-k> :ls<CR>:KeepOpen<Space>
+"}}}
+"{{{ grep.vim
+" Tell Vim what external program to use for grepping.
+" I use the silver searcher, but you can use ripgrep or whatever works for you.
+set grepprg=ag\ --vimgrep
+
+" Open the location/quickfix window automatically if there are valid entries in the list.
+" I actually use a more generic and more useful version of this snippet that works for
+" every quickfix command, not just these ones.
+augroup quickfix
+  autocmd!
+  autocmd QuickFixCmdPost cgetexpr cwindow
+  autocmd QuickFixCmdPost lgetexpr lwindow
+augroup END
+
+" Use :Grep instead of :grep! and :LGrep instead of :lgrep!.
+" :cgetexpr and :lgetexpr are much faster than :grep and :lgrep
+" and they don't mess with your terminal emulator.
+command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
+command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
 "}}}
 "}}}
 
