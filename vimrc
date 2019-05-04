@@ -1354,6 +1354,7 @@ augroup Terminal
   if has('nvim')
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd TermOpen,BufWinEnter,WinEnter * if &buftype == 'terminal' |startinsert| endif
+    tmap <LeftRelease> <NOP>
   else
     autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' |silent! normal i| endif
   endif

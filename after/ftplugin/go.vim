@@ -1,8 +1,7 @@
 setlocal ts=4 sw=4 sts=4
 " setlocal foldmethod=syntax
 setlocal completeopt-=preview
-set foldmethod=syntax
-set foldlevel=20
+setlocal foldlevel=20
 
 nmap <C-c><C-t> <Plug>(go-info)
 nmap <C-c><C-d> <Plug>(go-doc)
