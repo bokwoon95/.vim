@@ -113,7 +113,7 @@ endif
 silent! call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'|              " Comment Toggling
 Plug 'tpope/vim-eunuch'|                 " File Rename/Delete/Move
-Plug 'markonm/traces.vim'                " Neovim's inccommand
+Plug 'markonm/traces.vim'|               " Neovim's inccommand
 Plug 'wellle/targets.vim'|               " Extended text editing objects
 Plug 'tpope/vim-surround'|               " Effortlessly replace brackets, quotes and HTML tags
 Plug 'tpope/vim-repeat'|                 " repeat vim-surround
@@ -162,8 +162,8 @@ if !executable('clip.exe')
     let NERDTreeDirArrowExpandable = '▶'
     let NERDTreeDirArrowCollapsible = '▽'
   else
-    let NERDTreeDirArrowExpandable = '▸'
-    let NERDTreeDirArrowCollapsible = '◿'
+    let NERDTreeDirArrowExpandable = '+'
+    let NERDTreeDirArrowCollapsible = '~'
   endif
 else
   let NERDTreeDirArrowExpandable = '+'
@@ -1496,5 +1496,15 @@ if !has('nvim')
   silent! tnoremap <c-q> <c-\><c-n>:bp<cr>
   silent! tnoremap <c-s> <c-\><c-n>:bn<cr>
   silent! cnoreabbrev termm term ++curwin
+  if has('gui_running')
+    tnoremap <silent> <M-b> <C-w>:call term_sendkeys(bufnr('%'), "\<lt>Esc>b")<CR>
+    tnoremap <silent> <M-f> <C-w>:call term_sendkeys(bufnr('%'), "\<lt>Esc>f")<CR>
+    tnoremap <silent> <M-d> <C-w>:call term_sendkeys(bufnr('%'), "\<lt>Esc>d")<CR>
+
+    tnoremap <silent> <M-h> <C-w>h
+    tnoremap <silent> <M-j> <C-w>j
+    tnoremap <silent> <M-k> <C-w>k
+    tnoremap <silent> <M-l> <C-w>l
+  endif
 endif
 "}}}
