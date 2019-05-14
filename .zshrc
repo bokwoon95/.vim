@@ -64,6 +64,19 @@ export CLICOLOR=1
 # export LSCOLORS=Gxfxcxdxbxegedabagacad
 alias cmus="TERM=screen-256color-bce cmus"
 alias weechat="TERM=screen-256color-bce weechat"
+alias nnn="TERM=screen-256color-bce nnn"
+export NNN_TMPFILE="/tmp/nnn"
+n() {
+  nnn "$@"
+  if [ -f $NNN_TMPFILE ]; then
+    . $NNN_TMPFILE
+    rm $NNN_TMPFILE
+  fi
+}
+f() {
+  fff "$@"
+  cd "$(cat "${XDG_CACHE_HOME:=${HOME}/.cache}/fff/.fff_d")"
+}
 
 # This resolves issues install the mysql, postgres, and other gems with native non universal binary extensions
 export ARCHFLAGS='-arch x86_64'
@@ -442,6 +455,7 @@ ragf () {
     echo "      ragf old new :: file1.txt **/*.log"
   fi
 }
+alias untar="tar -xvzf "
 
 # misc
 alias py="python3"

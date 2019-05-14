@@ -310,14 +310,14 @@ nmap # <Plug>(anzu-sharp-with-echo)
 " clear status
 nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
 
-Plug 'SirVer/ultisnips'
-let g:UltiSnipsNoPythonWarning=1
-let g:UltiSnipsExpandTrigger="<Tab>"
-let g:UltiSnipsJumpForwardTrigger="<C-M-f>"
-let g:UltiSnipsJumpBackwardTrigger="<C-M-b>"
-let g:UltiSnipsEditSplit="context"
-let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
-let g:UltiSnipsSnippetDirectories = [$HOME.'.vim/UltiSnips', $HOME.'.config/nvim/UltiSnips', 'UltiSnips']
+" Plug 'SirVer/ultisnips'
+" let g:UltiSnipsNoPythonWarning=1
+" let g:UltiSnipsExpandTrigger="<Tab>"
+" let g:UltiSnipsJumpForwardTrigger="<C-M-f>"
+" let g:UltiSnipsJumpBackwardTrigger="<C-M-b>"
+" let g:UltiSnipsEditSplit="context"
+" let g:UltiSnipsSnippetsDir="~/.vim/UltiSnips"
+" let g:UltiSnipsSnippetDirectories = [$HOME.'.vim/UltiSnips', $HOME.'.config/nvim/UltiSnips', 'UltiSnips']
 
 Plug 'honza/vim-snippets'
 
@@ -725,6 +725,9 @@ if v:version >= 700
     autocmd BufEnter * call AutoRestoreWinView()
 endif
 nnoremap <C-w><C-n> <C-w><C-o>:NERDTreeToggle<CR><C-w>p
+if has('macunix')
+  command! Open silent! !open %
+endif
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-z>
