@@ -5,6 +5,9 @@ if !has("gui_running")
 endif
 
 inoremap <buffer> <C-q><C-q> console.log();<Left><Left>
+if executable('prettier')
+    nnoremap <buffer> <C-c><C-f> :!prettier --write %<CR>
+endif
 
 nnoremap <buffer> gO :silent !open <cfile><CR>
 " nnoremap <buffer> K :Dash<CR>

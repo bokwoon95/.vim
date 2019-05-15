@@ -43,4 +43,7 @@ httprequests/
 **/~$*
 ~$*
 
+# Electron
+.vscode/
+
 tags

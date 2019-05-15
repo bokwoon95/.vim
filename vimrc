@@ -456,6 +456,8 @@ nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
 " requires yarn to be installed
 Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+nnoremap [ad :CocEnable<CR>
+nnoremap ]ad :CocDisable<CR>
 
 Plug 'tpope/vim-rails'
 
@@ -1375,7 +1377,7 @@ augroup Terminal
   autocmd!
   if has('nvim')
     autocmd TermOpen * setlocal nonumber norelativenumber
-    autocmd TermOpen,BufWinEnter,WinEnter * if &buftype == 'terminal' |startinsert| endif
+    " autocmd TermOpen,BufWinEnter,WinEnter * if &buftype == 'terminal' |startinsert| endif
     tmap <LeftRelease> <NOP>
   else
     autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' |silent! normal i| endif
