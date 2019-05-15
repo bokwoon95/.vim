@@ -456,6 +456,11 @@ ragf () {
   fi
 }
 alias untar="tar -xvzf "
+sha1() {
+  if [ $(uname) = 'Darwin' ]; then
+    echo "$1" | sha1sum | awk '{printf "%s",$1}' | tail -c 7 | tee >(pbcopy)
+  fi
+}
 
 # misc
 alias py="python3"
@@ -474,6 +479,7 @@ path-prepend ~/.rbenv/bin
 if command -v rbenv >/dev/null 2>&1; then
   eval "$(rbenv init -)"
 fi
+path-prepend ~/Library/Python/3.7/bin
 
 # C
 cch () { # cc headers, compile with makeheaders
