@@ -458,7 +458,7 @@ ragf () {
 alias untar="tar -xvzf "
 sha1() {
   if [ $(uname) = 'Darwin' ]; then
-    echo "$1" | sha1sum | awk '{printf "%s",$1}' | tail -c 7 | tee >(pbcopy)
+    echo "$1" | sha1sum | awk '{printf "%s",$1}' | head -c 7 | tee >(pbcopy)
   fi
 }
 

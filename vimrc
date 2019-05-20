@@ -126,7 +126,7 @@ Plug 'andymass/vim-matchup'|             " % on steroids
 let g:matchup_matchparen_status_offscreen = 0
 " let g:matchup_matchparen_deferred = 1
 
-Plug 'pacha/vem-tabline'
+Plug 'pacha/vem-tabline', has('nvim') ? {} : { 'on': [] }
 " if has('gui_running')
 "   let g:vem_tabline_show=1
 " else
@@ -335,6 +335,7 @@ Plug 'w0rp/ale'
 let g:ale_enabled = 0
 nnoremap [ae :ALEEnable<CR>
 nnoremap ]ae :ALEDisable<CR>
+nnoremap =ae :ALEDisable<CR>:ALEEnable<CR>
 nmap <silent> <C-c><C-n> <Plug>(ale_next_wrap)
 nmap <silent> <C-c><C-p> <Plug>(ale_previous_wrap)
 " let g:ale_lint_on_text_changed = 'never'
@@ -422,6 +423,7 @@ Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
 let g:go_info_mode = 'guru'
+" let g:go_info_mode = 'godef'
 " vim-go highlights
 let g:go_highlight_extra_types = 1
 let g:go_highlight_functions = 1
@@ -458,6 +460,7 @@ Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 nnoremap [ad :CocEnable<CR>
 nnoremap ]ad :CocDisable<CR>
+nnoremap =ad :CocDisable<CR>:CocEnable<CR>
 
 Plug 'tpope/vim-rails'
 
@@ -1377,10 +1380,10 @@ augroup Terminal
   autocmd!
   if has('nvim')
     autocmd TermOpen * setlocal nonumber norelativenumber
-    " autocmd TermOpen,BufWinEnter,WinEnter * if &buftype == 'terminal' |startinsert| endif
+    autocmd TermOpen,BufEnter * if &buftype == 'terminal' |startinsert| endif
     tmap <LeftRelease> <NOP>
   else
-    autocmd BufWinEnter,WinEnter * if &buftype == 'terminal' |silent! normal i| endif
+    autocmd BufEnter * if &buftype == 'terminal' |silent! normal i| endif
   endif
 augroup END
 nnoremap <expr> q &buftype == "terminal" ? "i" : "q"
