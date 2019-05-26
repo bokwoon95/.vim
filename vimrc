@@ -422,8 +422,8 @@ nmap <C-c><C-s> <Plug>SlimeLineSend
 Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
-let g:go_info_mode = 'guru'
-" let g:go_info_mode = 'godef'
+let g:go_info_mode = 'gopls'
+let g:go_def_mode = 'gopls'
 " vim-go highlights
 let g:go_highlight_extra_types = 1
 let g:go_highlight_functions = 1
@@ -456,7 +456,7 @@ nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
             \": ""
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'for': ['javascript','php','java']}
+Plug 'neoclide/coc.nvim', {'for': ['javascript','typescript','php','java']}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 nnoremap [ad :CocEnable<CR>
 nnoremap ]ad :CocDisable<CR>
@@ -486,6 +486,10 @@ Plug 'morhetz/gruvbox'
 Plug 'patstockwell/vim-monokai-tasty'
 
 Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'rhysd/git-messenger.vim'
+
+Plug 'leafgarland/typescript-vim'
 
 silent! call plug#end()
 "}}}
@@ -919,6 +923,8 @@ nnoremap [wd :let g:prevwin=win_getid()<CR>
 nnoremap ]wd :let b:wsv=winsaveview()<CR>
       \:diffoff!<CR>
       \:silent! call winrestview(b:wsv)<CR>
+noremap [om :set selectmode=mouse<CR>
+noremap ]om :set selectmode=<CR>
 " nnoremap [on :setlocal number<CR>
 " nnoremap ]on :setlocal nonumber<CR>
 " nnoremap [oc :setlocal cursorline<CR>

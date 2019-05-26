@@ -36,5 +36,3 @@ nmap <buffer> <silent> gr <Plug>(coc-references)
 " <Plug>(coc-fix-current)
 " <Plug>(coc-float-hide)
 " <Plug>(coc-float-jump)
-
-inoremap <buffer> <C-M-y> ```javascript<CR><C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR><CR>```<Esc>g^k<C-v>?```<CR>jI00\|<Esc><C-v>/```<CR>klg<C-a>gvo:s/<C-v><Tab>/  /g<CR>gv<Esc>V/```<CR>
