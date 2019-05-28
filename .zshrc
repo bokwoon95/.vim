@@ -1024,7 +1024,7 @@ if command -v ivledaemon >/dev/null 2>&1; then
   fi
 fi
 
-if [ ! "${TMUX+x}" ] && [ ! "${NVIM_LISTEN_ADDRESS+x}" ] && [ ! "${VIM_TERMINAL+x}" ]; then
+if [ ! "${TMUX+x}" ] && [ ! "${NVIM_LISTEN_ADDRESS+x}" ] && [ ! "${VIM_TERMINAL+x}" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
   if [ ! "${WSLENV+x}" ] || ([ "${WSLENV+x}" ] && [ "$SHLVL" -gt 1 ]); then
     TERM=screen-256color-bce tmux -u new-session -A -s main
   fi

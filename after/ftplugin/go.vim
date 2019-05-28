@@ -6,14 +6,14 @@ if executable('gofmt')
   setlocal equalprg=gofmt
 endif
 
-nmap <C-c><C-t> <Plug>(go-info)
-nmap <C-c><C-d> <Plug>(go-doc)
-nmap <C-c><C-f> :GoFmt<CR>
-nmap gd <Plug>(go-def)
-nmap gdd <Plug>(go-def)
-nmap gds <Plug>(go-def-split)
-nmap gdv <Plug>(go-def-vertical)
+nmap <buffer> <C-c><C-t> <Plug>(go-info)
+nmap <buffer> <C-c><C-d> <Plug>(go-doc)
+nmap <buffer> <C-c><C-f> :GoFmt<CR>
+nmap <buffer> gd <Plug>(go-def)
+nmap <buffer> gdd <Plug>(go-def)
+nmap <buffer> gds <Plug>(go-def-split)
+nmap <buffer> gdv <Plug>(go-def-vertical)
 
-inoremap <C-q><C-q> fmt.Println("")<Left><Left>
-inoremap <C-q><C-w> fmt.Println()<Left>
-inoremap <C-q><C-d> fmt.Printf("%#v\n",)<Left>
+inoremap <buffer> <C-q><C-q> fmt.Println("")<Left><Left>
+inoremap <buffer> <C-q><C-w> fmt.Println()<Left>
+inoremap <buffer> <C-q><C-d> fmt.Printf("%#v\n",)<Left>
