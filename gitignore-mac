@@ -47,3 +47,5 @@ httprequests/
 .vscode/
 
 tags
+tags.lock
+tags.temp

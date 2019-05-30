@@ -8,8 +8,8 @@ inoremap <buffer> <C-q><C-q> console.log();<Left><Left>
 if executable('prettier')
     nnoremap <buffer> <C-c><C-f> :!prettier --write %<CR>
 endif
-if executable('prettier-standard') 
-  nnoremap <buffer> <C-c><C-c><C-f> :!prettier-standard %<CR>
+if executable('standard') 
+  nnoremap <buffer> <C-c><C-c><C-f> :!standard --fix %<CR>
 endif
 
 nnoremap <buffer> gO :silent !open <cfile><CR>

@@ -1024,9 +1024,19 @@ if command -v ivledaemon >/dev/null 2>&1; then
   fi
 fi
 
-if [ ! "${TMUX+x}" ] && [ ! "${NVIM_LISTEN_ADDRESS+x}" ] && [ ! "${VIM_TERMINAL+x}" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
-  if [ ! "${WSLENV+x}" ] || ([ "${WSLENV+x}" ] && [ "$SHLVL" -gt 1 ]); then
+# if [ ! "${TMUX+x}" ] && [ ! "${NVIM_LISTEN_ADDRESS+x}" ] && [ ! "${VIM_TERMINAL+x}" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
+#   if [ ! "${WSLENV+x}" ] || ([ "${WSLENV+x}" ] && [ "$SHLVL" -gt 1 ]); then
+#     TERM=screen-256color-bce tmux -u new-session -A -s main
+#   fi
+# fi
+
+if [ ! "${TMUX+x}" ]; then
+  if [ "$(uname)" == 'Darwin' ] && [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
     TERM=screen-256color-bce tmux -u new-session -A -s main
+  elif [ "$(uname)" == 'Linux' ]; then
+    if [ "$KITTY_WINDOW_ID" ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s main
+    fi
   fi
 fi
 

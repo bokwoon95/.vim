@@ -925,6 +925,11 @@ nnoremap ]wd :let b:wsv=winsaveview()<CR>
       \:silent! call winrestview(b:wsv)<CR>
 noremap [om :set selectmode=mouse<CR>
 noremap ]om :set selectmode=<CR>
+augroup selectmouse
+  autocmd!
+  au InsertEnter * silent! set selectmode=mouse
+  au InsertLeave * silent! set selectmode=
+augroup END
 " nnoremap [on :setlocal number<CR>
 " nnoremap ]on :setlocal nonumber<CR>
 " nnoremap [oc :setlocal cursorline<CR>
