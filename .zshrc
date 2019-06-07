@@ -859,14 +859,26 @@ alias aba="abduco -a"
 
 #tmux aliases
 tax () {
-if [[ $# -eq 0 ]]; then
-  TERM=screen-256color-bce tmux -u new-session -A -s main
+if [ $# -eq 0 ]; then
+  if [ "$(uname)" == 'Darwin' ]; then
+    if [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s main
+    elif [ "$TERM_PROGRAM" == 'Apple_Terminal' ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s term
+    elif [ "$KITTY_WINDOW_ID" ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s kitty
+    fi
+  elif [ "$(uname)" == 'Linux' ]; then
+    if [ "$KITTY_WINDOW_ID" ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s main
+    fi
+  fi
 else
   TERM=screen-256color-bce tmux -u new-session -A -s $1
 fi
 }
 txm () {
-if [[ $# -eq 0 ]]; then
+if [ $# -eq 0 ]; then
   TERM=screen-256color-bce tmux -u new -t main
 else
   TERM=screen-256color-bce tmux -u new -s $1 -t main
@@ -875,6 +887,9 @@ fi
 alias tls="tmux ls"
 alias tks="tmux kill-session -t"
 alias tka="tmux kill-server"
+# if command -v tmuxp >/dev/null 2>&1; then
+#   eval "$(_TMUXP_COMPLETE=source_zsh tmuxp)"
+# fi
 
 #sshfs aliases
 #https://blogs.harvard.edu/acts/2013/11/08/the-newbie-how-to-set-up-sshfs-on-mac-os-x/
@@ -1030,9 +1045,15 @@ fi
 #   fi
 # fi
 
-if [ ! "${TMUX+x}" ]; then
-  if [ "$(uname)" == 'Darwin' ] && [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
-    TERM=screen-256color-bce tmux -u new-session -A -s main
+if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
+  if [ "$(uname)" == 'Darwin' ]; then
+    if [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s main
+    elif [ "$TERM_PROGRAM" == 'Apple_Terminal' ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s term
+    elif [ "$KITTY_WINDOW_ID" ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s kitty
+    fi
   elif [ "$(uname)" == 'Linux' ]; then
     if [ "$KITTY_WINDOW_ID" ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
