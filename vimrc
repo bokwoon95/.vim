@@ -491,6 +491,10 @@ Plug 'rhysd/git-messenger.vim'
 
 Plug 'leafgarland/typescript-vim'
 
+Plug 'AndrewRadev/sideways.vim'
+nnoremap <M-Left> :SidewaysLeft<cr>
+nnoremap <M-Right> :SidewaysRight<cr>
+
 silent! call plug#end()
 "}}}
 
