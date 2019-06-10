@@ -189,6 +189,11 @@ if [[ ! -d ~/.emacs.d ]]; then
   git clone https://github.com/bokwoon95/.emacs.d ~/.emacs.d
 fi
 
+# Install Tmux Plugin Manager
+if [[ ! -d ~/.tmux ]]; then
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
 # Adjust Macvim's fullscreened height
 defaults write org.vim.MacVim MMTextInsetTop 4
 defaults write org.vim.MacVim MMTextInsetBottom 8
