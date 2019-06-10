@@ -10,6 +10,7 @@ if executable('prettier')
 endif
 if executable('standard') 
   nnoremap <buffer> <C-c><C-c><C-f> :!standard --fix %<CR>
+  command! -buffer Lint cgetexpr system('standard ' . shellescape(expand('%')))
 endif
 
 nnoremap <buffer> gO :silent !open <cfile><CR>

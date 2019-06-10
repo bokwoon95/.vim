@@ -1049,8 +1049,8 @@ if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
   if [ "$(uname)" == 'Darwin' ]; then
     if [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
-    elif [ "$TERM_PROGRAM" == 'Apple_Terminal' ]; then
-      TERM=screen-256color-bce tmux -u new-session -A -s term
+    # elif [ "$TERM_PROGRAM" == 'Apple_Terminal' ]; then
+    #   TERM=screen-256color-bce tmux -u new-session -A -s term
     elif [ "$KITTY_WINDOW_ID" ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s kitty
     fi

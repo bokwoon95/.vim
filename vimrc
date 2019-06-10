@@ -1378,6 +1378,7 @@ set grepprg=ag\ --vimgrep
 augroup quickfix
   autocmd!
   autocmd QuickFixCmdPost cgetexpr cwindow
+  autocmd QuickFixCmdPost cgetexpr nnoremap <buffer> <CR> <CR>
   autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
 
