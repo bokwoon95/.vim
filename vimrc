@@ -456,11 +456,11 @@ nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
             \": ""
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'for': ['javascript','typescript','php','java']}
+Plug 'neoclide/coc.nvim', {'for': ['javascript','typescript','php','java','html','css']}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 nnoremap [ad :CocEnable<CR>
 nnoremap ]ad :CocDisable<CR>
-nnoremap =ad :CocDisable<CR>:CocEnable<CR>
+nnoremap =ad :silent! CocRestart<CR>
 
 Plug 'tpope/vim-rails'
 

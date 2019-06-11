@@ -6,7 +6,7 @@ endif
 
 inoremap <buffer> <C-q><C-q> console.log();<Left><Left>
 if executable('prettier')
-    nnoremap <buffer> <C-c><C-f> :!prettier --write %<CR>
+  nnoremap <buffer> <C-c><C-f> :!prettier --write --print-width 120 %<CR>
 endif
 
 nnoremap <buffer> gO :silent !open <cfile><CR>
