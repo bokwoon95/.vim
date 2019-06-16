@@ -1033,11 +1033,11 @@ if [[ -d ~/.opam ]]; then
 fi
 
 # ivledaemon
-if command -v ivledaemon >/dev/null 2>&1; then
-  if [[ ! $(ivledaemon | grep Detached) ]]; then
-    ivledaemon start
-  fi
-fi
+# if command -v ivledaemon >/dev/null 2>&1; then
+#   if [[ ! $(ivledaemon | grep Detached) ]]; then
+#     ivledaemon start
+#   fi
+# fi
 
 # if [ ! "${TMUX+x}" ] && [ ! "${NVIM_LISTEN_ADDRESS+x}" ] && [ ! "${VIM_TERMINAL+x}" ] && [ "$TERM_PROGRAM" != "vscode" ]; then
 #   if [ ! "${WSLENV+x}" ] || ([ "${WSLENV+x}" ] && [ "$SHLVL" -gt 1 ]); then
