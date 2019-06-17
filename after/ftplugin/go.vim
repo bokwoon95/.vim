@@ -8,7 +8,11 @@ endif
 
 nmap <buffer> <C-c><C-t> <Plug>(go-info)
 nmap <buffer> <C-c><C-d> <Plug>(go-doc)
-nmap <buffer> <C-c><C-f> :GoFmt<CR>
+if !empty(globpath(&rtp, 'plugin/ale.vim'))
+  nmap <buffer> <C-c><C-f> :GoFmt<CR>:ALEDisable<CR>:ALEEnable<CR>
+else
+  nmap <buffer> <C-c><C-f> :GoFmt<CR>
+endif
 nmap <buffer> gd <Plug>(go-def)
 nmap <buffer> gdd <Plug>(go-def)
 nmap <buffer> gds <Plug>(go-def-split)
