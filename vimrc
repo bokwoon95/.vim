@@ -456,7 +456,8 @@ nnoremap <expr> <C-c><C-g> sy#repo#get_stats() != [-1,-1,-1] ?
             \": ""
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'for': ['javascript','typescript','php','java','html','css']}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 nnoremap [ad :CocEnable<CR>
 nnoremap ]ad :CocDisable<CR>
@@ -486,6 +487,8 @@ Plug 'morhetz/gruvbox'
 Plug 'patstockwell/vim-monokai-tasty'
 
 Plug 'ludovicchabant/vim-gutentags'
+let g:gutentags_exclude_filetypes=["javascript","go","vim"]
+let g:gutentags_enabled=0
 
 Plug 'rhysd/git-messenger.vim'
 

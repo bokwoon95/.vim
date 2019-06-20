@@ -83,10 +83,10 @@ if [[ ! -d /Applications/Opera.app ]]; then
   #Download Opera from their shitty javascript site
   open https://www.opera.com/computer
 fi
-# if [[ ! -d /Applications/Folx.app ]]; then
-#   #Needed for Contexts licence file & Folx activation code
-#   open https://www.google.com/gmail
-# fi
+if [[ ! -d /Applications/Folx.app ]]; then
+  #Needed for Contexts licence file & Folx activation code
+  open https://www.google.com/gmail
+fi
 if [[ ! -d "/Applications/Microsoft Word.app" ]]; then
   #Download MS Office 2016
   open "https://www.office.com/?auth=2&home=1"
@@ -158,6 +158,9 @@ fi
 if [[ -z $(find ~/Library/Fonts/Go-Mono*) ]]; then
   open ~/.vim/fonts/Go\ Font/*
 fi
+if [[ -z $(find ~/Library/Fonts/FiraMono*) ]]; then
+  open ~/.vim/fonts/FiraMono/*
+fi
 
 # Install Scientific Calculator for Dashboard
 if [[ $OPEN_NEW == "y" && -f ~/.vim/ecalc_calculator.zip ]]; then
@@ -172,12 +175,6 @@ brew cleanup
 if [[ "$CLEAN_DOCK" == "YES THE DOCK IS FULL OF SHIT RN" ]]; then
   printf "Y\nY\nY\n" | /usr/local/opt/fzf/install
 fi
-
-#vim-plug for vim & neovim
-#curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-#  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-#curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-#  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 # Install zsh-autosuggestions
 if [[ ! -d ~/.zsh/zsh-autosuggestions ]]; then

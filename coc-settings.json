@@ -1,6 +1,11 @@
 {
-  "javascript.suggestionActions.enabled": false,
-  "typescript.suggestionActions.enabled": false,
   "coc.source.around.enable": false,
-  "coc.source.buffer.enable": false
+  "coc.source.buffer.enable": false,
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],
+      "filetypes": ["go"]
+    }
+  }
 }

@@ -202,6 +202,7 @@ path-prepend /usr/local/mysql/bin
 path-prepend ~/pear/bin
 path-prepend ~/.roswell/bin
 path-append ~/go/bin
+path-append ~/.npm-packages/bin
 # Orbital
 path-prepend ~/Qt5.5.0/5.5/clang_64/bin
 
@@ -1063,3 +1064,14 @@ fi
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+[[ -f /Users/bokwoon/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /Users/bokwoon/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+[[ -f /Users/bokwoon/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /Users/bokwoon/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
+# tabtab source for slss package
+# uninstall by removing these lines or running `tabtab uninstall slss`
+[[ -f /Users/bokwoon/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/bokwoon/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
