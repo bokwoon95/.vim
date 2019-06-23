@@ -12,48 +12,69 @@ youtube-dl
 neovim
 python3
 tmux
+asciinema
+imagemagick
+rmtrash
+emacs
+cmus
+bat
+)
+PACKAGES_LEN=${#PACKAGES[@]}
+
+OPT_PACKAGES=(
+wget
 tig
 figlet
-asciinema
 fd
-imagemagick
-imagemagick@6
-ipython
-pass
-rmtrash
-thefuck
-wget
-emacs
 rlwrap #for mit-scheme
 mit-scheme
 cmake
 sshfs
 unison
-cmus
+ipython
+pass
 )
-PACKAGES_LEN=${#PACKAGES[@]}
 
 CASKS=(
-spectacle
-box-sync
-the-unarchiver
-insomniax
-disk-inventory-x
-google-chrome
-firefox
-whatsapp
-evernote
-kitty
-skim
+# box-sync
+  # https://raw.githubusercontent.com/Homebrew/homebrew-cask/master/Casks/box-sync.rb
+  # https://e3.boxcdn.net/box-installers/sync/Sync+4+External/Box%20Sync%20Installer.dmg
+# the-unarchiver
+  # just download via app store
+# insomniax
+  # use caffeinate or amphetamine or jolt
+# disk-inventory-x
+  # http://www.derlien.com/download.php?file=DiskInventoryX
+# google-chrome
+  # https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
+# firefox
+  # https://raw.githubusercontent.com/Homebrew/homebrew-cask/master/Casks/firefox.rb
+  # https://download-installer.cdn.mozilla.net/pub/firefox/releases/#{version}/mac/#{language}/Firefox%20#{version}.dmg
+# whatsapp
+  # https://raw.githubusercontent.com/Homebrew/homebrew-cask/master/Casks/whatsapp.rb
+  # https://web.whatsapp.com/desktop/mac/files/release-#{version}.zip
+# evernote
+  # migrate your notes off evernote ASAP please
+# kitty
+  # https://github.com/kovidgoyal/kitty/releases
 emacs-mac
 #folx
-handbrake
-rcdefaultapp #change default app for everything
-vlc
-vox
-dash
-keycastr
-android-file-transfer
+# handbrake
+  # https://raw.githubusercontent.com/Homebrew/homebrew-cask/master/Casks/handbrake.rb
+  # https://download.handbrake.fr/handbrake/releases/#{version}/HandBrake-#{version}.dmg
+# rcdefaultapp #change default app for everything
+  # http://www.rubicode.com/Downloads/RCDefaultApp-2.1.X.dmg
+# vlc
+  # https://raw.githubusercontent.com/Homebrew/homebrew-cask/master/Casks/vlc.rb
+  # https://get.videolan.org/vlc/#{version}/macosx/vlc-#{version}.dmg
+# dash
+  # https://singapore.kapeli.com/downloads/v4/Dash.zip
+# keycastr
+  # https://github.com/keycastr/keycastr/releases
+# android-file-transfer
+  # https://www.samsung.com/sg/support/app/smartswitch/
+# ngrok
+  # https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-darwin-amd64.zip
 )
 CASKS_LEN=${#CASKS[@]}
 
@@ -123,6 +144,9 @@ brew tap railwaycat/emacsmacport
 brew tap thefox/brewery #cmus-control
 # Important packages I want to download ASAP
 brew cask install dropbox macvim iterm2 osxfuse
+  # https://www.dropbox.com/download?plat=mac&full=1
+  # https://github.com/macvim-dev/macvim/releases/tag/snapshot-156
+  # https://www.iterm2.com/downloads.html
 
 echo "Installing packages..."
 brew install ${PACKAGES[@]}
@@ -268,18 +292,6 @@ if [[ -L ~/.config/nvim/after ]]; then
   unlink ~/.config/nvim/after
 fi
 ln -s ~/.vim/after ~/.config/nvim/after
-
-#~/.gitconfig
-if [[ -f ~/.gitconfig && ! -L ~/.gitconfig ]]; then
-  echo "existing ~/.gitconfig found, renaming it to ~/.gitconfig.bak"
-  rm ~/.gitconfig.bak
-  mv ~/.gitconfig ~/.gitconfig.bak
-fi
-echo "symlinking ~/.gitconfig@"
-if [[ -L ~/.gitconfig ]]; then
-  unlink ~/.gitconfig
-fi
-ln -s ~/.vim/gitconfig-mac ~/.gitconfig
 
 #~/.gitignore
 if [[ -f ~/.gitignore && ! -L ~/.gitignore ]]; then

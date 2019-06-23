@@ -498,6 +498,8 @@ Plug 'AndrewRadev/sideways.vim'
 nnoremap <M-Left> :SidewaysLeft<cr>
 nnoremap <M-Right> :SidewaysRight<cr>
 
+Plug 'vim-scripts/Super-Shell-Indent'
+
 silent! call plug#end()
 "}}}
 
