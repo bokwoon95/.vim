@@ -358,6 +358,7 @@ let g:ale_linters = {
   \ 'ruby': ['rubocop'],
   \ 'eruby': ['erb'],
   \ 'java': ['javac'],
+  \ 'sql': ['sqlint']
   \}
 let g:ale_set_signs = 0
 " let g:ale_sign_column_always = 1

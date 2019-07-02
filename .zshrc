@@ -1050,8 +1050,8 @@ if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
   if [ "$(uname)" == 'Darwin' ]; then
     if [ "$TERM_PROGRAM" == 'iTerm.app' ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
-    # elif [ "$TERM_PROGRAM" == 'Apple_Terminal' ]; then
-    #   TERM=screen-256color-bce tmux -u new-session -A -s term
+    elif [ "$TERM_PROGRAM" == 'Apple_Terminal' ]; then
+      TERM=screen-256color-bce tmux -u new-session -A -s apple
     elif [ "$KITTY_WINDOW_ID" ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s kitty
     fi
@@ -1084,3 +1084,13 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
+
+sls-debug () {
+  if [ "$(echo "$1" | cut -c1)" != '-' ]; then
+    local port="$1"
+    shift
+    node --inspect=127.0.0.1:"$port" "$(which serverless)" offline "$@"
+  else
+    node --inspect "$(which serverless)" offline "$@"
+  fi
+}
