@@ -49,3 +49,6 @@ httprequests/
 tags
 tags.lock
 tags.temp
+
+nusskylab_dev.export.sql
+nusskylab_dev_schemaspy/

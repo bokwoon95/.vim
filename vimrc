@@ -126,7 +126,7 @@ Plug 'andymass/vim-matchup'|             " % on steroids
 let g:matchup_matchparen_status_offscreen = 0
 " let g:matchup_matchparen_deferred = 1
 
-Plug 'pacha/vem-tabline', has('nvim') ? {} : { 'on': [] }
+Plug 'pacha/vem-tabline' ", has('nvim') ? {} : { 'on': [] }
 " if has('gui_running')
 "   let g:vem_tabline_show=1
 " else
@@ -246,8 +246,6 @@ Plug 'romainl/vim-cool'
 
 Plug 'kana/vim-textobj-user'
 Plug 'rhysd/vim-textobj-anyblock'
-
-Plug 'vim-scripts/ReplaceWithRegister'
 
 Plug 'AndrewRadev/linediff.vim', {'on': 'Linediff'}
 xnoremap <Leader>ld :Linediff<CR>
@@ -463,6 +461,11 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 nnoremap [ad :CocEnable<CR>
 nnoremap ]ad :CocDisable<CR>
 nnoremap =ad :silent! CocRestart<CR>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <Leader>rn <Plug>(coc-rename)
 
 Plug 'tpope/vim-rails'
 

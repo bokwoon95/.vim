@@ -458,7 +458,7 @@ ragf () {
 }
 alias untar="tar -xvzf "
 sha1() {
-  if [ $(uname) = 'Darwin' ]; then
+  if [ "$(uname)" = 'Darwin' ]; then
     echo "$1" | sha1sum | awk '{printf "%s",$1}' | head -c 7 | tee >(pbcopy)
   fi
 }
@@ -1094,3 +1094,7 @@ sls-debug () {
     node --inspect "$(which serverless)" offline "$@"
   fi
 }
+
+if [ "$(uname)" = 'Darwin' ]; then
+  alias screensaver=/System/Library/CoreServices/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine
+fi
