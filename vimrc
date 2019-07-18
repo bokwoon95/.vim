@@ -320,7 +320,7 @@ nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
 Plug 'honza/vim-snippets'
 
 Plug 'chrisbra/Colorizer'
-let g:colorizer_auto_filetype='css,html'
+" let g:colorizer_auto_filetype='css,html'
 let g:colorizer_syntax = 1
 nmap <Leader>cc <Plug>Colorizer
 
@@ -348,7 +348,7 @@ let g:ale_linters = {
   \ 'python': ['flake8'],
   \ 'sh': ['shellcheck'],
   \ 'zsh': ['shellcheck'],
-  \ 'go': ['gofmt','goimports','golint','go vet'],
+  \ 'go': ['gopls', 'gofmt', 'go vet'],
   \ 'javascript': ['eslint'],
   \ 'html': ['htmlhint'],
   \ 'css': ['csslint'],
@@ -504,6 +504,8 @@ nnoremap <M-Right> :SidewaysRight<cr>
 
 Plug 'vim-scripts/Super-Shell-Indent'
 
+Plug 'rickhowe/diffchar.vim'
+
 silent! call plug#end()
 "}}}
 
@@ -589,8 +591,10 @@ xnoremap L g$h
 xnoremap < <gv
 xnoremap > >gv
 "Better increment and decrement operators
-noremap + <C-a>
-noremap - <C-x>
+noremap <expr> + &diff ? ":diffput<CR>" : ":diffput<CR>"
+noremap <expr> - &diff ? ":diffget<CR>" : ":diffget<CR>"
+" noremap + :diffput<CR>
+" noremap - :diffget<CR>
 xnoremap g+ g<C-a>
 xnoremap g- g<C-x>
 "Swap U & gU

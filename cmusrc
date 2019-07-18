@@ -11,4 +11,4 @@ set start_view=sorted
 bind -f common ^N win-down
 bind -f common ^P win-up
 colorscheme night
-toggle follow
+set follow=true
