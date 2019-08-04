@@ -17,6 +17,10 @@ nmap <buffer> gd <Plug>(go-def)
 nmap <buffer> gdd <Plug>(go-def)
 nmap <buffer> gds <Plug>(go-def-split)
 nmap <buffer> gdv <Plug>(go-def-vertical)
+command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
+command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+
 
 inoremap <buffer> <C-q><C-q> fmt.Println("")<Left><Left>
 inoremap <buffer> <C-q><C-w> fmt.Println()<Left>

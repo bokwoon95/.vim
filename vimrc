@@ -326,8 +326,8 @@ nmap <Leader>cc <Plug>Colorizer
 
 Plug 'JuliaEditorSupport/julia-vim'
 
-Plug 'davidhalter/jedi-vim', {'for': 'python'}
-let g:jedi#auto_vim_configuration = 0
+" Plug 'davidhalter/jedi-vim', {'for': 'python'}
+" let g:jedi#auto_vim_configuration = 0
 
 Plug 'w0rp/ale'
 let g:ale_enabled = 0
@@ -614,6 +614,7 @@ nnoremap <M-;> 5zh
 nnoremap <M-'> 5zl
 nnoremap <Leader>ss :%s//g<Left><Left>
 xnoremap <Leader>ss :s//g<Left><Left>
+xnoremap <Leader>sr *N:%s//g<Left><Left>/<C-r>/
 xnoremap <Leader>tbts :s/	/    /g<Left><Left>| "convert tab to 4 spaces for visual selection
 nnoremap <Leader>tbts :%s/	/    /g<Left><Left>| "convert tab to 4 spaces in normal mode
 nnoremap <Leader>rr :let b:wsv=winsaveview()<CR>

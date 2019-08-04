@@ -12,3 +12,4 @@ bind -f common ^N win-down
 bind -f common ^P win-up
 colorscheme night
 set follow=true
+set mouse=true

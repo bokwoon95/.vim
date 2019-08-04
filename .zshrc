@@ -309,13 +309,7 @@ alias lsa="ls -a -F"
 alias lsl="ls -alF"
 alias cp="cp -v"
 alias mv="mv -v"
-cdd () {
-  if [[ $# -eq 0 ]]; then
-    cd && pwd && ls
-  else
-    cd "$1" && pwd && ls;
-  fi
-}
+cdd () { ([ $# -eq 0 ] && cd ~ || cd "$1") && pwd && ls; }
 mkcd () {
   mkdir -p -- "$1" &&
     cd -P -- "$1"
@@ -1086,12 +1080,18 @@ bindkey '^xe' edit-command-line
 bindkey '^x^e' edit-command-line
 
 sls-debug () {
+  export AWS_XRAY_CONTEXT_MISSING=LOG_ERROR
   if [ "$(echo "$1" | cut -c1)" != '-' ]; then
     local port="$1"
     shift
     node --inspect=127.0.0.1:"$port" "$(which serverless)" offline "$@"
   else
-    node --inspect "$(which serverless)" offline "$@"
+    if [ "$1" = '--ndb' ] && command -v ndb >/dev/null 2>&1; then
+      shift
+      ndb "$(which serverless)" offline "$@"
+    else
+      node --inspect "$(which serverless)" offline "$@"
+    fi
   fi
 }
 
