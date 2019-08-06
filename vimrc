@@ -349,7 +349,6 @@ let g:ale_linters = {
   \ 'sh': ['shellcheck'],
   \ 'zsh': ['shellcheck'],
   \ 'go': ['gopls', 'gofmt', 'go vet'],
-  \ 'javascript': ['eslint'],
   \ 'html': ['htmlhint'],
   \ 'css': ['csslint'],
   \ 'c': ['clang'],
@@ -358,6 +357,7 @@ let g:ale_linters = {
   \ 'java': ['javac'],
   \ 'sql': ['sqlint']
   \}
+  " \ 'javascript': ['eslint'],
 let g:ale_set_signs = 0
 " let g:ale_sign_column_always = 1
 

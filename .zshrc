@@ -309,7 +309,13 @@ alias lsa="ls -a -F"
 alias lsl="ls -alF"
 alias cp="cp -v"
 alias mv="mv -v"
-cdd () { ([ $# -eq 0 ] && cd ~ || cd "$1") && pwd && ls; }
+cdd () {
+  if [ $# -eq 0 ]; then
+    cd ~ && pwd && ls
+  else
+    cd "$1" && pwd && ls
+  fi
+}
 mkcd () {
   mkdir -p -- "$1" &&
     cd -P -- "$1"
@@ -983,7 +989,7 @@ bindkey '^ ' forward-word
 # project aliases
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if command -v ag >/dev/null 2>&1; then
-  export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
+  export FZF_DEFAULT_COMMAND='ag --hidden -u --ignore .git -g ""'
 elif command -v rg >/dev/null 2>&1; then
   export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
 else
