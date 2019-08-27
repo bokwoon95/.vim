@@ -279,7 +279,7 @@ if [[ $(uname) = 'Linux' ]]; then
   }
 fi
 if [[ $(uname) = 'Darwin' ]]; then
-  emacs() {
+  emx() {
     (/usr/local/Cellar/emacs/*/bin/emacsclient -ca "" "$@") ||
       (/usr/local/Cellar/emacs/*/bin/emacs --daemon;
           /usr/local/Cellar/emacs/*/bin/emacsclient -ca "" "$@")
@@ -481,6 +481,16 @@ if command -v rbenv >/dev/null 2>&1; then
   eval "$(rbenv init -)"
 fi
 path-prepend ~/Library/Python/3.7/bin
+
+# latexmk build directory
+mkdir -p ~/lxmk
+path-append ~/lxmk
+
+# Ada
+path-append ~/opt/GNAT/2019/bin
+
+# Rust
+path-append ~/.cargo/bin
 
 # C
 cch () { # cc headers, compile with makeheaders

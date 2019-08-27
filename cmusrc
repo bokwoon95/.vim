@@ -6,7 +6,7 @@ set play_library=true
 set play_sorted=true
 set shuffle=true
 set softvol=true
-set output_plugin=ao
+set output_plugin=coreaudio
 set start_view=sorted
 bind -f common ^N win-down
 bind -f common ^P win-up

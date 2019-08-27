@@ -865,6 +865,7 @@ inoremap <M-f> <S-Right>
 inoremap <M-b> <S-Left>
 inoremap <C-a> <C-c>I
 inoremap <C-e> <End>
+inoremap <C-Space> <C-g>u<C-a>
 "forward delete, backward delete & character delete
 inoremap <M-d> <C-g>u<C-c>`^vec<C-g>u
 inoremap <M-BS> <C-g>u<C-w><C-g>u
@@ -936,6 +937,8 @@ nnoremap ]wd :let b:wsv=winsaveview()<CR>
       \:silent! call winrestview(b:wsv)<CR>
 noremap [om :set selectmode=mouse<CR>
 noremap ]om :set selectmode=<CR>
+nnoremap [oe :set conceallevel=2<CR>
+nnoremap ]oe :set conceallevel=0<CR>
 augroup selectmouse
   autocmd!
   au InsertEnter * silent! set selectmode=mouse
