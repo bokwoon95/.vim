@@ -2,6 +2,11 @@
   "coc.source.around.enable": false,
   "coc.source.buffer.enable": false,
   "languageserver": {
+    "vhdl": {
+      "command": "vhdl-tool",
+      "rootPatterns": ["vhdltool-config.yaml"],
+      "filetypes": ["vhd"]
+    },
     "golang": {
       "command": "gopls",
       "rootPatterns": ["go.mod", ".vim/", ".git/", ".hg/"],

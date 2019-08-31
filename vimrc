@@ -1194,6 +1194,7 @@ if !has("gui_running") && executable("clip.exe")
   nnoremap YY "xyy:call system('clip.exe', GetSelectedText())<CR>
   nnoremap Y& m`^"xyg$``:call system('clip.exe', GetSelectedText())<CR>
   nnoremap YL m`"xyg$``:call system('clip.exe', GetSelectedText())<CR>
+  set pastetoggle=<F3>
 endif
 "}}}
 "{{{ Statusline Settings statsett

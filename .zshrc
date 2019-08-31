@@ -162,7 +162,8 @@ PS1="$PS1\$vcs_info_msg_0_"
 # prompt-end
 PS1="$PS1"$'\n'"%n%B$%b "
 
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+[ ! -d ~/.zsh/zsh-autosuggestions ] && git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+[ -f ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh ] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 Check() {
   if [[ "$@" ]]
@@ -203,6 +204,7 @@ path-prepend ~/pear/bin
 path-prepend ~/.roswell/bin
 path-append ~/go/bin
 path-append ~/.npm-packages/bin
+path-prepend ~/.local/bin
 # Orbital
 path-prepend ~/Qt5.5.0/5.5/clang_64/bin
 
@@ -882,6 +884,8 @@ if [ $# -eq 0 ]; then
   elif [ "$(uname)" == 'Linux' ]; then
     if [ "$KITTY_WINDOW_ID" ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
+    elif [ "$WSL_DISTRO_NAME" ]; then
+      tmux new-session -A -s main
     fi
   fi
 else
@@ -1068,6 +1072,8 @@ if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
   elif [ "$(uname)" == 'Linux' ]; then
     if [ "$KITTY_WINDOW_ID" ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
+    elif [ "$WSL_DISTRO_NAME" ]; then
+      tmux new-session -A -s main
     fi
   fi
 fi
@@ -1085,8 +1091,6 @@ export LANG=en_US.UTF-8
 # uninstall by removing these lines or running `tabtab uninstall slss`
 [[ -f /Users/bokwoon/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /Users/bokwoon/.npm-packages/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-alias ddblocal_start='java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -port 8881'
 
 # Enable Ctrl-x-e to edit command line
 autoload -U edit-command-line
@@ -1110,6 +1114,12 @@ sls-debug () {
     fi
   fi
 }
+
+if [ -z "${WSL_ENV+x}" ]; then
+  alias doc="cd /mnt/c/Users/bokwoon/Documents && pwd && ls"
+  alias down="cd /mnt/c/Users/bokwoon/Downloads && pwd && ls"
+  alias desk="cd /mnt/c/Users/bokwoon/Desktop && pwd && ls"
+fi
 
 if [ "$(uname)" = 'Darwin' ]; then
   alias screensaver=/System/Library/CoreServices/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine
