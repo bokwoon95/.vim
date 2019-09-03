@@ -241,6 +241,10 @@ gbin () {
   fi
 }
 
+# Java
+path-prepend "$HOME/.jenv/bin"
+[ -d "$HOME/.jenv/bin" ] && eval "$(jenv init -)"
+
 # Vagrant
 homestead() {
   (cd ~/Homestead && vagrant $*)
@@ -1112,7 +1116,7 @@ sls-debug () {
   fi
 }
 
-if [ -z "${WSL_ENV+x}" ]; then
+if [ "${WSL_ENV+x}" ]; then
   alias doc="cd /mnt/c/Users/bokwoon/Documents && pwd && ls"
   alias down="cd /mnt/c/Users/bokwoon/Downloads && pwd && ls"
   alias desk="cd /mnt/c/Users/bokwoon/Desktop && pwd && ls"
