@@ -275,16 +275,13 @@ if [[ $(uname) = 'Linux' ]]; then
     # opens a gui emacs and hands terminal session back to user
     command emacs "$@" &>/dev/null &
   }
-  emacs() {
-    (emacsclient -nw -ca "" "$@") ||
-      (emacs --daemon; emacsclient -nw -ca "" "$@")
+  emx() {
+    (emacsclient -nw -ca "" "$@") || (emacs --daemon; emacsclient -nw -ca "" "$@")
   }
 fi
 if [[ $(uname) = 'Darwin' ]]; then
   emx() {
-    (/usr/local/Cellar/emacs/*/bin/emacsclient -ca "" "$@") ||
-      (/usr/local/Cellar/emacs/*/bin/emacs --daemon;
-          /usr/local/Cellar/emacs/*/bin/emacsclient -ca "" "$@")
+    (/usr/local/Cellar/emacs/*/bin/emacsclient -ca "" "$@") || (/usr/local/Cellar/emacs/*/bin/emacs --daemon; /usr/local/Cellar/emacs/*/bin/emacsclient -ca "" "$@")
   }
 fi
 
@@ -1124,3 +1121,5 @@ fi
 if [ "$(uname)" = 'Darwin' ]; then
   alias screensaver=/System/Library/CoreServices/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine
 fi
+
+[ "$WSL_DISTRO_NAME" ] && [ -d "/mnt/c/Windows/gtkwave/bin" ] && path-append /mnt/c/Windows/gtkwave/bin
