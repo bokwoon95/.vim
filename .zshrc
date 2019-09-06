@@ -887,6 +887,8 @@ if [ $# -eq 0 ]; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
     elif [ "$WSL_DISTRO_NAME" ]; then
       tmux new-session -A -s main
+    else
+      tmux new-session -A -s 0
     fi
   fi
 else
@@ -1075,6 +1077,8 @@ if [ ! "${TMUX+x}" ] && command -v tmux >/dev/null 2>&1; then
       TERM=screen-256color-bce tmux -u new-session -A -s main
     elif [ "$WSL_DISTRO_NAME" ]; then
       tmux new-session -A -s main
+    else
+      tmux new-session -A -s 0
     fi
   fi
 fi
