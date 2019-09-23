@@ -612,9 +612,13 @@ noremap <expr> <CR> bufname("") == "[Command Line]" ? "<CR>"  :
 "{{{ Macros
 nnoremap <M-;> 5zh
 nnoremap <M-'> 5zl
+xnoremap <silent> * :<C-u>
+      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
+      \gvy/<C-R><C-R>=substitute(escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
+      \gV:call setreg('"', old_reg, old_regtype)<CR>
 nnoremap <Leader>ss :%s//g<Left><Left>
 xnoremap <Leader>ss :s//g<Left><Left>
-xnoremap <Leader>sr *N:%s//g<Left><Left>/<C-r>/
+xnoremap <Leader>sr "xy:%s/<C-r><C-r>=substitute(escape(@x, '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>/<C-r><C-r>=substitute(escape(@x, '/'), ' ', ' ', 'g')<CR>/g<Left><Left><Space><BS>
 xnoremap <Leader>tbts :s/	/    /g<Left><Left>| "convert tab to 4 spaces for visual selection
 nnoremap <Leader>tbts :%s/	/    /g<Left><Left>| "convert tab to 4 spaces in normal mode
 nnoremap <Leader>rr :let b:wsv=winsaveview()<CR>
@@ -640,11 +644,6 @@ nnoremap <Leader>ww :let b:wsv=winsaveview()<CR>
       \:let @/=b:old_search<CR>
       \:silent! call winrestview(b:wsv)<CR>
       \:echo '+++ Trailing whitespaces purged +++'<CR>| "Kill all orphan whitespaces
-xnoremap <silent> * :<C-u>
-      \let old_reg=getreg('"')<Bar>let old_regtype=getregtype('"')<CR>
-      \gvy/<C-R><C-R>=substitute(
-      \escape(@", '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR><CR>
-      \gV:call setreg('"', old_reg, old_regtype)<CR>| "forward search for visual selection literally (ignore regex)
 nnoremap <C-M-h> <C-w>p5<C-y><C-w>p| "Scroll other window upwards (normal mode)
 inoremap <C-M-h> <Esc><C-w>w5<C-y><C-w>pa| "Scroll other window upwards (insert mode)
 nnoremap <C-M-l> <C-w>p5<C-e><C-w>p| "Scroll other window downwards (normal mode)
