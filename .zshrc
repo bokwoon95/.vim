@@ -1124,6 +1124,7 @@ if [ "${WSL_DISTRO_NAME+x}" ]; then
   alias doc="cd /mnt/c/Users/bokwoon/Documents && pwd && ls"
   alias down="cd /mnt/c/Users/bokwoon/Downloads && pwd && ls"
   alias desk="cd /mnt/c/Users/bokwoon/Desktop && pwd && ls"
+  alias wave="gtkwave.exe"
 fi
 
 if [ "$(uname)" = 'Darwin' ]; then

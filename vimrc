@@ -172,9 +172,10 @@ endif
 if empty(argv()) && !has('gui_running')
   augroup NERDTreeOnGuiEnter
     autocmd!
-    autocmd VimEnter * NERDTree | wincmd p
+    autocmd VimEnter * silent! NERDTree | wincmd p
   augroup END
 endif
+let g:netrw_liststyle=3
 
 Plug 'Yggdroot/indentLine'|              " Visual guides for indentation
 let g:indentLine_enabled=1
@@ -1136,6 +1137,7 @@ augroup Autocommands
   autocmd BufNewFile,BufRead *.ejs,*.vue,*.gohtml,*.tmpl setlocal filetype=html
   autocmd BufEnter,BufLeave * if &buftype ==# 'terminal' | let g:t_bufnum = expand('<abuf>') | endif
   autocmd CompleteDone * pclose
+  autocmd FileType netrw setl bufhidden=wipe
 augroup END
 "}}}
 "{{{ GUI Vim Settings
