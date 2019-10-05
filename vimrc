@@ -546,6 +546,12 @@ set foldtext=repeat('\ ',indent(v:foldstart)).foldtext()
 if has("patch-8.1.0360")
   set diffopt+=hiddenoff,internal,algorithm:patience,iwhiteall
 endif
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+  let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+else
+  let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
+endif
 
 " Survival Pack
 noremap <C-j> 5gj
