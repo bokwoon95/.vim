@@ -459,6 +459,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <C-c><C-n> <Plug>(coc-diagnostic-next)
+nmap <silent> <C-c><C-p> <Plug>(coc-diagnostic-prev)
 nmap <silent> <Leader>rn <Plug>(coc-rename)
 
 Plug 'tpope/vim-rails'
@@ -499,6 +501,12 @@ nnoremap <M-Right> :SidewaysRight<cr>
 Plug 'vim-scripts/Super-Shell-Indent'
 
 Plug 'rickhowe/diffchar.vim'
+
+Plug 'norcalli/nvim-colorizer.lua'
+augroup ColorizeCSS
+  autocmd!
+  autocmd Filetype *.css lua require'colorizer'.setup() | set termguicolors
+augroup END
 
 silent! call plug#end()
 "}}}
@@ -566,8 +574,10 @@ inoremap <expr> <C-y> !pumvisible() ? "<C-o>:set paste<CR><C-r>+<C-o>:set nopast
 command! TL verbose setlocal ts? sts? sw? et?
 command! T2 setlocal ts=2 sts=2 sw=2 et | echo "indentation set to 2 spaces"
 command! T4 setlocal ts=4 sts=4 sw=4 et | echo "indentation set to 4 spaces"
+command! T8 setlocal ts=8 sts=8 sw=8 et | echo "indentation set to 8 spaces"
 command! Tb2 setlocal ts=2 sts=2 sw=2 noet | echo "indentation set to 2-spaced Tabs"
 command! Tb4 setlocal ts=4 sts=4 sw=4 noet | echo "indentation set to 4-spaced Tabs"
+command! Tb8 setlocal ts=8 sts=8 sw=8 noet | echo "indentation set to 8-spaced Tabs"
 command! Spa setlocal paste
 command! Sna setlocal nopaste
 " Custom keybindings (:h normal-index for defaults) (:map <key> to check key's current mapping)
