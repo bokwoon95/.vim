@@ -1120,12 +1120,13 @@ sls-debug () {
   fi
 }
 
-if [ "${WSL_DISTRO_NAME+x}" ]; then
-  alias doc="cd /mnt/c/Users/bokwoon/Documents && pwd && ls"
-  alias down="cd /mnt/c/Users/bokwoon/Downloads && pwd && ls"
-  alias desk="cd /mnt/c/Users/bokwoon/Desktop && pwd && ls"
-  alias wave="gtkwave.exe"
-fi
+# Use symlinks in ~/Documents and ~/Downloads and ~/Desktop instead
+# if [ "${WSL_DISTRO_NAME+x}" ]; then
+#   alias doc="cd /mnt/c/Users/bokwoon/Documents && pwd && ls"
+#   alias down="cd /mnt/c/Users/bokwoon/Downloads && pwd && ls"
+#   alias desk="cd /mnt/c/Users/bokwoon/Desktop && pwd && ls"
+#   alias wave="gtkwave.exe"
+# fi
 
 if [ "$(uname)" = 'Darwin' ]; then
   alias screensaver=/System/Library/CoreServices/ScreenSaverEngine.app/Contents/MacOS/ScreenSaverEngine
