@@ -1152,7 +1152,6 @@ augroup Autocommands
   autocmd BufNewFile,BufRead *.fish setlocal filetype=fish
   autocmd BufNewFile,BufRead *.ejs,*.vue,*.gohtml,*.tmpl setlocal filetype=html
   autocmd BufEnter,BufLeave * if &buftype ==# 'terminal' | let g:t_bufnum = expand('<abuf>') | endif
-  autocmd CompleteDone * pclose
   autocmd FileType netrw setl bufhidden=wipe
 augroup END
 "}}}

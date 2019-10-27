@@ -204,7 +204,7 @@ path-prepend ~/pear/bin
 path-prepend ~/.roswell/bin
 path-append ~/go/bin
 path-append ~/.npm-packages/bin
-path-prepend ~/.local/bin
+path-prepend ~/local/bin
 # Orbital
 path-prepend ~/Qt5.5.0/5.5/clang_64/bin
 
