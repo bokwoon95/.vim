@@ -301,14 +301,6 @@ Plug 'mattn/emmet-vim'
 let g:user_emmet_leader_key='<C-z>'
 nnoremap <C-z><C-z> <C-z>
 
-Plug 'osyo-manga/vim-anzu'
-nmap n <Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-N-with-echo)
-nmap * <Plug>(anzu-star-with-echo)
-nmap # <Plug>(anzu-sharp-with-echo)
-" clear status
-nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
-
 " Plug 'SirVer/ultisnips'
 " let g:UltiSnipsNoPythonWarning=1
 " let g:UltiSnipsExpandTrigger="<Tab>"
@@ -543,6 +535,7 @@ set autoread                   " Reload files if they have been changed external
 set lazyredraw                 " Wait for changes to finish before redrawing screen
 set noequalalways              " Don't resize existing windows when a window is closed
 set nostartofline              " Stay in the same column when doing a gg or G jump
+set shortmess-=S
 augroup Checkt
   autocmd!
   autocmd FocusGained,BufEnter * checktime " To trigger vim's autoread on focus gained or buffer enter
