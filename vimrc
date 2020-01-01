@@ -781,6 +781,21 @@ cnoremap <M-d>w <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1
       \~/Downloads/<C-z>
 nnoremap <Leader>nv :e<Space>~/.config/nvim/init.vim<CR>
 nnoremap <Leader>iv :e<Space>~/.vim/vimrc<CR>
+if !has("gui_running") && executable("clip.exe")
+  cnoremap <M-h> <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
+        \/mnt/c/Users/cbw/<C-z>
+  cnoremap <M-d>k <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
+        \/mnt/c/Users/cbw/Desktop/<C-z>
+  cnoremap <M-d>oc <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
+        \/mnt/c/Users/cbw/Documents/<C-z>
+  cnoremap <M-d>bo <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
+        \/mnt/c/Users/cbw/Dropbox/<C-z>
+  cnoremap <M-d>dc <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
+        \/mnt/c/Users/cbw/Dropbox/Documents/<C-z>
+  cnoremap <M-d>w <Home><S-Right><Right><C-\>estrpart(getcmdline(),0,getcmdpos()-1)<CR>
+        \/mnt/d/Users/cbw/Downloads/<C-z>
+  set pastetoggle=<F3>
+endif
 "}}}
 "{{{ UTF8 Macros
 inoremap <M-q><M-a> <C-v>u25c6<Space>| "◆ Db
