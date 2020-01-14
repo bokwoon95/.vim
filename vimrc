@@ -189,16 +189,6 @@ let g:tmux_navigator_no_mappings = 1
 
 Plug 'arthurxavierx/vim-caser'
 
-Plug 'junegunn/rainbow_parentheses.vim'
-function! RainbowParensHighlights() abort
-  " hi rainbowParensShell16 ctermfg=28 guifg=Blue3
-endfunction
-augroup rainbow_lisp
-  autocmd!
-  " autocmd ColorScheme * call RainbowParensHighlights()
-  autocmd FileType lisp,clojure,scheme RainbowParentheses
-augroup END
-
 Plug 'mbbill/undotree', {'on': ['UndotreeToggle', 'UndotreeShow']}
 nnoremap <C-x><C-u> :UndotreeToggle<CR>
 let g:undotree_WindowLayout=4
@@ -455,13 +445,11 @@ nmap <silent> <C-c><C-n> <Plug>(coc-diagnostic-next)
 nmap <silent> <C-c><C-p> <Plug>(coc-diagnostic-prev)
 nmap <silent> <Leader>rn <Plug>(coc-rename)
 
-Plug 'tpope/vim-rails'
-
 Plug 'tpope/vim-dispatch'
 
-Plug 'nicwest/vim-http'
-let g:vim_http_tempbuffer = 1
-command! -range=% JQ <line1>,<line2>!jq '.'
+" Plug 'nicwest/vim-http'
+" let g:vim_http_tempbuffer = 1
+" command! -range=% JQ <line1>,<line2>!jq '.'
 
 Plug 'tpope/vim-unimpaired'
 
