@@ -489,6 +489,7 @@ augroup ColorizeCSS
 augroup END
 
 Plug 'tpope/vim-abolish'
+let g:abolish_no_mappings=1
 
 silent! call plug#end()
 "}}}
