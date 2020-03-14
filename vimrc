@@ -488,6 +488,8 @@ augroup ColorizeCSS
   autocmd Filetype *.css lua require'colorizer'.setup() | set termguicolors
 augroup END
 
+Plug 'tpope/vim-abolish'
+
 silent! call plug#end()
 "}}}
 
