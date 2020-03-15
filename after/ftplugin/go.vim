@@ -22,6 +22,5 @@ command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
 command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 
 
-inoremap <buffer> <C-q><C-q> fmt.Println("")<Left><Left>
-inoremap <buffer> <C-q><C-w> fmt.Println()<Left>
-inoremap <buffer> <C-q><C-d> fmt.Printf("%#v\n",)<Left>
+inoremap <buffer> <C-q><C-q> w http.ResponseWriter, r *http.Request
+inoremap <buffer> <C-q><C-s> skylb.TraceRequest(r)r = r.WithContext(skylb.SetRoleSectionCtx(w, r, RolePreserve, SectionPreserve))type Data struct {}var data Dataskylb.Render(w, r, data, template.FuncMap{}, "")
