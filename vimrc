@@ -143,7 +143,7 @@ Plug 'tpope/vim-fugitive'|               " Git wrapper
 Plug '907th/vim-auto-save'|              " Saveless vim
 nnoremap =oa :AutoSaveToggle<CR>
 let g:auto_save_events = ["CursorHold", "CursorHoldI", "TextChanged", "InsertLeave"]
-let g:auto_save = 1  " enable AutoSave on Vim startup
+let g:auto_save = 0  " enable AutoSave on Vim startup
 let g:auto_save_silent = 1
 
 Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTree'] }
