@@ -20,6 +20,8 @@ There is no denying that some actions are better off with a mouse, for example j
     A mouse is also superior when it comes to scrolling code, sorry. With mice you can scroll faster or slower at the speed of thought while keyboard-based scrolling only scrolls in discrete jumps. You only wanted to read a few lines further but C-d took you half a whole page down, forcing you to reorient and scroll up some to compensate for the huge downwards jump. Now imagine that happening constantly everytime you scroll, it's jarring as hell.
     Reading code only with PgUp or PgDown requires you to change the way you read. There's a reason why PgUp/PgDown are NOT popular for web browsing.
 
+Selecting from a popup menu with arrow keys? Nope, use C-n C-p instead. I don't mind using C-n C-p (I use it all the time) but it really sucks for coworkers who have to type in my vim occasionally.
+
 =====================================================================
 Why Should I Switch To Sublime Text If I'm Already Familiar With Vim?
 =====================================================================
@@ -154,7 +156,7 @@ Putting Vim in Perspective
 ==========================
 I had been thinking about whether the high learning curve of vim is much ado about nothing. Why memorize so many commands just to edit text? Are vim fanboys just imposing a high overhead on themselves by learning at least 6 different ways to enter insert mode?
 
-Then in the shower I realized: vim's editing commands are a LANGUAGE. Vimmers use it LIKE an language, they don't think about which command to enter insert mode you don't think about which tense to use for words. Using it enough makes it natural, like speaking a language. Why learn so many commands? Why learn a language? 
+Then in the shower I realized: vim's editing commands are a LANGUAGE. Vimmers use it LIKE an language, they don't think about which command to enter insert mode you don't think about which tense to use for words. Using it enough makes it natural, like speaking a language. Why learn so many commands? Why learn a language?
 (Plus language can be pretty inconsistent at times (see english pronunciation), but what is important is that everyone agrees on how to speak it.)
 
 (counter: what differentiates between a language and an extensive set of commands that communicates intent? vim could just be an extensive set of commands to memorise)
