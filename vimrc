@@ -682,8 +682,8 @@ xnoremap <silent> * :<C-u>
 nnoremap <Leader>ss :%s//g<Left><Left>
 xnoremap <Leader>ss :s//g<Left><Left>
 xnoremap <Leader>sr "xy:%s/<C-r><C-r>=substitute(escape(@x, '/\.*$^~['), '\_s\+', '\\_s\\+', 'g')<CR>/<C-r><C-r>=substitute(escape(@x, '/'), ' ', ' ', 'g')<CR>/g<Left><Left><Space><BS>
-xnoremap <Leader>tbts :s/	/    /g<Left><Left>| "convert tab to 4 spaces for visual selection
-nnoremap <Leader>tbts :%s/	/    /g<Left><Left>| "convert tab to 4 spaces in normal mode
+xnoremap <Leader>tbts :s/ /    /g<Left><Left>| "convert tab to 4 spaces for visual selection
+nnoremap <Leader>tbts :%s/  /    /g<Left><Left>| "convert tab to 4 spaces in normal mode
 nnoremap <Leader>rr :let b:wsv=winsaveview()<CR>
       \gg=G
       \:silent! call winrestview(b:wsv)<CR>
@@ -1440,8 +1440,8 @@ function! Redir(cmd)
 endfunction
 command! -nargs=1 -complete=command Redir silent call Redir(<q-args>)
 " Usage:
-" 	:Redir hi ............. show the full output of command ':hi' in a scratch window
-" 	:Redir !ls -al ........ show the full output of command ':!ls -al' in a scratch window
+"   :Redir hi ............. show the full output of command ':hi' in a scratch window
+"   :Redir !ls -al ........ show the full output of command ':!ls -al' in a scratch window
 "}}}
 "{{{ KeepOpen
 fun! KeepOpen(...)
@@ -1456,25 +1456,23 @@ command! -nargs=+ KeepOpen call KeepOpen(<f-args>)
 nnoremap <C-c><C-k> :ls<CR>:KeepOpen<Space>
 "}}}
 "{{{ grep.vim
-" Tell Vim what external program to use for grepping.
-" I use the silver searcher, but you can use ripgrep or whatever works for you.
 set grepprg=ag\ --vimgrep
 
-" Open the location/quickfix window automatically if there are valid entries in the list.
-" I actually use a more generic and more useful version of this snippet that works for
-" every quickfix command, not just these ones.
+function! Grep(...)
+  return system(join([&grepprg] + [expandcmd(join(a:000, ' '))], ' '))
+endfunction
+
+command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
+command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr Grep(<f-args>)
+
+cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
+cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
+
 augroup quickfix
   autocmd!
   autocmd QuickFixCmdPost cgetexpr cwindow
-  autocmd QuickFixCmdPost cgetexpr nnoremap <buffer> <CR> <CR>
   autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
-
-" Use :Grep instead of :grep! and :LGrep instead of :lgrep!.
-" :cgetexpr and :lgetexpr are much faster than :grep and :lgrep
-" and they don't mess with your terminal emulator.
-command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
-command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr system(&grepprg . ' ' . shellescape(<q-args>))
 "}}}
 "}}}
 
