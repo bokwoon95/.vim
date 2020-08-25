@@ -444,6 +444,7 @@ nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <C-c><C-n> <Plug>(coc-diagnostic-next)
 nmap <silent> <C-c><C-p> <Plug>(coc-diagnostic-prev)
 nmap <silent> <Leader>rn <Plug>(coc-rename)
+inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<C-g>u\<TAB>"
 
 Plug 'tpope/vim-dispatch'
 
@@ -616,7 +617,7 @@ nnoremap <C-x>b :ls<CR>:b<Space>
 cnoremap <silent> <expr> <CR> getcmdline() == "b " ? "\<C-c>:b#\<CR>" : "\<CR>"
 nnoremap <C-x><C-h> :setlocal hlsearch!<bar>set hlsearch?<CR>
 " inoremap <expr> <C-y> !pumvisible() ? "\<C-o>mm\<C-o>:set paste\<CR>\<C-r>+\<C-o>:set nopaste\<CR>\<Esc>'[=']`mi" : "\<C-y>"
-inoremap <expr> <C-y> !pumvisible() ? "<C-o>:set paste<CR><C-r>+<C-o>:set nopaste<CR>" : "\<C-y>"
+inoremap <expr> <C-y> !pumvisible() ? "<C-o>:set paste<CR><C-r><C-o>+<C-o>:set nopaste<CR>" : "\<C-y>"
 command! TL verbose setlocal ts? sts? sw? et?
 command! T2 setlocal ts=2 sts=2 sw=2 et | echo "indentation set to 2 spaces"
 command! T4 setlocal ts=4 sts=4 sw=4 et | echo "indentation set to 4 spaces"
