@@ -232,6 +232,28 @@ if has('gui_running') "These colors are adjusted for Vim's Morning colorscheme
     \ 'spinner': ['fg', 'Normal'],
     \ 'header':  ['fg', 'Constant'] } "header is the current buffername in :Buffers
 endif
+if has('nvim')
+  function! FloatingFZF()
+    let buf = nvim_create_buf(v:false, v:true)
+    call setbufvar(buf, '&signcolumn', 'no')
+
+    let height = float2nr(30)
+    let width = float2nr(150)
+    let horizontal = float2nr((&columns - width) / 2)
+    let vertical = 1
+
+    let opts = {
+          \ 'relative': 'editor',
+          \ 'row': vertical,
+          \ 'col': horizontal,
+          \ 'width': width,
+          \ 'height': height,
+          \ 'style': 'minimal'
+          \ }
+    call nvim_open_win(buf, v:true, opts)
+  endfunction
+  let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+endif
 
 Plug 'romainl/vim-cool'
 
@@ -431,7 +453,7 @@ nnoremap ]se :SignifyDisable<CR>
 nnoremap <expr> <C-c><C-g> !&diff ? ":silent! SignifyDiff<CR>" : ":silent! tabclose \| silent! SignifyEnable<CR>"
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 nnoremap [ad :CocEnable<CR>
@@ -811,6 +833,12 @@ nnoremap <C-w><C-n> <C-w><C-o>:NERDTreeToggle<CR><C-w>p
 if has('macunix')
   command! Open silent! !open %
 endif
+nnoremap <M-Down> :m .+1<CR>==
+nnoremap <M-Up> :m .-2<CR>==
+inoremap <M-Down> <Esc>:m .+1<CR>==gi
+inoremap <M-Up> <Esc>:m .-2<CR>==gi
+vnoremap <M-Down> :m '>+1<CR>gv=gv
+vnoremap <M-Up> :m '<-2<CR>gv=gv
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-z>
@@ -1197,6 +1225,8 @@ function! MyHighlights() abort
     hi SignifySignDelete cterm=bold ctermbg=none  ctermfg=red
     hi SignifySignChange cterm=bold ctermbg=none  ctermfg=blue
     hi CocInfoFloat ctermfg=black
+    " Pmenu
+    hi Pmenu ctermbg=0 ctermfg=15
   endif
   hi! link StatusLineTerm   StatusLine
   hi! link StatusLineTermNC StatusLineNC
