@@ -255,7 +255,7 @@ if has('nvim')
   let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 endif
 
-Plug 'romainl/vim-cool'
+" Plug 'romainl/vim-cool'
 
 Plug 'kana/vim-textobj-user'
 Plug 'rhysd/vim-textobj-anyblock'
@@ -453,7 +453,7 @@ nnoremap ]se :SignifyDisable<CR>
 nnoremap <expr> <C-c><C-g> !&diff ? ":silent! SignifyDiff<CR>" : ":silent! tabclose \| silent! SignifyEnable<CR>"
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 nnoremap [ad :CocEnable<CR>
@@ -692,8 +692,8 @@ nnoremap <silent> <expr> k v:count == 0 ? "gk" : "k"
 nnoremap <silent> <expr> j v:count == 0 ? "gj" : "j"
 onoremap <silent> <expr> k gk
 onoremap <silent> <expr> j gj
-noremap <expr> <CR> bufname("") == "[Command Line]" ? "<CR>"  :
-      \ v:count == 0 ? "<Tab>" : "Gzz"
+" noremap <expr> <CR> bufname("") == "[Command Line]" ? "<CR>"  :
+"       \ v:count == 0 ? "<Tab>" : "Gzz"
 "}}}
 "{{{ Macros
 nnoremap <M-;> 5zh
