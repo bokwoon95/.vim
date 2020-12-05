@@ -1505,6 +1505,14 @@ augroup quickfix
   autocmd QuickFixCmdPost lgetexpr lwindow
 augroup END
 "}}}
+"{{{ Bufgrep
+function! Bufgrep(re)
+  cexpr []
+  execute 'silent! noautocmd bufdo vimgrepadd /' . a:re . '/j %'
+  copen
+endfunction
+command! -nargs=1 Bufgrep call Bufgrep(<q-args>)
+"}}}
 "}}}
 
 "{{{ :terminal settings
