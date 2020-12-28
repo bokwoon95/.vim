@@ -394,7 +394,7 @@ endif
 
 Plug 'let-def/ocp-indent-vim'
 
-Plug 'jpalardy/vim-slime'
+Plug 'jpalardy/vim-slime', {'branch':'main'}
 if empty(glob('~/.slime_paste')) && !has('win32')
   silent! !touch ~/.slime_paste
 endif
@@ -453,7 +453,7 @@ nnoremap ]se :SignifyDisable<CR>
 nnoremap <expr> <C-c><C-g> !&diff ? ":silent! SignifyDiff<CR>" : ":silent! tabclose \| silent! SignifyEnable<CR>"
 
 " requires yarn to be installed
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 nnoremap [ad :CocEnable<CR>
@@ -463,8 +463,6 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <silent> <C-c><C-n> <Plug>(coc-diagnostic-next)
-nmap <silent> <C-c><C-p> <Plug>(coc-diagnostic-prev)
 nmap <silent> <Leader>rn <Plug>(coc-rename)
 inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<C-g>u\<TAB>"
 
@@ -1227,6 +1225,7 @@ function! MyHighlights() abort
     hi CocInfoFloat ctermfg=black
     " Pmenu
     hi Pmenu ctermbg=0 ctermfg=15
+    hi CocInfoFloat ctermfg=15
   endif
   hi! link StatusLineTerm   StatusLine
   hi! link StatusLineTermNC StatusLineNC
