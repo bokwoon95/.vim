@@ -113,7 +113,9 @@ endif
 silent! call plug#begin('~/.vim/plugged')
 Plug 'tomtom/tcomment_vim'|              " Comment Toggling
 Plug 'tpope/vim-eunuch'|                 " File Rename/Delete/Move
-Plug 'markonm/traces.vim'|               " Neovim's inccommand
+if !has('nvim')
+  Plug 'markonm/traces.vim'|               " Neovim's inccommand
+end
 Plug 'wellle/targets.vim'|               " Extended text editing objects
 Plug 'tpope/vim-surround'|               " Effortlessly replace brackets, quotes and HTML tags
 Plug 'tpope/vim-repeat'|                 " repeat vim-surround
@@ -327,7 +329,7 @@ Plug 'honza/vim-snippets'
 Plug 'chrisbra/Colorizer'
 " let g:colorizer_auto_filetype='css,html'
 let g:colorizer_syntax = 1
-nmap <Leader>cc <Plug>Colorizer
+nmap <Leader>cl <Plug>Colorizer
 
 Plug 'JuliaEditorSupport/julia-vim'
 
@@ -426,6 +428,7 @@ nmap <C-c><C-s> <Plug>SlimeLineSend
 Plug 'fatih/vim-go' ", { 'do': ':GoUpdateBinaries' }
 let g:go_fmt_command = "goimports"
 let g:go_fmt_fail_silently = 1
+let g:go_doc_popup_window = 1
 let g:go_info_mode = 'gopls'
 let g:go_def_mode = 'gopls'
 " vim-go highlights
@@ -453,7 +456,7 @@ nnoremap ]se :SignifyDisable<CR>
 nnoremap <expr> <C-c><C-g> !&diff ? ":silent! SignifyDiff<CR>" : ":silent! tabclose \| silent! SignifyEnable<CR>"
 
 " requires yarn to be installed
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 " Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 nnoremap [ad :CocEnable<CR>
@@ -464,7 +467,9 @@ nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> <Leader>rn <Plug>(coc-rename)
-inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<C-g>u\<TAB>"
+" inoremap <expr> <TAB> pumvisible() ? "\<C-y>" : "\<C-g>u\<TAB>"
+inoremap <silent> <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <silent> <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 Plug 'tpope/vim-dispatch'
 
@@ -651,14 +656,16 @@ command! Sna setlocal nopaste
 inoremap jk <Esc>`^| "doesn't work in terminal vim (see "Terminal Vim Settings" section)
 nnoremap <Leader>vv :e $MYVIMRC<CR>
 nnoremap <Leader>sv :source $MYVIMRC<CR>
+nnoremap <Leader>hh :nohlsearch<CR>
 nnoremap <C-]> :silent! tag <C-r><C-w><CR>
 command! W execute 'silent! w !sudo tee "%" > /dev/null' <bar> edit!
 "{{{ Saner Defaults
 "Disable uncommonly used Ex mode, bind Q to something more useful
 nnoremap Q @q
 "Bind <Tab> to %
-map <Tab> %
+" map <Tab> %
 noremap M %
+map M %
 "Bind ^ to H, $ to L
 noremap H g^
 nnoremap L g$
@@ -837,6 +844,7 @@ inoremap <M-Down> <Esc>:m .+1<CR>==gi
 inoremap <M-Up> <Esc>:m .-2<CR>==gi
 vnoremap <M-Down> :m '>+1<CR>gv=gv
 vnoremap <M-Up> :m '<-2<CR>gv=gv
+nnoremap <Leader>cc ggcG
 "}}}
 "{{{ Wildmenu Macros
 nnoremap <M-e> :e<Space><C-z>
